@@ -41,13 +41,13 @@ added the acf command to wp-cli with subcommands
 
 
 ### How to use
-	1. Install wp-cli (pear or download)
-	2. put the advanced-custom-fields-wpcli folder in wp-content/plugins
-	3. activate advanced-custom-fields-wpcli plugin through "wp plugin activate advanced-custom-fields-wpcli" or in the Wordpress admin section
-	4. go the terminal and go to your wordpress folder
-	5. type wp (and see the wp-cli commands if installed correctly)
-	6. type wp acf to test the acf-wpcli extension
-	7. Start using the commands as explained in "Commands"
+1. Install wp-cli (pear or download)
+2. put the advanced-custom-fields-wpcli folder in wp-content/plugins
+3. activate advanced-custom-fields-wpcli plugin through "wp plugin activate advanced-custom-fields-wpcli" or in the Wordpress admin section
+4. go the terminal and go to your wordpress folder
+5. type wp (and see the wp-cli commands if installed correctly)
+6. type wp acf to test the acf-wpcli extension
+7. Start using the commands as explained in "Commands"
 
 
 ### Feature requests, coming up soon
@@ -60,11 +60,13 @@ added the acf command to wp-cli with subcommands
 
 
 ### Versions
-**0.2** 
+**0.2**
+
 * moved the extension out of advanced-custom-fields to it's own plugin folder to resolve update issues bound to happen
 * check to make sure the plugin admin code will only be ran when the ACF plugin is already loaded
 
 **0.1**
+
 * Initial project start
 * added status, export, import and clean commands
 * Used wordpress-importer classes directly in the project
