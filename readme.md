@@ -18,7 +18,7 @@ This extension for Advanced Custom Fields makes it possible to manage your field
 
 ### Requirements
 	Advanced Custom Fields plugin (activated)
-	wp-cli: download from [GitHub](http://github.com/wp-cli/wp-cli/wp-cli) or use the pear package
+	wp-cli: download from [GitHub](http://github.com/wp-cli/wp-cli/) or use the pear package
 
 
 
