@@ -67,6 +67,10 @@ added the acf command to wp-cli with subcommands
 * try to fix the wp-importer problem that caused the use of copied code from wp-importer plugin
 
 
+### Current changes since previous version
+	* moved helper files and classes to /bin
+	* added more comments for the Command methods
+	
 
 ### Versions
 **0.2**
