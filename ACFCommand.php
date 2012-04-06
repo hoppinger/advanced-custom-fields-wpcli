@@ -33,7 +33,7 @@ class ACFCommand extends WP_CLI_Command {
 	function export( $args = array() ) {
 		WP_CLI::success( "export command! \n" );
 		
-		include 'helpers.php';
+		include 'bin/helpers.php';
 		
 		$field_groups = get_posts(array(
 			'numberposts' 	=> 	-1,
@@ -76,7 +76,7 @@ class ACFCommand extends WP_CLI_Command {
 					fclose($fp);
 					
 					// write the xml
-					include 'xml_export.php';
+					include 'bin/xml_export.php';
             	}
             	
 			endforeach;
@@ -107,9 +107,9 @@ class ACFCommand extends WP_CLI_Command {
 	function import( $args = array() ) {
 		WP_CLI::success( 'imported the data.xml field_groups to the dabatase!' );
 		
-		include 'parser.php';
-		include 'wp-importer.php';
-		include 'wp_import.php';
+		include '/parser.php';
+		include '/wp-importer.php';
+		include '/wp_import.php';
 			
 		$path_pattern = ABSPATH . 'field_groups/*/data.xml';
 			
