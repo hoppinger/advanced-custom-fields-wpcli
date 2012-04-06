@@ -3,13 +3,12 @@
  * Implement ACF command
  *
  * @package wp-cli
- * @subpackage commands/community
  * @maintainer Hoppinger (http://www.hoppinger.com)
  */
 
 class ACFCommand extends WP_CLI_Command {
 	/**
-	 * Example subcommand
+	 * status subcommand
 	 *
 	 * @param array $args
 	 */
@@ -30,6 +29,11 @@ class ACFCommand extends WP_CLI_Command {
 		WP_CLI::success( count($field_groups) . " field_groups have been found in the database \n" );
 	}
 	
+	/**
+	 * export subcommand
+	 *
+	 * @param array $args
+	 */
 	function export( $args = array() ) {
 		WP_CLI::success( "export command! \n" );
 		
@@ -87,6 +91,11 @@ class ACFCommand extends WP_CLI_Command {
 		
 	}
 	
+	/**
+	 * clean subcommand
+	 *
+	 * @param array $args
+	 */
 	function clean( $args = array() ) {
 		WP_CLI::success( 'cleanup dabatase!' );
 		
@@ -104,6 +113,11 @@ class ACFCommand extends WP_CLI_Command {
 		endforeach;
 	}
 	
+	/**
+	 * import subcommand
+	 *
+	 * @param array $args
+	 */
 	function import( $args = array() ) {
 		WP_CLI::success( 'imported the data.xml field_groups to the dabatase!' );
 		
@@ -119,8 +133,13 @@ class ACFCommand extends WP_CLI_Command {
       	endforeach;
 	}
 	
+	/**
+	 * help static
+	 *
+	 * @param array $args
+	 */
 	static function help(){
-		WP_CLI::success( 'possible subcommands: export, clean, import' );
+		WP_CLI::success( 'possible subcommands: status, export, clean, import' );
 	}
 
 }
