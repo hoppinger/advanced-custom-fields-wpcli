@@ -64,6 +64,10 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
 
 ### Versions
 
+
+#### 0.3
+* made multisite compatible for both console and cms part
+
 #### 0.2
 
 * Moved the extension out of advanced-custom-fields to it's own plugin folder to resolve update issues bound to happen
