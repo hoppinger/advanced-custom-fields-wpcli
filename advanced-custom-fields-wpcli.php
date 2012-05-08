@@ -23,6 +23,7 @@ if ( defined('WP_CLI') && WP_CLI ) {
 
 if (!defined('WP_CLI') ) {
 	function acf_wpcli_register_groups() {
+		global $blog_id;
 		if(function_exists("register_field_group")) :
 			$db_field_groups = get_posts(array(
 				'post_type'		=>	'acf',
@@ -33,7 +34,7 @@ if (!defined('WP_CLI') ) {
 				$db_field_group_titles[] = $db_group->post_title;
 			endforeach;
 			
-			$path_pattern = ABSPATH . 'field_groups/*/data.php';
+			$path_pattern = ABSPATH . 'field_groups/' . $blog_id . '/*/data.php';
 			
 			function get_data($f)
 			{
