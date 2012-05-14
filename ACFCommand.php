@@ -16,7 +16,7 @@ class ACFCommand extends WP_CLI_Command {
 	
 	function status( $args = array() ) {
 		WP_CLI::success( "status command displays all the custom field groups in the database \n" );
-		
+				
 		$field_groups = get_posts(array(
 			'numberposts' 	=> 	-1,
 			'post_type'		=>	'acf',
@@ -33,11 +33,18 @@ class ACFCommand extends WP_CLI_Command {
 	function export( $args = array() ) {
 		WP_CLI::success( "export command! \n" );
 		
-		include 'helpers.php';
+		include 'bin/helpers.php';
 		
-		$blog_list = get_blog_list( 0, 'all' );
+		if ( is_multisite() ) {
+			$blog_list = get_blog_list( 0, 'all' );
+		}
+		else{
+			$blog_list = array();
+			$blog_list[] = array('blog_id' => 1);
+		}
+		
 		foreach ( $blog_list as $blog ) :
-			switch_to_blog($blog['blog_id']);
+			if ( is_multisite() ) switch_to_blog($blog['blog_id']) ;
 			$field_groups = get_posts(array(
 				'numberposts' 	=> 	-1,
 				'post_type'		=>	'acf',
@@ -89,7 +96,7 @@ class ACFCommand extends WP_CLI_Command {
 						fclose($fp);
 						
 						// write the xml
-						include 'xml_export.php';
+						include 'bin/xml_export.php';
 	            	}
 	            	
 				endforeach;
@@ -97,16 +104,23 @@ class ACFCommand extends WP_CLI_Command {
 			else {
 				echo "No field groups were found";
 			}
-			restore_current_blog();
+			if ( is_multisite() ) restore_current_blog();
 		endforeach;
 	}
 	
 	function clean( $args = array() ) {
 		WP_CLI::success( 'cleanup dabatase!' );
 		
-		$blog_list = get_blog_list( 0, 'all' );
+		if ( is_multisite() ) {
+			$blog_list = get_blog_list( 0, 'all' );
+		}
+		else{
+			$blog_list = array();
+			$blog_list[] = array('blog_id' => 1);
+		}
+		
 		foreach ( $blog_list as $blog ) :
-			switch_to_blog($blog['blog_id']);
+			if ( is_multisite() ) switch_to_blog($blog['blog_id']);
 			
 			$field_groups = get_posts(array(
 				'numberposts' 	=> 	-1,
@@ -121,20 +135,27 @@ class ACFCommand extends WP_CLI_Command {
 				$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $group->ID");
 			endforeach;
 		
-			restore_current_blog();
+			if ( is_multisite() ) restore_current_blog();
 		endforeach;
 	}
 	
 	function import( $args = array() ) {
 		WP_CLI::success( 'imported the data.xml field_groups to the dabatase!' );
 		
-		include 'parser.php';
-		include 'wp-importer.php';
-		include 'wp_import.php';
+		include 'bin/parser.php';
+		include 'bin/wp-importer.php';
+		include 'bin/wp_import.php';
 			
-		$blog_list = get_blog_list( 0, 'all' );
+		if ( is_multisite() ) {
+			$blog_list = get_blog_list( 0, 'all' );
+		}
+		else{
+			$blog_list = array();
+			$blog_list[] = array('blog_id' => 1);
+		}
+		
 		foreach ( $blog_list as $blog ) :
-			switch_to_blog($blog['blog_id']);
+			if ( is_multisite() ) switch_to_blog($blog['blog_id']);
 
 			$path_pattern = ABSPATH . 'field_groups/' . $blog['blog_id'] . '/*/data.xml';
 				
@@ -143,7 +164,7 @@ class ACFCommand extends WP_CLI_Command {
 				$importer->import($file);
 	      	endforeach;
 	      	
-	     	restore_current_blog();
+	     	if ( is_multisite() ) restore_current_blog();
 		endforeach;
 	}
 	
