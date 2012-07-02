@@ -83,8 +83,10 @@ class ACFCommand extends WP_CLI_Command {
 						'menu_order' => $group->menu_order,
 					);
 					
+					$sanitized_title = sanitize_title( $title );
+
 					// each field_group gets it's own folder by field_group name
-					$subpath = $blog_id_path . '/' . $title;
+					$subpath = $blog_id_path . '/' . $sanitized_title;
 					if (!is_dir($subpath) && !mkdir($subpath, 0755, false)) {
 						WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
 	            	}else{
@@ -92,11 +94,11 @@ class ACFCommand extends WP_CLI_Command {
 	            		// let's write the array to a data.php file so it can be used later on
 	            		$fp = fopen( $subpath . '/' ."data.php", "w" );
 	            		$output = "<?php \n\$group = " . var_export( $field_group_array , true ) . ';'; 
-						fwrite($fp,$output);
-						fclose($fp);
+									fwrite($fp,$output);
+									fclose($fp);
 						
-						// write the xml
-						include 'bin/xml_export.php';
+									// write the xml
+									include 'bin/xml_export.php';
 	            	}
 	            	
 				endforeach;
