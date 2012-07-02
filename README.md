@@ -33,8 +33,8 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
   * writes a `data.php` and `data.xml` for each `field_group` inside their respective folders.
 		
 * `wp acf import`: imports the XML(s) from the path `field_groups/{field_group_name}/data.xml`
-	* with argument: `all` imports all the found field-groups from their respective folders
-	* with argument: `field-group-name` imports only a single field group
+	* `wp acf import all` imports all the found field-groups from their respective folders
+	* `wp acf import field-group-name` imports only a single field group
 		
 * `wp acf clean`: cleans up the database from all found ACF post types and there coupled `post_meta` values, use this after you've edited the `field_groups` in the UI and used export to generate the new `data.php` files.
 		
