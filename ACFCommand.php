@@ -30,7 +30,7 @@ class ACFCommand extends WP_CLI_Command {
 		WP_CLI::success( count($field_groups) . " field_groups have been found in the database \n" );
 	}
 	
-	function export( $args = array() ) {
+	function export( $args, $assoc_args ) {
 		WP_CLI::success( "export command! \n" );
 		
 		include 'bin/helpers.php';
@@ -104,7 +104,7 @@ class ACFCommand extends WP_CLI_Command {
 				endforeach;
 			}
 			else {
-				echo "No field groups were found";
+				WP_CLI::error( 'No field groups were found in the database' );
 			}
 			if ( is_multisite() ) restore_current_blog();
 		endforeach;
