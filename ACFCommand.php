@@ -191,7 +191,9 @@ Example: wp acf impport field-group-name' );
 	}
 	
 	static function help(){
-		WP_CLI::success( 'possible subcommands: status, export, clean, import' );
+		WP_CLI::line( 'Welcome to advanced-custom-field-wpcli' );
+		WP_CLI::line( 'This tool and plugin builds a bridge between WP-CLI and the Advanced Custom Fields' );
+		WP_CLI::line( 'possible subcommands: status, export, clean, import' );
 	}
 
 }
