@@ -141,13 +141,11 @@ class ACFCommand extends WP_CLI_Command {
 		endforeach;
 	}
 	
-	function import( $args = array() ) {
-		WP_CLI::success( 'imported the data.xml field_groups to the dabatase!' );
-		
+	function import( $args, $assoc_args ) {
 		include 'bin/parser.php';
 		include 'bin/wp-importer.php';
 		include 'bin/wp_import.php';
-			
+
 		if ( is_multisite() ) {
 			$blog_list = get_blog_list( 0, 'all' );
 		}
@@ -156,22 +154,44 @@ class ACFCommand extends WP_CLI_Command {
 			$blog_list[] = array('blog_id' => 1);
 		}
 		
-		foreach ( $blog_list as $blog ) :
-			if ( is_multisite() ) switch_to_blog($blog['blog_id']);
+		// args[0] is the sanitized name of the field_group to import into the database
+		if( isset( $args[0] ) ) {
+			// we have a field_group name argument, let's load this xml into the database
+			// set a new var with a decent name that makes sense farther down the line
+			$field_group_name  = $args[0];
 
-			$path_pattern = ABSPATH . 'field_groups/' . $blog['blog_id'] . '/*/data.xml';
-				
-			foreach (glob($path_pattern) as $file) :
-				$importer = new WP_Import();
-				$importer->import($file);
-	      	endforeach;
-	      	
-	     	if ( is_multisite() ) restore_current_blog();
-		endforeach;
+			if( $field_group_name == 'all' ){
+				foreach ( $blog_list as $blog ) :
+					if ( is_multisite() ) switch_to_blog($blog['blog_id']);
+
+					$path_pattern = ABSPATH . 'field_groups/' . $blog['blog_id'] . '/*/data.xml';
+						
+					foreach (glob($path_pattern) as $file) :
+						$importer = new WP_Import();
+						$importer->import($file);
+			    endforeach;
+			      	
+			    if ( is_multisite() ) restore_current_blog();
+			    WP_CLI::success( 'imported all the data.xml field_groups to the dabatase!' );
+				endforeach;
+			} else {
+				$path_pattern = ABSPATH . 'field_groups/1/' . $field_group_name . '/data.xml';
+				foreach (glob($path_pattern) as $file) :
+					$importer = new WP_Import();
+					$importer->import($file);
+					WP_CLI::success( 'imported the data.xml for "' . $field_group_name .'" into to the dabatase!' );
+		    endforeach;	
+			}
+		
+		} else {
+			WP_CLI::error( 'You need to provide an argument: "field-group-name" or use "all" to import all field groups 
+Example: wp acf impport field-group-name' );
+		}
+
 	}
 	
 	static function help(){
-		WP_CLI::success( 'possible subcommands: export, clean, import' );
+		WP_CLI::success( 'possible subcommands: status, export, clean, import' );
 	}
 
 }
