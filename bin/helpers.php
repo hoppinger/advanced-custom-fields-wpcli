@@ -17,13 +17,13 @@ define( 'WXR_VERSION', '1.1' );
  * @param string $str String to wrap in XML CDATA tag.
  */
 function wpcli_wxr_cdata( $str ) {
-	if ( seems_utf8( $str ) == false )
-		$str = utf8_encode( $str );
+  if ( seems_utf8( $str ) == false )
+    $str = utf8_encode( $str );
 
-	// $str = ent2ncr(esc_html($str));
-	$str = "<![CDATA[$str" . ( ( substr( $str, -1 ) == ']' ) ? ' ' : '' ) . ']]>';
+  // $str = ent2ncr(esc_html($str));
+  $str = "<![CDATA[$str" . ( ( substr( $str, -1 ) == ']' ) ? ' ' : '' ) . ']]>';
 
-	return $str;
+  return $str;
 }
 
 /**
@@ -34,12 +34,12 @@ function wpcli_wxr_cdata( $str ) {
  * @return string Site URL.
  */
 function wcli_wxr_site_url() {
-	// ms: the base url
-	if ( is_multisite() )
-		return network_home_url();
-	// wp: the blog url
-	else
-		return get_bloginfo_rss( 'url' );
+  // ms: the base url
+  if ( is_multisite() )
+    return network_home_url();
+  // wp: the blog url
+  else
+    return get_bloginfo_rss( 'url' );
 }
 
 /**
@@ -50,10 +50,10 @@ function wcli_wxr_site_url() {
  * @param object $tag Tag Object
  */
 function wpcli_wxr_tag_description( $tag ) {
-	if ( empty( $tag->description ) )
-		return;
+  if ( empty( $tag->description ) )
+    return;
 
-	echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . '</wp:tag_description>';
+  echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . '</wp:tag_description>';
 }
 
 /**
@@ -64,10 +64,10 @@ function wpcli_wxr_tag_description( $tag ) {
  * @param object $term Term Object
  */
 function wpcli_wxr_term_name( $term ) {
-	if ( empty( $term->name ) )
-		return;
+  if ( empty( $term->name ) )
+    return;
 
-	echo '<wp:term_name>' . wxr_cdata( $term->name ) . '</wp:term_name>';
+  echo '<wp:term_name>' . wxr_cdata( $term->name ) . '</wp:term_name>';
 }
 
 /**
@@ -78,10 +78,10 @@ function wpcli_wxr_term_name( $term ) {
  * @param object $term Term Object
  */
 function wxr_term_description( $term ) {
-	if ( empty( $term->description ) )
-		return;
+  if ( empty( $term->description ) )
+    return;
 
-	echo '<wp:term_description>' . wxr_cdata( $term->description ) . '</wp:term_description>';
+  echo '<wp:term_description>' . wxr_cdata( $term->description ) . '</wp:term_description>';
 }
 
 
@@ -92,26 +92,26 @@ function wxr_term_description( $term ) {
  * @since 3.1.0
  */
 function wpcli_wxr_authors_list() {
-	global $wpdb;
+  global $wpdb;
 
-	$authors = array();
-	$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts" );
-	foreach ( (array) $results as $result )
-		$authors[] = get_userdata( $result->post_author );
+  $authors = array();
+  $results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts" );
+  foreach ( (array) $results as $result )
+    $authors[] = get_userdata( $result->post_author );
 
-	$authors = array_filter( $authors );
-	
-	$output = '';
-	foreach( $authors as $author ) {
-		$output .= "\t<wp:author>";
-		$output .= '<wp:author_id>' . $author->ID . '</wp:author_id>';
-		$output .= '<wp:author_login>' . $author->user_login . '</wp:author_login>';
-		$output .= '<wp:author_email>' . $author->user_email . '</wp:author_email>';
-		$output .= '<wp:author_display_name>' . wpcli_wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
-		$output .= '<wp:author_first_name>' . wpcli_wxr_cdata( $author->user_firstname ) . '</wp:author_first_name>';
-		$output .= '<wp:author_last_name>' . wpcli_wxr_cdata( $author->user_lastname ) . '</wp:author_last_name>';
-		$output .= "</wp:author>\n";
-	}
-	
-	return $output;
+  $authors = array_filter( $authors );
+  
+  $output = '';
+  foreach( $authors as $author ) {
+    $output .= "\t<wp:author>";
+    $output .= '<wp:author_id>' . $author->ID . '</wp:author_id>';
+    $output .= '<wp:author_login>' . $author->user_login . '</wp:author_login>';
+    $output .= '<wp:author_email>' . $author->user_email . '</wp:author_email>';
+    $output .= '<wp:author_display_name>' . wpcli_wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
+    $output .= '<wp:author_first_name>' . wpcli_wxr_cdata( $author->user_firstname ) . '</wp:author_first_name>';
+    $output .= '<wp:author_last_name>' . wpcli_wxr_cdata( $author->user_lastname ) . '</wp:author_last_name>';
+    $output .= "</wp:author>\n";
+  }
+  
+  return $output;
 }
