@@ -14,20 +14,39 @@ class ACFCommand extends WP_CLI_Command {
    * @param array $args
    */
   
-  function status( $args = array() ) {
-    WP_CLI::success( "status command displays all the custom field groups in the database \n" );
-        
-    $field_groups = get_posts(array(
-      'numberposts'   =>  -1,
-      'post_type'   =>  'acf',
-      'sort_column' => 'menu_order',
-      'order' => 'ASC',
-    ));
-    
-    if(!empty($field_groups))
-      var_dump($field_groups);
-    
-    WP_CLI::success( count($field_groups) . " field_groups have been found in the database \n" );
+  function status( $args, $assoc_args ) {
+    if ( is_multisite() ) {
+      $blog_list = get_blog_list( 0, 'all' );
+    }
+    else{
+      $blog_list = array();
+      $blog_list[] = array('blog_id' => 1);
+    }
+
+    foreach ( $blog_list as $blog ) :
+      
+      if ( is_multisite() ) switch_to_blog( $blog['blog_id'] ) ;
+
+      $field_groups = get_posts(array(
+        'numberposts'   =>  -1,
+        'post_type'   =>  'acf',
+        'sort_column' => 'menu_order',
+        'order' => 'ASC',
+      ));
+
+      WP_CLI::line( ' ' );
+      WP_CLI::line( count( $field_groups ) . ' field groups found for blog_id ' . $blog['blog_id'] );
+
+      if(!empty($field_groups)) {
+        foreach ($field_groups as $group) WP_CLI::line( '- ' . sanitize_title( $group->post_title ) );      
+      }
+
+      WP_CLI::line( ' ' );
+
+      if ( is_multisite() ) restore_current_blog();
+
+    endforeach;
+
   }
   
   function export( $args, $assoc_args ) {
