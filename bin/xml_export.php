@@ -69,7 +69,7 @@ $output .= '<rss version="2.0"
     $output .= '
       <wp:postmeta>
         <wp:meta_key>' . $meta->meta_key . '</wp:meta_key>
-        <wp:meta_value>' . wpcli_wxr_cdata( $meta->meta_value ) . '</wp:meta_value>
+        <wp:meta_value>' . wpcli_wxr_cdata( str_replace(array("\r\n"),"  ",$meta->meta_value) ) . '</wp:meta_value>
       </wp:postmeta>
     ';
     endif; endforeach;
