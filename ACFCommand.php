@@ -123,7 +123,10 @@ class ACFCommand extends WP_CLI_Command {
         endforeach;
       }
       else {
-        WP_CLI::error( 'No field groups were found in the database' );
+        //error seems to be returning and break out of my loop
+        //WP_CLI::error( 'No field groups were found in the database' );
+        echo('No field groups were found in the database for blogid : '.$blog['blog_id'] );
+        echo(' ');
       }
       if ( is_multisite() ) restore_current_blog();
     endforeach;
@@ -168,6 +171,7 @@ class ACFCommand extends WP_CLI_Command {
     // $args[0] is the field-group-name
     // $args[1] is the blog_id
     if ( is_multisite() ) {
+      $blog_list = get_blog_list( 0, 'all' );
       // if it's multisite we need a second argument for this command
       if( isset( $args[0] ) && isset( $args[1] ) ) {
         // set new vars with a decent name that makes sense farther down the line (let's keep our sanity intact)
