@@ -9,7 +9,8 @@
 *-------------------------------------------------------------------------------------*/
 
 // includes
-require_once(ABSPATH . 'wp-load.php');
+// this is no longer needed in wordpress 3.5
+//require_once(ABSPATH . 'wp-load.php');
 
 $output = '';
 
