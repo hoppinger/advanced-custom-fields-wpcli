@@ -80,7 +80,7 @@ class ACFCommand extends WP_CLI_Command {
           WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
         }
         
-        $blog_id_path = ABSPATH . '/field_groups/' . $blog['blog_id'];
+        $blog_id_path = ABSPATH . 'field_groups/' . $blog['blog_id'];
         
         if (!is_dir($blog_id_path) && !mkdir($blog_id_path, 0755, false)) {
           WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
@@ -91,21 +91,24 @@ class ACFCommand extends WP_CLI_Command {
         }
         
         foreach($field_groups as $group) :
-          $title = get_the_title($group->ID);     
-        
+          $title            = get_the_title($group->ID);
+          $sanitized_title  = sanitize_title( $title );
+          $subpath          = $blog_id_path . '/' . $sanitized_title;
+          $uniquid_path     = $subpath .'/uniqid';
+
+          // retrieve the uniquid from the file if it exists else we make a new one
+          $uniqid = ( file_exists( $uniquid_path ) ) ? file_get_contents( $uniquid_path ) : uniqid();
+
           $field_group_array = array(
-            'id' => uniqid(),
+            'id' => $uniqid,
             'title' => $title,
             'fields' => $acf->get_acf_fields($group->ID),
             'location' => $acf->get_acf_location($group->ID),
             'options' => $acf->get_acf_options($group->ID),
             'menu_order' => $group->menu_order,
           );
-          
-          $sanitized_title = sanitize_title( $title );
 
           // each field_group gets it's own folder by field_group name
-          $subpath = $blog_id_path . '/' . $sanitized_title;
           if (!is_dir($subpath) && !mkdir($subpath, 0755, false)) {
             WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
                 }else{
@@ -118,6 +121,14 @@ class ACFCommand extends WP_CLI_Command {
             
                   // write the xml
                   include 'bin/xml_export.php';
+
+                  // write the uniquid file if it doesn't exist
+                  if( !file_exists( $uniquid_path ) ) :
+                    $fp = fopen( $subpath . '/' ."uniqid", "w" );
+                    $output = $uniqid; 
+                    fwrite($fp,$output);
+                    fclose($fp);
+                  endif;
                 }
                 
         endforeach;
