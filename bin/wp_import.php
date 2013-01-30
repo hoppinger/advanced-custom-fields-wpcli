@@ -654,7 +654,7 @@ class WP_Import extends WP_Importer {
       // add/update post meta
       if ( isset( $post['postmeta'] ) ) {
         foreach ( $post['postmeta'] as $meta ) {
-          $key = apply_filters( 'import_post_meta_key', $meta['key'] );
+          $key = $meta['key']; //commented out due to ACF filter;$key = apply_filters( 'import_post_meta_key', $meta['key'] );
           $value = false;
 
           if ( '_edit_last' == $key ) {
