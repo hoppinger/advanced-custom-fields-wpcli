@@ -16,7 +16,7 @@ $output = '';
 
 $output .= '<?xml version="1.0" encoding="' . get_bloginfo('charset') . "\" ?>\n";
 
-$output .= get_the_generator( 'export' );
+//$output .= get_the_generator( 'export' );
 
 $output .= '<rss version="2.0"
   xmlns:excerpt="http://wordpress.org/export/' . WXR_VERSION . '/excerpt/"
@@ -29,7 +29,6 @@ $output .= '<rss version="2.0"
     <title>' . get_bloginfo_rss( 'name' ) . '</title>
     <link>' . get_bloginfo_rss( 'url' ) . '</link>
     <description>' . get_bloginfo_rss( 'description' ) . '</description>
-    <pubDate>' . date( 'D, d M Y H:i:s +0000' ) . '</pubDate>
     <language>' . get_option( 'rss_language' ) . '</language>
     <wp:wxr_version>' . WXR_VERSION . '</wp:wxr_version>
     <wp:base_site_url>' .  wcli_wxr_site_url() . '</wp:base_site_url>
@@ -65,7 +64,7 @@ $output .= '<rss version="2.0"
       <wp:post_password>' . $post->post_password . '</wp:post_password>
     ';
   
-    $postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
+    $postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d ORDER BY meta_key, meta_value ASC", $post->ID ) );
     foreach( $postmeta as $meta ) : if ( $meta->meta_key != '_edit_lock' ) :
     $output .= '
       <wp:postmeta>
