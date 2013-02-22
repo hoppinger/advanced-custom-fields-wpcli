@@ -36,6 +36,7 @@ if (!defined('WP_CLI') ) {
 			
 			$path_pattern 				= ABSPATH . 'field_groups/' . $blog_id . '/*/data.php';
 			$shared_childs_pattern = ABSPATH . 'field_groups/shared-childs/*/data.php';
+			$added_groups						= array();
 
 			function get_data($f)
 			{
@@ -49,15 +50,21 @@ if (!defined('WP_CLI') ) {
 			// register the field groups specific for this subsite
 			foreach (glob($path_pattern) as $file) {
 				$group = get_data($file);
+
+				// Don't register group when the group is already in the DB
 				if(!in_array($group['title'] , $db_field_group_titles))
 					register_field_group($group);
+					$added_groups[] = $group['title'];
 			}
 			
 			if( $blog_id != 1 ){
 				// register the field groups that are shared for all child websites
 				foreach (glob($shared_childs_pattern) as $file) {
 					$group = get_data($file);
-					if(!in_array($group['title'] , $db_field_group_titles))
+
+					// 1. Don't register group when the group is already in the DB
+					// 2. Don't register group when the group has been added from a blog_id specific group
+					if(!in_array($group['title'] , $db_field_group_titles) && !in_array($group['title'] , $added_groups))
 						register_field_group($group);
 				}
 			}
