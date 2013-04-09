@@ -65,7 +65,7 @@ class ACFCommand extends WP_CLI_Command {
       ));
 
       $choices = array();
-      $choices['all'] = 'all';
+      $choices[''] = 'all';
       foreach ( $field_groups as $group ) {
         $choices[$group->ID] = $group->post_title; 
       }
