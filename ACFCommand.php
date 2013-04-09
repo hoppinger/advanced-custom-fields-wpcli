@@ -65,26 +65,26 @@ class ACFCommand extends WP_CLI_Command {
       ));
 
       $choices = array();
-      $choices[''] = 'all';
+      $choices['all'] = 'all';
       foreach ( $field_groups as $group ) {
         $choices[$group->ID] = $group->post_title; 
       }
 
       while (true) {
-        $choice = \cli\menu($choices, null, 'Choose a field to export');
+        $choice = \cli\menu($choices, null, 'Pick a fieldgroup to export');
         \cli\line();
 
         $export_field = $choice;
         break;
       }
-    }else{
-      
     }
 
-    WP_CLI::success( "export command! \n" );
-    
-    
-    
+    if ( empty( $export_field ) ) {
+      WP_CLI::success( "Exporting all fieldgroups \n" );
+    } else {
+      WP_CLI::success( "Exporting fieldgroup: ".$choices[$choice]." \n" );
+    }
+
     if ( is_multisite() ) {
       $blog_list = get_blog_list( 0, 'all' );
     }
@@ -105,8 +105,13 @@ class ACFCommand extends WP_CLI_Command {
       
       if($field_groups) {
         
-        $acf         = new Acf();
-        $acf_fld_grp = new acf_field_group();
+        if(substr(get_option('acf_version'), 0, 1) > 3 ){
+          $acf_fld_grp = new acf_field_group();
+        }else{
+          $acf         = new Acf();
+        }
+       
+        
         $path        = ABSPATH . '/field_groups/' ;
         
       if ( !is_dir($path) && !mkdir($path, 0755, false) ) {
@@ -131,7 +136,6 @@ class ACFCommand extends WP_CLI_Command {
 
           // retrieve the uniquid from the file if it exists else we make a new one
           $uniqid = ( file_exists( $uniquid_path ) ) ? file_get_contents( $uniquid_path ) : uniqid();
-
           if(substr(get_option('acf_version'), 0, 1) > 3 ){
             $field_group_array = array(
               'id'         => $uniqid,
@@ -172,6 +176,7 @@ class ACFCommand extends WP_CLI_Command {
                     fwrite($fp,$output);
                     fclose($fp);
                   endif;
+                  WP_CLI::success( "Fieldgroup ".$title." exported " );
                 }
                 
         endforeach;
@@ -262,6 +267,30 @@ Example: wp acf impport field-group-name 5' );
       }
 
     } else {
+
+      if (!isset( $args[0] ) ) {
+        $choices = array();
+        $choices['all'] = 'all';
+
+        if ($dir = opendir(ABSPATH . 'field_groups/1')) {
+          /* This is the correct way to loop over the directory. */
+          while (false !== ($folder = readdir($dir))) {
+              //echo "$folder";
+              if($folder != '.' && $folder != '..'){
+                $choices[$folder] = $folder; 
+              }
+              
+          }
+        }
+        while (true) {
+          $choice = \cli\menu($choices, null, 'Pick a fieldgroup to import');
+          \cli\line();
+
+          $args[0] = $choice;
+          break;
+        }
+      }
+
       // This is a single site so we require only 1 argument
       if( isset( $args[0] ) ) {
         $field_group_name = $args[0];  // set new var with a decent name that makes sense farther down the line (let's keep our sanity intact)
@@ -275,7 +304,7 @@ Example: wp acf impport field-group-name 5' );
         foreach (glob($path_pattern) as $file) :
           $importer = new WP_Import();
           $importer->import($file);
-          WP_CLI::success( 'imported the data.xml for field_group ' . $field_group_name .'" into to the dabatase!' );
+          WP_CLI::success( 'imported the data.xml for field_group ' . $field_group_name .'" into the dabatase!' );
         endforeach; 
 
       } else {
