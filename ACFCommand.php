@@ -224,7 +224,7 @@ class ACFCommand extends WP_CLI_Command {
         $choices = array();
         $choices['all'] = 'all';
 
-        if ($dir = opendir(ABSPATH . 'field_groups/1')) {
+        if ($dir = opendir( get_theme_root(). '/' . get_template()  . '/field_groups/1')) {
           /* This is the correct way to loop over the directory. */
           while (false !== ($folder = readdir($dir))) {
             //echo "$folder";
@@ -248,9 +248,9 @@ class ACFCommand extends WP_CLI_Command {
         $field_group_name = $args[0];  // set new var with a decent name that makes sense farther down the line (let's keep our sanity intact)
 
         if( $field_group_name == 'all' ){
-          $path_pattern = ABSPATH . 'field_groups/1/*/data.xml';
+          $path_pattern =  get_theme_root(). '/' . get_template()  . '/field_groups/1/*/data.xml';
         } else {
-          $path_pattern = ABSPATH . 'field_groups/1/' . $field_group_name . '/data.xml';
+          $path_pattern =  get_theme_root(). '/' . get_template()  . '/field_groups/1/' . $field_group_name . '/data.xml';
         }
 
         foreach (glob($path_pattern) as $file) :
