@@ -290,7 +290,7 @@ Example: wp acf impport field-group-name' );
   }
 
   protected function select_blog() {
-    for ( $i = 1; $i <= get_blog_count(); $i++ ) { 
+    for ( $i = 1; $i <= get_blog_count()+1; $i++ ) { 
       switch_to_blog($i);
       $choices[$i] = get_blog_details($i)->blogname . ' - ' .get_template() ; 
     }
