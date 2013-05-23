@@ -14,7 +14,7 @@ if ( defined('WP_CLI') && WP_CLI ) {
 	
 	// Include and register the class as the 'example' command handler
 	include('ACFCommand.php');
-	WP_CLI::addCommand( 'acf', 'ACFCommand' );
+	WP_CLI::add_command( 'acf', 'ACFCommand' );
 }
 
 /* 
