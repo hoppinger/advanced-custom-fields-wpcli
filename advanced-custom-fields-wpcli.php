@@ -34,7 +34,7 @@ if (!defined('WP_CLI') ) {
 				$db_field_group_titles[] = $db_group->post_title;
 			endforeach;
 			
-			$path_pattern 				= ABSPATH . 'field_groups/' . $blog_id . '/*/data.php';
+			$path_pattern 				= get_theme_root(). '/' . get_template() . '/field_groups/*/data.php';
 			$shared_childs_pattern = ABSPATH . 'field_groups/shared-childs/*/data.php';
 			$added_groups						= array();
 
