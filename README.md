@@ -31,6 +31,7 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
   * writes a `field_group` folder in `httpdocs` (or other root folder of your Wordpress installation).
   * writes a folder with the `field_group` name for each `found_field` group.
   * writes a `data.php` and `data.xml` for each `field_group` inside their respective folders.
+  * use `wpf acf export all` to export everything without prompting
 		
 * `wp acf import`: imports the XML(s) from the path `field_groups/{blog_id}/{field_group_name}/data.xml`
 	* `wp acf import all` imports all the found field-groups from their respective folders
