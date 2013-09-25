@@ -25,17 +25,16 @@ if (!defined('WP_CLI') ) {
 	function acf_wpcli_register_groups() {
 		global $blog_id;
 		if(function_exists("register_field_group")) :
-			$db_field_groups = get_posts(array(
-				'post_type'		=>	'acf',
-			));
-			
+			global $wpdb;
+			$db_field_groups = $wpdb->get_results( "SELECT post_title FROM {$wpdb->posts} WHERE post_type='acf'" );
+
 			$db_field_group_titles = array();
 			foreach($db_field_groups as $db_group ) :
 				$db_field_group_titles[] = $db_group->post_title;
 			endforeach;
 			
-			$path_pattern 				= ABSPATH . 'field_groups/' . $blog_id . '/*/data.php';
-			$shared_childs_pattern = ABSPATH . 'field_groups/shared-childs/*/data.php';
+			$path_pattern 				= get_theme_root(). '/' . get_template() . '/field-groups/*/data.php';
+			$shared_childs_pattern = ABSPATH . 'field-groups/shared-childs/*/data.php';
 			$added_groups						= array();
 
 			function get_data($f)
