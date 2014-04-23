@@ -201,7 +201,7 @@ class ACFCommand extends WP_CLI_Command {
       switch_to_blog($choice);
       
       $field_group_name = $this->select_acf_xml();
-      $path             = get_theme_root(). '/' . get_template() . '/field-groups/*/data.xml';
+      $path             = get_stylesheet_directory() . '/field-groups/*/data.xml';
       $importer         = new WP_Import();
 
       if( $field_group_name == '' ) {
