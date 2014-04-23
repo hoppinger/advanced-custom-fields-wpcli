@@ -33,7 +33,7 @@ if (!defined('WP_CLI') ) {
 				$db_field_group_titles[] = $db_group->post_title;
 			endforeach;
 			
-			$path_pattern 				= get_theme_root(). '/' . get_template() . '/field-groups/*/data.php';
+			$path_pattern = get_stylesheet_directory() . '/field-groups/*/data.php';
 			$shared_childs_pattern = ABSPATH . 'field-groups/shared-childs/*/data.php';
 			$added_groups						= array();
 
