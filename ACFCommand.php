@@ -37,7 +37,7 @@ class ACFCommand extends WP_CLI_Command {
     WP_CLI::line( ' ' );
     WP_CLI::line( count( $field_groups ) . ' field groups found for blog_id ' . $blog['blog_id'] );
 
-    if ( !empty( $field_groups ) ) {
+    if ( ! empty( $field_groups ) ) {
       foreach ( $field_groups as $group ) WP_CLI::line( '- ' . sanitize_title( $group->post_title ) );
     }
 
@@ -90,7 +90,7 @@ class ACFCommand extends WP_CLI_Command {
 
       $path        = get_stylesheet_directory() . '/field-groups/';
 
-      if ( !is_dir( $path ) && !mkdir( $path, 0755, false ) ) {
+      if ( ! is_dir( $path ) && !mkdir( $path, 0755, false ) ) {
         WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
       }
 
@@ -123,7 +123,7 @@ class ACFCommand extends WP_CLI_Command {
         );
       }
       // each field_group gets it's own folder by field_group name
-      if ( !is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
+      if ( ! is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
         WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
       }else {
 
@@ -137,7 +137,7 @@ class ACFCommand extends WP_CLI_Command {
         include 'bin/xml_export.php';
 
         // write the uniquid file if it doesn't exist
-        if ( !file_exists( $uniquid_path ) ) :
+        if ( ! file_exists( $uniquid_path ) ) :
           $fp     = fopen( $subpath . '/' ."uniqid", "w" );
         $output = $uniqid;
         fwrite( $fp, $output );
@@ -220,7 +220,7 @@ class ACFCommand extends WP_CLI_Command {
 
     } else {
 
-      if ( !isset( $args[0] ) ) {
+      if ( ! isset( $args[0] ) ) {
         $choices = array();
         $choices['all'] = 'all';
 
