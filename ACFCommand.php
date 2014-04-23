@@ -88,7 +88,7 @@ class ACFCommand extends WP_CLI_Command {
       }
        
         
-      $path        = get_theme_root(). '/' . get_template() . '/field-groups/';
+      $path        = get_stylesheet_directory() . '/field-groups/';
         
       if ( !is_dir($path) && !mkdir($path, 0755, false) ) {
           WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
