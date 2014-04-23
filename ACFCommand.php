@@ -273,7 +273,7 @@ Example: wp acf impport field-group-name' );
   }
 
   protected function select_acf_xml() {
-    $path        = get_theme_root(). '/' . get_template() . '/field-groups/*/data.xml';
+    $path        = get_stylesheet_directory() . '/field-groups/*/data.xml';
     $choices     = array();
     $choices[''] = 'all';
     foreach ( glob( $path ) as $file ) {
