@@ -46,6 +46,7 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
 6. type `wp acf` to test the `acf-wpcli` extension
 7. start using the commands as explained in "Commands"
 
+When the plugin is enabled, any exported field groups found on the filesystem in your theme's `field-groups` folder will be added to Wordpress at runtime. 
 
 ## TODOs
 
