@@ -66,7 +66,7 @@ if ( ! defined( 'WP_CLI' ) ) {
       }
     }
 
-    // [TODO] This is from the old structure where field groups where field-groups
+    // [TODO] This is from the old structure where field-groups
     // were added to a blog_id directory
     if ( $blog_id != 1 ) {
       // register the field groups that are shared for all child websites
