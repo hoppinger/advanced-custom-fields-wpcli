@@ -15,11 +15,11 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
   if ( substr( get_option( 'acf_version' ), 0, 1 ) == 5 ) {
     // Include and register the class as the 'example' command handler
     include 'ACF5_Command.php';
-    WP_CLI::add_command( 'acf', 'ACF5_Command' ); 
-  }else{
+    WP_CLI::add_command( 'acf', 'ACF5_Command' );
+  } else {
     // Include and register the class as the 'example' command handler
     include 'ACFCommand.php';
-    WP_CLI::add_command( 'acf', 'ACFCommand' ); 
+    WP_CLI::add_command( 'acf', 'ACFCommand' );
   }
 }
 
@@ -39,32 +39,39 @@ if ( ! defined( 'WP_CLI' ) ) {
       $db_field_group_titles[] = $db_group->post_title;
     endforeach;
 
-    $path_pattern = get_stylesheet_directory() . '/field-groups/*/data.php';
-    $shared_childs_pattern = ABSPATH . 'field-groups/shared-childs/*/data.php';
-    $added_groups           = array();
 
-    function get_data( $f ) {
-      if ( ! is_readable( $f ) || ! is_file( $f ) )
-        return false;
+    $paths = array(
+      'active_theme'        => get_template_directory() . '/field-groups/',
+      'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
+      'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
+    );
 
-      include $f;
-      return $group;
+    $paths    = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );
+    $patterns = array();
+
+    foreach ( $paths as $key => $value ) {
+      $patterns[ $key ] = trailingslashit( $value ) . '*/data.php';
     }
 
-    // register the field groups specific for this subsite
-    foreach ( glob( $path_pattern ) as $file ) {
-      $group = get_data( $file );
+    $added_groups = array();
+    foreach ( $patterns as $pattern ) {
+      // register the field groups specific for this subsite
+      foreach ( glob( $pattern ) as $file ) {
+        $group = acf_wpcli_get_file_data( $file );
 
-      // Don't register group when the group is already in the DB
-      if ( ! in_array( $group['title'] , $db_field_group_titles ) )
-        register_field_group( $group );
-      $added_groups[] = $group['title'];
+        // Don't register group when the group is already in the DB
+        if ( ! in_array( $group['title'] , $db_field_group_titles ) )
+          register_field_group( $group );
+        $added_groups[] = $group['title'];
+      }
     }
 
+    // [TODO] This is from the old structure where field groups where field-groups
+    // were added to a blog_id directory
     if ( $blog_id != 1 ) {
       // register the field groups that are shared for all child websites
       foreach ( glob( $shared_childs_pattern ) as $file ) {
-        $group = get_data( $file );
+        $group = acf_wpcli_get_file_data( $file );
 
         // 1. Don't register group when the group is already in the DB
         // 2. Don't register group when the group has been added from a blog_id specific group
@@ -76,4 +83,12 @@ if ( ! defined( 'WP_CLI' ) ) {
     endif;
   }
   add_action( 'plugins_loaded', 'acf_wpcli_register_groups' );
+
+  function acf_wpcli_get_file_data( $file ) {
+    if ( ! is_readable( $file ) || ! is_file( $file ) )
+      return false;
+
+    include $file;
+    return $group;
+  }
 }
