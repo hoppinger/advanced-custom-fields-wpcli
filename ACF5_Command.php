@@ -405,13 +405,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[$i] = get_blog_details( $i )->blogname . ' - ' .get_template() ;
     }
 
-    while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Pick a blog' );
-      \cli\line();
-
-      return $choice;
-      break;
-    }
+    return $this->choice( $choices, 'Choose a blog' );
   }
 
   protected function select_acf_field() {
@@ -422,36 +416,34 @@ class ACF5_Command extends WP_CLI_Command {
         'order'       => 'ASC',
       ) );
 
-    $choices     = array();
-    $choices[''] = 'all';
+    $choices = array( '' => 'all' );
+
     foreach ( $field_groups as $group ) {
       $choices[$group->ID] = $group->post_title;
     }
 
-    while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Pick a fieldgroup to export' );
-      \cli\line();
-
-      return $choice;
-      break;
-    }
+    return $this->choice( $choices, 'Choose a fieldgroup to export' );
   }
 
   protected function select_export_path() {
-    $patterns = array();
     $choices  = array();
 
     foreach ( $this->paths as $key => $value ) {
       $choices[ $value ] = $key . ': ' . $value;
     }
 
+    return $this->choice( $choices, 'Choose a path to export the fieldgroup to' );
+  }
+
+  private function choice( $choices, $question = 'Choose something' ) {
     while ( true ) {
       $choice = \cli\menu( $choices, null, 'Pick a path to export the fieldgroup to' );
       \cli\line();
 
-      return $choice;
       break;
     }
+
+    return $choice;
   }
 
 }
