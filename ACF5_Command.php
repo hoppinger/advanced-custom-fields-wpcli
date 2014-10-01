@@ -196,7 +196,7 @@ class ACF5_Command extends WP_CLI_Command {
 
       $field_groups = get_posts( array(
           'numberposts' =>  -1,
-          'post_type'   =>  'acf-field-group',
+          'post_type'   =>  array('acf-field-group', 'acf', 'acf-field'),
           'sort_column' => 'menu_order',
           'order'       => 'ASC',
         ) );
