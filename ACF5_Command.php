@@ -273,7 +273,7 @@ class ACF5_Command extends WP_CLI_Command {
       $patterns = array();
       if ( $choice == 'all' ) {
         foreach ( $this->paths as $key => $value )
-          $patterns[ $key ] = trailingslashit( $value ) . '*/data.php';
+          $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
       } else {
         $patterns[] = $choice . 'data.json';
       }
