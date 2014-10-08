@@ -223,23 +223,144 @@ class ACF5_Command extends WP_CLI_Command {
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
-      $field_group_name = $this->select_acf_xml();
+      //$field_group_name = $this->select_acf_xml();
       $path             = get_stylesheet_directory() . '/field-groups/*/data.json';
       $importer         = new WP_Import();
+        $paths = array(
+              'active_theme'        => get_template_directory() . '/field-groups/',
+              'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
+              'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
+            );
 
-      if ( $field_group_name == '' ) {
+        $this->paths = $paths;
 
-        foreach ( glob( $path ) as $file ) :
+ if ( ! isset( $args[0] ) ) {
 
-          $importer->import( $file );
-        endforeach;
-        WP_CLI::success( 'imported all the data.json field_groups to the dabatase!' );
+        $choices = array();
+        $choices['all'] = 'all';
 
-      } else {
+        foreach ( $this->paths as $path ) {
 
-        $importer->import( $field_group_name );
-        WP_CLI::success( 'imported the data.json for blog_id ' . '$blog_id' . ' " and field_group ' . $field_group_name .'" into to the dabatase!' );
+          if ( ! file_exists( $path ) ) continue;
+
+          if ( $dir = opendir( $path ) ) {
+            while ( false !== ( $folder = readdir( $dir ) ) ) {
+              if ( $folder != '.' && $folder != '..' ) {
+                $key = trailingslashit( $path . $folder );
+                $choices[ $key ] = $folder;
+              }
+            }
+          }
+        }
+
+        while ( true ) {
+          $choice = \cli\menu( $choices, null, 'Pick a fieldgroup to import' );
+          \cli\line();
+
+          break;
+        }
       }
+
+      $patterns = array();
+      if ( $choice == 'all' ) {
+        foreach ( $this->paths as $key => $value )
+          $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
+      } else {
+        $patterns[] = $choice . 'data.json';
+      }
+
+      foreach ( $patterns as $pattern ) {
+        $i = 0;
+        //echo $pattern."\n";
+        foreach ( glob( $pattern ) as $file ) {
+          //Start acf 5 import
+          // read file
+          $json = file_get_contents( $file );
+
+
+          // decode json
+          $json = json_decode( $json, true );
+
+          // if importing an auto-json, wrap field group in array
+          if ( isset( $json['key'] ) ) {
+            $json = array( $json );
+          }
+
+          // vars
+          $ref      = array();
+          $order    = array();
+
+          foreach ( $json as $field_group ) :
+
+            // remove fields
+            $fields = acf_extract_var( $field_group, 'fields' );
+
+
+          // format fields
+          $fields = acf_prepare_fields_for_import( $fields );
+
+
+          // save field group
+          $field_group = acf_update_field_group( $field_group );
+
+
+          // add to ref
+          $ref[ $field_group['key'] ] = $field_group['ID'];
+
+
+          // add to order
+          $order[ $field_group['ID'] ] = 0;
+
+
+          // add fields
+          foreach ( $fields as $field ) :
+
+            // add parent
+            if ( empty( $field['parent'] ) ) {
+
+              $field['parent'] = $field_group['ID'];
+
+            } elseif ( isset( $ref[ $field['parent'] ] ) ) {
+
+            $field['parent'] = $ref[ $field['parent'] ];
+
+          }
+
+
+          // add field group reference
+          //$field['field_group'] = $field_group['key'];
+
+
+          // add field menu_order
+          if ( !isset( $order[ $field['parent'] ] ) ) {
+
+            $order[ $field['parent'] ] = 0;
+
+          }
+
+          $field['menu_order'] = $order[ $field['parent'] ];
+          $order[ $field['parent'] ]++;
+
+
+          // save field
+          $field = acf_update_field( $field );
+
+
+          // add to ref
+          $ref[ $field['key'] ] = $field['ID'];
+
+          endforeach;
+
+          WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
+          endforeach;
+
+        }
+        $i++;
+        if ($i===1) break;
+      }
+
+
+
 
     } else {
 
@@ -375,12 +496,12 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_acf_xml() {
-    $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );
+    $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
     $patterns = array();
     $choices  = array();
 
     foreach ( $this->paths as $key => $value ) {
-      $patterns[ $key ] = trailingslashit( $value ) . '*/data.php';
+      $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
     }
 
     $choices[''] = 'all';
@@ -400,7 +521,7 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_blog() {
-    for ( $i = 1; $i <= get_blog_count()+1; $i++ ) {
+    for ( $i = 1; $i <= get_blog_count(); $i++ ) {
       switch_to_blog( $i );
       $choices[$i] = get_blog_details( $i )->blogname . ' - ' .get_template() ;
     }
