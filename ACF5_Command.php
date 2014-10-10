@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Implement ACF command
