@@ -253,7 +253,7 @@ class ACF5_Command extends WP_CLI_Command {
         }
 
         while ( true ) {
-          $choice = \cli\menu( $choices, null, 'Pick a fieldgroup to import' );
+          $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
           \cli\line();
 
           break;
@@ -324,11 +324,6 @@ class ACF5_Command extends WP_CLI_Command {
             $field['parent'] = $ref[ $field['parent'] ];
 
           }
-
-
-          // add field group reference
-          //$field['field_group'] = $field_group['key'];
-
 
           // add field menu_order
           if ( !isset( $order[ $field['parent'] ] ) ) {
@@ -424,10 +419,8 @@ class ACF5_Command extends WP_CLI_Command {
             // remove fields
             $fields = acf_extract_var( $field_group, 'fields' );
 
-
           // format fields
           $fields = acf_prepare_fields_for_import( $fields );
-
 
           // save field group
           $field_group = acf_update_field_group( $field_group );
@@ -454,11 +447,6 @@ class ACF5_Command extends WP_CLI_Command {
             $field['parent'] = $ref[ $field['parent'] ];
 
           }
-
-
-          // add field group reference
-          //$field['field_group'] = $field_group['key'];
-
 
           // add field menu_order
           if ( !isset( $order[ $field['parent'] ] ) ) {
@@ -511,7 +499,7 @@ class ACF5_Command extends WP_CLI_Command {
     }
 
     while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Choose a fieldgroup to import' );
+      $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
       \cli\line();
 
       return $choice;
@@ -520,12 +508,15 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_blog() {
-    for ( $i = 1; $i <= get_blog_count(); $i++ ) {
-      switch_to_blog( $i );
-      $choices[$i] = get_blog_details( $i )->blogname . ' - ' .get_template() ;
+    $sites = wp_get_sites();
+
+    foreach ( $sites as $site ) {
+      $blog = get_blog_details( $site['blog_id'] );
+
+      $choices[ $site['blog_id'] ] = $blog->blogname . ' - ' . $blog->domain . $blog->path;
     }
 
-    return $this->choice( $choices, 'Choose a blog' );
+    return $this->choice( $choices, __( 'Choose a blog to export from', 'acf-wpcli' ) );
   }
 
   protected function select_acf_field() {
@@ -542,7 +533,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[$group->ID] = $group->post_title;
     }
 
-    return $this->choice( $choices, 'Choose a fieldgroup to export' );
+    return $this->choice( $choices, __( 'Choose a fieldgroup to export', 'acf-wpcli' ) );
   }
 
   protected function select_export_path() {
@@ -552,12 +543,16 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[ $value ] = $key . ': ' . $value;
     }
 
-    return $this->choice( $choices, 'Choose a path to export the fieldgroup to' );
+    return $this->choice( $choices, __( 'Choose a path to export the fieldgroup to', 'acf-wpcli' ) );
   }
 
-  private function choice( $choices, $question = 'Choose something' ) {
+  private function choice( $choices, $question = false ) {
+    if ( ! $question ) {
+      $question = __( 'Choose something', 'acf-wpcli' );
+    }
+
     while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Pick a path to export the fieldgroup to' );
+      $choice = \cli\menu( $choices, null, $question );
       \cli\line();
 
       break;
