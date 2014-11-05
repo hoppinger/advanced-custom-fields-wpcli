@@ -181,10 +181,8 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   function clean( $args = array() ) {
-    WP_CLI::success( 'cleanup dabatase!' );
-
     if ( is_multisite() ) {
-      $blog_list = get_blog_list( 0, 'all' );
+      $blog_list = wp_get_sites();
     } else {
       $blog_list   = array();
       $blog_list[] = array( 'blog_id' => 1 );
@@ -208,23 +206,17 @@ class ACF5_Command extends WP_CLI_Command {
 
     if ( is_multisite() ) restore_current_blog();
     endforeach;
+    WP_CLI::success( 'cleaned up everything ACF related in the database' );
   }
 
 
   function import( $args, $assoc_args ) {
-    include 'bin/parser.php';
-    include 'bin/wp-importer.php';
-    include 'bin/wp_import.php';
-
-
     if ( is_multisite() ) {
 
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
-      //$field_group_name = $this->select_acf_xml();
       $path             = get_stylesheet_directory() . '/field-groups/*/data.json';
-      $importer         = new WP_Import();
         $paths = array(
               'active_theme'        => get_template_directory() . '/field-groups/',
               'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
@@ -516,7 +508,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[ $site['blog_id'] ] = $blog->blogname . ' - ' . $blog->domain . $blog->path;
     }
 
-    return $this->choice( $choices, __( 'Choose a blog to export from', 'acf-wpcli' ) );
+    return $this->choice( $choices, __( 'Choose a blog', 'acf-wpcli' ) );
   }
 
   protected function select_acf_field() {
