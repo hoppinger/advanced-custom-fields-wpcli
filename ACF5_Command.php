@@ -225,6 +225,10 @@ class ACF5_Command extends WP_CLI_Command {
 
         $this->paths = $paths;
 
+        // [TODO] temporary fix to apply the filters. The code above should not be needed.
+        // In the ideal situation the paths are set in the constructor only.
+        $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
+
  if ( ! isset( $args[0] ) ) {
 
         $choices = array();
