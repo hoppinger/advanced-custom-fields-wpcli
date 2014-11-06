@@ -216,19 +216,6 @@ class ACF5_Command extends WP_CLI_Command {
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
-      $path             = get_stylesheet_directory() . '/field-groups/*/data.json';
-        $paths = array(
-              'active_theme'        => get_template_directory() . '/field-groups/',
-              'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
-              'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
-            );
-
-        $this->paths = $paths;
-
-        // [TODO] temporary fix to apply the filters. The code above should not be needed.
-        // In the ideal situation the paths are set in the constructor only.
-        $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
-
  if ( ! isset( $args[0] ) ) {
 
         $choices = array();
