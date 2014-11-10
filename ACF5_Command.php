@@ -242,6 +242,8 @@ class ACF5_Command extends WP_CLI_Command {
 
     } else {
 
+      $choice = false; // Initialize $choice
+
       if ( ! isset( $args[0] ) ) {
 
         $choices = array();
@@ -267,6 +269,8 @@ class ACF5_Command extends WP_CLI_Command {
 
           break;
         }
+      } elseif ( isset( $args[0] ) && $args[0] == 'all' ) {
+        $choice = 'all';
       }
 
       $patterns = array();
