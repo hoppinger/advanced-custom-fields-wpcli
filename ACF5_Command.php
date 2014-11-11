@@ -181,10 +181,8 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   function clean( $args = array() ) {
-    WP_CLI::success( 'cleanup dabatase!' );
-
     if ( is_multisite() ) {
-      $blog_list = get_blog_list( 0, 'all' );
+      $blog_list = wp_get_sites();
     } else {
       $blog_list   = array();
       $blog_list[] = array( 'blog_id' => 1 );
@@ -208,37 +206,138 @@ class ACF5_Command extends WP_CLI_Command {
 
     if ( is_multisite() ) restore_current_blog();
     endforeach;
+    WP_CLI::success( 'cleaned up everything ACF related in the database' );
   }
 
 
   function import( $args, $assoc_args ) {
-    include 'bin/parser.php';
-    include 'bin/wp-importer.php';
-    include 'bin/wp_import.php';
-
-
     if ( is_multisite() ) {
 
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
-      $field_group_name = $this->select_acf_xml();
-      $path             = get_stylesheet_directory() . '/field-groups/*/data.json';
-      $importer         = new WP_Import();
+ if ( ! isset( $args[0] ) ) {
 
-      if ( $field_group_name == '' ) {
+        $choices = array();
+        $choices['all'] = 'all';
 
-        foreach ( glob( $path ) as $file ) :
+        foreach ( $this->paths as $path ) {
 
-          $importer->import( $file );
-        endforeach;
-        WP_CLI::success( 'imported all the data.json field_groups to the dabatase!' );
+          if ( ! file_exists( $path ) ) continue;
 
-      } else {
+          if ( $dir = opendir( $path ) ) {
+            while ( false !== ( $folder = readdir( $dir ) ) ) {
+              if ( $folder != '.' && $folder != '..' ) {
+                $key = trailingslashit( $path . $folder );
+                $choices[ $key ] = $folder;
+              }
+            }
+          }
+        }
 
-        $importer->import( $field_group_name );
-        WP_CLI::success( 'imported the data.json for blog_id ' . '$blog_id' . ' " and field_group ' . $field_group_name .'" into to the dabatase!' );
+        while ( true ) {
+          $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
+          \cli\line();
+
+          break;
+        }
       }
+
+      $patterns = array();
+      if ( $choice == 'all' ) {
+        foreach ( $this->paths as $key => $value )
+          $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
+      } else {
+        $patterns[] = $choice . 'data.json';
+      }
+
+      foreach ( $patterns as $pattern ) {
+        $i = 0;
+        //echo $pattern."\n";
+        foreach ( glob( $pattern ) as $file ) {
+          //Start acf 5 import
+          // read file
+          $json = file_get_contents( $file );
+
+
+          // decode json
+          $json = json_decode( $json, true );
+
+          // if importing an auto-json, wrap field group in array
+          if ( isset( $json['key'] ) ) {
+            $json = array( $json );
+          }
+
+          // vars
+          $ref      = array();
+          $order    = array();
+
+          foreach ( $json as $field_group ) :
+
+            // remove fields
+            $fields = acf_extract_var( $field_group, 'fields' );
+
+
+          // format fields
+          $fields = acf_prepare_fields_for_import( $fields );
+
+
+          // save field group
+          $field_group = acf_update_field_group( $field_group );
+
+
+          // add to ref
+          $ref[ $field_group['key'] ] = $field_group['ID'];
+
+
+          // add to order
+          $order[ $field_group['ID'] ] = 0;
+
+
+          // add fields
+          foreach ( $fields as $field ) :
+
+            // add parent
+            if ( empty( $field['parent'] ) ) {
+
+              $field['parent'] = $field_group['ID'];
+
+            } elseif ( isset( $ref[ $field['parent'] ] ) ) {
+
+            $field['parent'] = $ref[ $field['parent'] ];
+
+          }
+
+          // add field menu_order
+          if ( !isset( $order[ $field['parent'] ] ) ) {
+
+            $order[ $field['parent'] ] = 0;
+
+          }
+
+          $field['menu_order'] = $order[ $field['parent'] ];
+          $order[ $field['parent'] ]++;
+
+
+          // save field
+          $field = acf_update_field( $field );
+
+
+          // add to ref
+          $ref[ $field['key'] ] = $field['ID'];
+
+          endforeach;
+
+          WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
+          endforeach;
+
+        }
+        $i++;
+        if ($i===1) break;
+      }
+
+
+
 
     } else {
 
@@ -303,10 +402,8 @@ class ACF5_Command extends WP_CLI_Command {
             // remove fields
             $fields = acf_extract_var( $field_group, 'fields' );
 
-
           // format fields
           $fields = acf_prepare_fields_for_import( $fields );
-
 
           // save field group
           $field_group = acf_update_field_group( $field_group );
@@ -333,11 +430,6 @@ class ACF5_Command extends WP_CLI_Command {
             $field['parent'] = $ref[ $field['parent'] ];
 
           }
-
-
-          // add field group reference
-          //$field['field_group'] = $field_group['key'];
-
 
           // add field menu_order
           if ( !isset( $order[ $field['parent'] ] ) ) {
@@ -374,12 +466,12 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_acf_xml() {
-    $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );
+    $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
     $patterns = array();
     $choices  = array();
 
     foreach ( $this->paths as $key => $value ) {
-      $patterns[ $key ] = trailingslashit( $value ) . '*/data.php';
+      $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
     }
 
     $choices[''] = 'all';
@@ -390,7 +482,7 @@ class ACF5_Command extends WP_CLI_Command {
     }
 
     while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Choose a fieldgroup to import' );
+      $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
       \cli\line();
 
       return $choice;
@@ -399,12 +491,15 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_blog() {
-    for ( $i = 1; $i <= get_blog_count()+1; $i++ ) {
-      switch_to_blog( $i );
-      $choices[$i] = get_blog_details( $i )->blogname . ' - ' .get_template() ;
+    $sites = wp_get_sites();
+
+    foreach ( $sites as $site ) {
+      $blog = get_blog_details( $site['blog_id'] );
+
+      $choices[ $site['blog_id'] ] = $blog->blogname . ' - ' . $blog->domain . $blog->path;
     }
 
-    return $this->choice( $choices, 'Choose a blog' );
+    return $this->choice( $choices, __( 'Choose a blog', 'acf-wpcli' ) );
   }
 
   protected function select_acf_field() {
@@ -421,7 +516,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[$group->ID] = $group->post_title;
     }
 
-    return $this->choice( $choices, 'Choose a fieldgroup to export' );
+    return $this->choice( $choices, __( 'Choose a fieldgroup to export', 'acf-wpcli' ) );
   }
 
   protected function select_export_path() {
@@ -431,12 +526,16 @@ class ACF5_Command extends WP_CLI_Command {
       $choices[ $value ] = $key . ': ' . $value;
     }
 
-    return $this->choice( $choices, 'Choose a path to export the fieldgroup to' );
+    return $this->choice( $choices, __( 'Choose a path to export the fieldgroup to', 'acf-wpcli' ) );
   }
 
-  private function choice( $choices, $question = 'Choose something' ) {
+  private function choice( $choices, $question = false ) {
+    if ( ! $question ) {
+      $question = __( 'Choose something', 'acf-wpcli' );
+    }
+
     while ( true ) {
-      $choice = \cli\menu( $choices, null, 'Pick a path to export the fieldgroup to' );
+      $choice = \cli\menu( $choices, null, $question );
       \cli\line();
 
       break;

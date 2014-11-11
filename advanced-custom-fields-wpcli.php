@@ -66,20 +66,6 @@ if ( ! defined( 'WP_CLI' ) ) {
       }
     }
 
-    // [TODO] This is from the old structure where field-groups
-    // were added to a blog_id directory
-    if ( $blog_id != 1 ) {
-      // register the field groups that are shared for all child websites
-      foreach ( glob( $shared_childs_pattern ) as $file ) {
-        $group = acf_wpcli_get_file_data( $file );
-
-        // 1. Don't register group when the group is already in the DB
-        // 2. Don't register group when the group has been added from a blog_id specific group
-        if ( ! in_array( $group['title'] , $db_field_group_titles ) && ! in_array( $group['title'] , $added_groups ) )
-          register_field_group( $group );
-      }
-    }
-
     endif;
   }
   add_action( 'plugins_loaded', 'acf_wpcli_register_groups' );
