@@ -370,6 +370,8 @@ class ACF5_Command extends WP_CLI_Command {
 
           break;
         }
+      } elseif ( isset( $args[0] ) && $args[0] == 'all' ) {
+        $choice = 'all';
       }
 
       $patterns = array();
