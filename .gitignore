@@ -1,2 +1,4 @@
 .svn
 .DS_Store
+
+/vendor/
