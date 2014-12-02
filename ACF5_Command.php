@@ -93,7 +93,12 @@ class ACF5_Command extends WP_CLI_Command {
 
     if ( $field_groups ) {
 
-      $export_path = $this->select_export_path();
+      if ( isset( $assoc_args['export-path'] ) && isset($this->paths[ $assoc_args['export-path'] ] ) ) {
+        $export_path = $this->paths[ $assoc_args['export-path'] ];
+      } else {
+        $export_path = $this->select_export_path();
+      }
+
 
       $acf_fld_grp = new acf_field();
 
