@@ -54,16 +54,23 @@ if ( ! defined( 'WP_CLI' ) ) {
     }
 
     $added_groups = array();
+    $files = array();
+    // collect list of all field group files in various locations
     foreach ( $patterns as $pattern ) {
       // register the field groups specific for this subsite
       foreach ( glob( $pattern ) as $file ) {
-        $group = acf_wpcli_get_file_data( $file );
-
-        // Don't register group when the group is already in the DB
-        if ( ! in_array( $group['title'] , $db_field_group_titles ) )
-          register_field_group( $group );
-        $added_groups[] = $group['title'];
+        $files[] = $file;
       }
+    }
+
+    // do not double process field group files
+    foreach ( array_unique( $files ) as $file ) {
+      $group = acf_wpcli_get_file_data( $file );
+
+      // Don't register group when the group is already in the DB
+      if ( ! in_array( $group['title'] , $db_field_group_titles ) )
+        register_field_group( $group );
+      $added_groups[] = $group['title'];
     }
 
     endif;
