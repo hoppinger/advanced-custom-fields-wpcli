@@ -50,6 +50,9 @@ if ( ! defined( 'WP_CLI' ) ) {
     $patterns = array();
 
     foreach ( $paths as $key => $value ) {
+      if( ! is_dir($value) ){
+        continue;
+      }
       $patterns[ $key ] = trailingslashit( $value ) . '*/data.php';
     }
 
