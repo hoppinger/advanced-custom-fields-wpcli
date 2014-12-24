@@ -20,7 +20,7 @@ class ACF5_Command extends WP_CLI_Command {
 
     $theme = wp_get_theme();
 
-    $parent = $theme->get('Template');
+    $parent = $theme->get( 'Template' );
     if ( ! empty( $parent ) ) {
       $this->paths[ $theme->template ] = get_template_directory() . '/field-groups/';
     }
@@ -49,7 +49,7 @@ class ACF5_Command extends WP_CLI_Command {
    *
    */
   public function export( $args, $assoc_args ) {
-    extract($assoc_args);
+    extract( $assoc_args );
 
     // [LEGACY] start
     // if empty it will show export all fields
@@ -59,44 +59,44 @@ class ACF5_Command extends WP_CLI_Command {
       $choice = $this->select_blog();
       switch_to_blog( $choice );
     }
-     // [LEGACY] end
+    // [LEGACY] end
 
     $field_groups = array();
 
     if ( isset( $all ) ) {
       $field_groups = get_posts( array(
-        'numberposts' =>  -1,
-        'post_type'   =>  'acf-field-group',
-        'sort_column' => 'menu_order',
-        'order'       => 'ASC',
-      ) );
+          'numberposts' =>  -1,
+          'post_type'   =>  'acf-field-group',
+          'sort_column' => 'menu_order',
+          'order'       => 'ASC',
+        ) );
     } else if ( isset( $group ) ) {
-      global $wpdb;
-      $excerpt = sanitize_title( $group );
+        global $wpdb;
+        $excerpt = sanitize_title( $group );
 
-      $results = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_status='publish' AND post_excerpt='{$excerpt}';" );
+        $results = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_status='publish' AND post_excerpt='{$excerpt}';" );
 
-      if ( empty( $results[0] ) ) {
-        WP_CLI::error( 'No fieldgroups found that match this field group name' );
-      }
+        if ( empty( $results[0] ) ) {
+          WP_CLI::error( 'No fieldgroups found that match this field group name' );
+        }
 
-      $field_groups[] = $results[0];
-    } else {
+        $field_groups[] = $results[0];
+      } else {
       $field_group = $this->select_acf_field();
 
       $field_groups = get_posts( array(
-        'numberposts' =>  -1,
-        'post_type'   =>  'acf-field-group',
-        'sort_column' => 'menu_order',
-        'order'       => 'ASC',
-        'include'     => $field_group,
-      ) );
+          'numberposts' =>  -1,
+          'post_type'   =>  'acf-field-group',
+          'sort_column' => 'menu_order',
+          'order'       => 'ASC',
+          'include'     => $field_group,
+        ) );
     }
 
     if ( empty( $export_path ) ) {
       $export_path = $this->select_export_path();
     }
-// [LEGACY] start
+    // [LEGACY] start
 
     if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
       WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
@@ -104,57 +104,44 @@ class ACF5_Command extends WP_CLI_Command {
 
     foreach ( $field_groups as $group ) {
       $title            = get_the_title( $group->ID );
-    $sanitized_title  = sanitize_title( $title );
-    $subpath          = $export_path . $sanitized_title;
-    $field_group_array = array();
+      $sanitized_title  = sanitize_title( $title );
+      $subpath          = $export_path . $sanitized_title;
+      $field_group_array = array();
 
-    $field_group = acf_get_field_group( $group->ID ) ;
+      $field_group = acf_get_field_group( $group->ID ) ;
 
+      // validate field group
+      if ( empty( $field_group ) ) {
 
-    // validate field group
-    if ( empty( $field_group ) ) {
+        continue;
 
-      continue;
+      }
 
-    }
-
-    // load fields
-    $fields = acf_get_fields( $field_group );
-
-
-    // prepare fields
-    $fields = acf_prepare_fields_for_export( $fields );
+      // load fields
+      $fields = acf_get_fields( $field_group );
 
 
-    // add to field group
-    $field_group['fields'] = $fields;
+      // prepare fields
+      $fields = acf_prepare_fields_for_export( $fields );
 
 
-    // extract field group ID
-    $id = acf_extract_var( $field_group, 'ID' );
+      // add to field group
+      $field_group['fields'] = $fields;
 
 
-    $json = acf_json_encode( $field_group );
-
-    // each field_group gets it's own folder by field_group name
-    if ( ! is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
-      WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
-    }else {
-
-      // let's write the array to a data.php file so it can be used later on
-      $fp     = fopen( $subpath . '/' ."data.php", "w" );
-      $output = "<?php \n\$group = " . var_export( $field_group , true ) . ';';
-      fwrite( $fp, $output );
-      fclose( $fp );
+      // extract field group ID
+      $id = acf_extract_var( $field_group, 'ID' );
 
 
-      $fp     = fopen( $subpath . '/' ."data.json", "w" );
-      $output = $json;
-      fwrite( $fp, $output );
-      fclose( $fp );
+      $json = acf_json_encode( $field_group );
 
-      WP_CLI::success( "Fieldgroup ".$title." exported " );
-    }
+      // each field_group gets it's own folder by field_group name
+      if ( ! is_dir( $subpath ) && ! mkdir( $subpath, 0755, false ) ) {
+        WP_CLI::error( 'fieldgroup cannot be created!' );
+      }
+
+      $this->write_data_php_file( $title, $subpath, $field_group );
+      $this->write_data_json_file( $title, $subpath, $json );
 
     }
 
@@ -175,7 +162,7 @@ class ACF5_Command extends WP_CLI_Command {
 
       $field_groups = get_posts( array(
           'numberposts' =>  -1,
-          'post_type'   =>  array('acf-field-group', 'acf', 'acf-field'),
+          'post_type'   =>  array( 'acf-field-group', 'acf', 'acf-field' ),
           'sort_column' => 'menu_order',
           'order'       => 'ASC',
         ) );
@@ -198,7 +185,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
- if ( ! isset( $args[0] ) ) {
+      if ( ! isset( $args[0] ) ) {
 
         $choices = array();
         $choices['all'] = 'all';
@@ -315,7 +302,7 @@ class ACF5_Command extends WP_CLI_Command {
 
         }
         $i++;
-        if ($i===1) break;
+        if ( $i===1 ) break;
       }
 
 
@@ -528,6 +515,23 @@ class ACF5_Command extends WP_CLI_Command {
     }
 
     return $choice;
+  }
+
+  private function write_data_php_file( $title, $subpath, $field_group ) {
+    $fp     = fopen( $subpath . '/' ."data.php", "w" );
+    $output = "<?php \n\$group = " . var_export( $field_group , true ) . ';';
+    fwrite( $fp, $output );
+    fclose( $fp );
+
+    WP_CLI::success( 'Fieldgroup "' . $title . '" data.php exported' );
+  }
+
+private function write_data_json_file( $title, $subpath, $json ) {
+    $fp     = fopen( $subpath . '/' ."data.json", "w" );
+    fwrite( $fp, $json );
+    fclose( $fp );
+
+    WP_CLI::success( 'Fieldgroup "' . $title . '" data.json exported' );
   }
 
 }
