@@ -216,31 +216,6 @@ class ACF5_Command extends WP_CLI_Command {
     WP_CLI::line( 'possible subcommands: status, export, clean, import' );
   }
 
-  // protected function select_acf_xml() {
-  //   $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
-  //   $patterns = array();
-  //   $choices  = array();
-
-  //   foreach ( $this->paths as $key => $value ) {
-  //     $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
-  //   }
-
-  //   $choices[''] = 'all';
-  //   foreach ( $patterns as $path ) {
-  //     foreach ( glob( $path ) as $file ) {
-  //       $choices[$file] = $file;
-  //     }
-  //   }
-
-  //   while ( true ) {
-  //     $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
-  //     \cli\line();
-
-  //     return $choice;
-  //     break;
-  //   }
-  // }
-
   protected function select_blog() {
     $sites = wp_get_sites();
 
