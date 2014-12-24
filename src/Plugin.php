@@ -8,7 +8,6 @@ class Plugin {
   public $textdomain;
 
   public function __construct() {
-    $this->filters();
     $this->actions();
 
     if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -22,10 +21,6 @@ class Plugin {
         WP_CLI::add_command( 'acf', 'ACFCommand' );
       }
     }
-  }
-
-  public function filters() {
-
   }
 
   public function actions() {
