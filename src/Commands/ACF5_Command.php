@@ -97,13 +97,12 @@ class ACF5_Command extends WP_CLI_Command {
       $export_path = $this->select_export_path();
     }
 // [LEGACY] start
-    $acf_fld_grp = new acf_field();
 
     if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
       WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
     }
 
-    foreach ( $field_groups as $group ) :
+    foreach ( $field_groups as $group ) {
       $title            = get_the_title( $group->ID );
     $sanitized_title  = sanitize_title( $title );
     $subpath          = $export_path . $sanitized_title;
@@ -157,7 +156,7 @@ class ACF5_Command extends WP_CLI_Command {
       WP_CLI::success( "Fieldgroup ".$title." exported " );
     }
 
-    endforeach;
+    }
 
     if ( is_multisite() ) restore_current_blog();
     // [LEGACY] end
