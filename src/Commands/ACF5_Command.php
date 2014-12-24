@@ -185,29 +185,29 @@ class ACF5_Command extends WP_CLI_Command {
    */
   public function import( $args, $assoc_args ) {
     extract( $assoc_args );
+    $wpcli_config = WP_CLI::get_config();
 
-    if ( is_multisite() ) {
-      $this->import_multisite( $args, $assoc_args );
+    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) )  {
+      WP_CLI::warning( 'You are runnning a multisite. Use the --url=<url> parameter to specify which site you want to target.' );
+    }
+
+    if ( isset( $group ) ) {
+      $choice = $this->get_path_by_groupname( $group );
     } else {
+      $choice = $this->select_import_fieldgroup();
+    }
 
-      if ( isset( $group ) ) {
-        $choice = $this->get_path_by_groupname( $group );
-      } else {
-        $choice = $this->select_import_fieldgroup();
-      }
+    $patterns = array();
+    if ( $choice == 'all' ) {
+      foreach ( $this->paths as $key => $value )
+        $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
+    } else {
+      $patterns[] = $choice . 'data.json';
+    }
 
-      $patterns = array();
-      if ( $choice == 'all' ) {
-        foreach ( $this->paths as $key => $value )
-          $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
-      } else {
-        $patterns[] = $choice . 'data.json';
-      }
-
-      foreach ( $patterns as $pattern ) {
-        foreach ( glob( $pattern ) as $file ) {
-          Fieldgroup::import( $file );
-        }
+    foreach ( $patterns as $pattern ) {
+      foreach ( glob( $pattern ) as $file ) {
+        Fieldgroup::import( $file );
       }
     }
   }
