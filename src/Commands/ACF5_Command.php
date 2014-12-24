@@ -85,8 +85,6 @@ class ACF5_Command extends WP_CLI_Command {
     }
 
     // [LEGACY] start
-    if ( $field_groups ) {
-
       if ( empty( $export_path ) ) {
         $export_path = $this->select_export_path();
       }
@@ -152,13 +150,7 @@ class ACF5_Command extends WP_CLI_Command {
       }
 
       endforeach;
-    }
-    else {
-      //error seems to be returning and break out of my loop
-      //WP_CLI::error( 'No field groups were found in the database' );
-      echo 'No field groups were found in the database';
-      echo ' ';
-    }
+
     if ( is_multisite() ) restore_current_blog();
     // [LEGACY] end
   }
@@ -492,6 +484,10 @@ class ACF5_Command extends WP_CLI_Command {
         'sort_column' => 'menu_order',
         'order'       => 'ASC',
       ) );
+
+    if ( empty( $field_groups ) ) {
+      WP_CLI::error( 'No fieldgroups found to export' );
+    }
 
     $choices = array( '' => 'all' );
 
