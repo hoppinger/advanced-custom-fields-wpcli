@@ -53,15 +53,11 @@ class ACF5_Command extends WP_CLI_Command {
   public function export( $args, $assoc_args ) {
     extract( $assoc_args );
 
-    // [LEGACY] start
-    // if empty it will show export all fields
-    $export_field = '';
+    $wpcli_config = WP_CLI::get_config();
 
-    if ( is_multisite( ) ) {
-      $choice = $this->select_blog();
-      switch_to_blog( $choice );
+    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) )  {
+      WP_CLI::warning( 'You are runnning a multisite. Use the --url=<url> parameter to specify which site you want to target.' );
     }
-    // [LEGACY] end
 
     $field_groups = array();
 
