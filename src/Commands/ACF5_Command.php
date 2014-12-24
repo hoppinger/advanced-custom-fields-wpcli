@@ -63,7 +63,7 @@ class ACF5_Command extends WP_CLI_Command {
 
     $field_groups = array();
 
-    if ( ! empty( $all ) ) {
+    if ( isset( $all ) ) {
       $field_groups = get_posts( array(
         'numberposts' =>  -1,
         'post_type'   =>  'acf-field-group',
@@ -71,13 +71,16 @@ class ACF5_Command extends WP_CLI_Command {
         'order'       => 'ASC',
       ) );
     } else if ( isset( $group ) ) {
-      $post = get_page_by_title( $group, OBJECT, 'acf-field-group' );
+      global $wpdb;
+      $excerpt = sanitize_title( $group );
 
-      if ( empty( $post ) ) {
+      $results = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_status='publish' AND post_excerpt='{$excerpt}';" );
+
+      if ( empty( $results[0] ) ) {
         WP_CLI::error( 'No fieldgroups found that match this field group name' );
       }
 
-      $field_groups[] = get_page_by_title($group, OBJECT, 'acf-field-group');
+      $field_groups[] = $results[0];
     } else {
       $field_group = $this->select_acf_field();
 
