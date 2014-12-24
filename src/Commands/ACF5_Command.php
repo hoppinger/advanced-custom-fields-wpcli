@@ -71,6 +71,12 @@ class ACF5_Command extends WP_CLI_Command {
         'order'       => 'ASC',
       ) );
     } else if ( isset( $group ) ) {
+      $post = get_page_by_title( $group, OBJECT, 'acf-field-group' );
+
+      if ( empty( $post ) ) {
+        WP_CLI::error( 'No fieldgroups found that match this field group name' );
+      }
+
       $field_groups[] = get_page_by_title($group, OBJECT, 'acf-field-group');
     } else {
       $field_group = $this->select_acf_field();
