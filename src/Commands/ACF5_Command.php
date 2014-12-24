@@ -128,11 +128,6 @@ class ACF5_Command extends WP_CLI_Command {
       // add to field group
       $field_group['fields'] = $fields;
 
-
-      // extract field group ID
-      $id = acf_extract_var( $field_group, 'ID' );
-
-
       $json = acf_json_encode( $field_group );
 
       // each field_group gets it's own folder by field_group name
