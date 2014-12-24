@@ -93,72 +93,71 @@ class ACF5_Command extends WP_CLI_Command {
       ) );
     }
 
-    // [LEGACY] start
-      if ( empty( $export_path ) ) {
-        $export_path = $this->select_export_path();
-      }
+    if ( empty( $export_path ) ) {
+      $export_path = $this->select_export_path();
+    }
+// [LEGACY] start
+    $acf_fld_grp = new acf_field();
 
-      $acf_fld_grp = new acf_field();
+    if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
+      WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
+    }
 
-      if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
-        WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
-      }
+    foreach ( $field_groups as $group ) :
+      $title            = get_the_title( $group->ID );
+    $sanitized_title  = sanitize_title( $title );
+    $subpath          = $export_path . $sanitized_title;
+    $field_group_array = array();
 
-      foreach ( $field_groups as $group ) :
-        $title            = get_the_title( $group->ID );
-      $sanitized_title  = sanitize_title( $title );
-      $subpath          = $export_path . $sanitized_title;
-      $field_group_array = array();
-
-      $field_group = acf_get_field_group( $group->ID ) ;
-
-
-      // validate field group
-      if ( empty( $field_group ) ) {
-
-        continue;
-
-      }
-
-      // load fields
-      $fields = acf_get_fields( $field_group );
+    $field_group = acf_get_field_group( $group->ID ) ;
 
 
-      // prepare fields
-      $fields = acf_prepare_fields_for_export( $fields );
+    // validate field group
+    if ( empty( $field_group ) ) {
+
+      continue;
+
+    }
+
+    // load fields
+    $fields = acf_get_fields( $field_group );
 
 
-      // add to field group
-      $field_group['fields'] = $fields;
+    // prepare fields
+    $fields = acf_prepare_fields_for_export( $fields );
 
 
-      // extract field group ID
-      $id = acf_extract_var( $field_group, 'ID' );
+    // add to field group
+    $field_group['fields'] = $fields;
 
 
-      $json = acf_json_encode( $field_group );
-
-      // each field_group gets it's own folder by field_group name
-      if ( ! is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
-        WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
-      }else {
-
-        // let's write the array to a data.php file so it can be used later on
-        $fp     = fopen( $subpath . '/' ."data.php", "w" );
-        $output = "<?php \n\$group = " . var_export( $field_group , true ) . ';';
-        fwrite( $fp, $output );
-        fclose( $fp );
+    // extract field group ID
+    $id = acf_extract_var( $field_group, 'ID' );
 
 
-        $fp     = fopen( $subpath . '/' ."data.json", "w" );
-        $output = $json;
-        fwrite( $fp, $output );
-        fclose( $fp );
+    $json = acf_json_encode( $field_group );
 
-        WP_CLI::success( "Fieldgroup ".$title." exported " );
-      }
+    // each field_group gets it's own folder by field_group name
+    if ( ! is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
+      WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
+    }else {
 
-      endforeach;
+      // let's write the array to a data.php file so it can be used later on
+      $fp     = fopen( $subpath . '/' ."data.php", "w" );
+      $output = "<?php \n\$group = " . var_export( $field_group , true ) . ';';
+      fwrite( $fp, $output );
+      fclose( $fp );
+
+
+      $fp     = fopen( $subpath . '/' ."data.json", "w" );
+      $output = $json;
+      fwrite( $fp, $output );
+      fclose( $fp );
+
+      WP_CLI::success( "Fieldgroup ".$title." exported " );
+    }
+
+    endforeach;
 
     if ( is_multisite() ) restore_current_blog();
     // [LEGACY] end
