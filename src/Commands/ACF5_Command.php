@@ -55,7 +55,7 @@ class ACF5_Command extends WP_CLI_Command {
 
     $wpcli_config = WP_CLI::get_config();
 
-    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) )  {
+    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) ) {
       WP_CLI::warning( 'You are runnning a multisite. Use the --url=<url> parameter to specify which site you want to target.' );
     }
 
@@ -136,16 +136,31 @@ class ACF5_Command extends WP_CLI_Command {
     // [LEGACY] end
   }
 
-  function clean( $args = array() ) {
-    if ( is_multisite() ) {
+  /**
+   * Remove everything ACF from the database
+   *
+   * ## OPTIONS
+   *
+   * [--network]
+   * : Clean the fieldgroups in all the sites in the network
+   *
+   * @subcommand clean
+   *
+   */
+  public function clean( $args, $assoc_args ) {
+    extract( $assoc_args );
+
+    if ( $network ) {
       $blog_list = wp_get_sites();
     } else {
       $blog_list   = array();
-      $blog_list[] = array( 'blog_id' => 1 );
+      $blog_list[] = array( 'blog_id' =>  get_current_blog_id() );
     }
 
-    foreach ( $blog_list as $blog ) :
-      if ( is_multisite() ) switch_to_blog( $blog['blog_id'] );
+    foreach ( $blog_list as $blog ) {
+      if ( $network ) {
+        switch_to_blog( $blog['blog_id'] );
+      }
 
       $field_groups = get_posts( array(
           'numberposts' =>  -1,
@@ -154,15 +169,23 @@ class ACF5_Command extends WP_CLI_Command {
           'order'       => 'ASC',
         ) );
 
-    foreach ( $field_groups as $group ) :
-      global $wpdb;
-    $wpdb->query( "DELETE FROM $wpdb->postmeta WHERE post_id = $group->ID" );
-    $wpdb->query( "DELETE FROM $wpdb->posts WHERE ID = $group->ID" );
-    endforeach;
+      if ( empty( $field_groups ) ) {
+        WP_CLI::warning( 'No fieldgroups found to clean up for ' . get_site_url() );
+      }
 
-    if ( is_multisite() ) restore_current_blog();
-    endforeach;
-    WP_CLI::success( 'cleaned up everything ACF related in the database' );
+      foreach ( $field_groups as $group ) {
+        global $wpdb;
+
+        $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE post_id = {$group->ID}" );
+        $wpdb->query( "DELETE FROM {$wpdb->posts} WHERE ID = {$group->ID}" );
+
+        WP_CLI::success( "Cleaned up {$group->post_type}: \"{$group->post_title}\"" );
+      }
+
+      if ( $network ) {
+        restore_current_blog();
+      }
+    }
   }
 
   /**
@@ -183,7 +206,7 @@ class ACF5_Command extends WP_CLI_Command {
     extract( $assoc_args );
     $wpcli_config = WP_CLI::get_config();
 
-    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) )  {
+    if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) ) {
       WP_CLI::warning( 'You are runnning a multisite. Use the --url=<url> parameter to specify which site you want to target.' );
     }
 
