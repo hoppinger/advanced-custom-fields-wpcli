@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: Advanced Custom Fields wp-cli Extension
-Plugin URI: http://www.advancedcustomfields.com/add-ons/acf-wpcli/
-Description: This extension for Advanced Custom Fields makes it possible to manage your field_groups through the console of wp-cli.
-Version: 0.1
+Plugin Name: Advanced Custom Fields WP-CLI
+Plugin URI: https://github.com/hoppinger/advanced-custom-fields-wpcli
+Description: Manage your ACF field groups in WP-CLI
+Version: 2.0.0
 Author: Hoppinger
 Author URI: http://www.hoppinger.com/
-License: GPL
-Copyright: Hoppinger
+License: MIT
+https://github.com/hoppinger/advanced-custom-fields-wpcli/blob/master/LICENCE.txt
 */
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -43,7 +43,6 @@ if ( ! defined( 'WP_CLI' ) ) {
     $paths = array(
       'active_theme'        => get_template_directory() . '/field-groups/',
       'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
-      'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
     );
 
     $paths    = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );

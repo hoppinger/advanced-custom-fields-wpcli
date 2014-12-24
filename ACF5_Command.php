@@ -11,11 +11,17 @@ class ACF5_Command extends WP_CLI_Command {
   private $paths = array();
 
   function __construct() {
-    $this->paths = array(
-      'active_theme'        => get_template_directory() . '/field-groups/',
-      'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
-      'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
-    );
+    $this->paths = array();
+
+    $theme = wp_get_theme();
+
+    $parent = $theme->get('Template');
+    if ( ! empty( $parent ) ) {
+      $this->paths[ $theme->template ] = get_template_directory() . '/field-groups/';
+    }
+
+    $lowercased = strtolower( $theme->name );
+    $this->paths[ $lowercased . '-theme'] = get_stylesheet_directory() . '/field-groups/';
 
     $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
   }
