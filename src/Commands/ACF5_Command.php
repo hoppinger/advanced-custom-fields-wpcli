@@ -3,6 +3,7 @@
 use WP_CLI;
 use WP_CLI_Command;
 use acf_field;
+
 /**
  * Implement ACF command
  *
@@ -120,7 +121,6 @@ class ACF5_Command extends WP_CLI_Command {
         $title            = get_the_title( $group->ID );
       $sanitized_title  = sanitize_title( $title );
       $subpath          = $export_path . $sanitized_title;
-      $uniquid_path     = $subpath .'/uniqid';
       $field_group_array = array();
 
       $field_group = acf_get_field_group( $group->ID ) ;
@@ -151,11 +151,6 @@ class ACF5_Command extends WP_CLI_Command {
 
       $json = acf_json_encode( $field_group );
 
-
-      // retrieve the uniquid from the file if it exists else we make a new one
-      $uniqid = ( file_exists( $uniquid_path ) ) ? file_get_contents( $uniquid_path ) : uniqid();
-
-
       // each field_group gets it's own folder by field_group name
       if ( ! is_dir( $subpath ) && !mkdir( $subpath, 0755, false ) ) {
         WP_CLI::line( 'fieldgroup subdirectory exists or cant be created!' );
@@ -173,13 +168,6 @@ class ACF5_Command extends WP_CLI_Command {
         fwrite( $fp, $output );
         fclose( $fp );
 
-        // write the uniquid file if it doesn't exist
-        if ( ! file_exists( $uniquid_path ) ) :
-          $fp     = fopen( $subpath . '/' ."uniqid", "w" );
-        $output = $uniqid;
-        fwrite( $fp, $output );
-        fclose( $fp );
-        endif;
         WP_CLI::success( "Fieldgroup ".$title." exported " );
       }
 
