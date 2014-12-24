@@ -94,7 +94,7 @@ class ACF5_Command extends WP_CLI_Command {
       $acf_fld_grp = new acf_field();
 
       if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
-        WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
+        WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
       }
 
       foreach ( $field_groups as $group ) :
