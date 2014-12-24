@@ -31,8 +31,27 @@ class ACF5_Command extends WP_CLI_Command {
     $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
   }
 
-  function export( $args, $assoc_args ) {
+  /**
+   * Export ACF field groups to local files
+   *
+   * ## OPTIONS
+   *
+   * [--group=<group>]
+   * : The fieldgroup to export, can used with "Group Name" or "group-name"
+   *
+   * [--export_path=<path>]
+   * : The fieldgroups directory path to export the fieldgroup into
+   *
+   * [--all]
+   * : Just generate the `register_post_type()` call and nothing else.
+   *
+   * @subcommand export
+   *
+   */
+  public function export( $args, $assoc_args ) {
+    extract($assoc_args);
 
+    // [LEGACY] start
     // if empty it will show export all fields
     $export_field = '';
 
@@ -40,38 +59,41 @@ class ACF5_Command extends WP_CLI_Command {
       $choice = $this->select_blog();
       switch_to_blog( $choice );
     }
+     // [LEGACY] end
 
-    //if export all is used skip the question popup
-    if ( empty( $args ) || ( $args[0] != 'all' ) ) {
-      $export_field = $this->select_acf_field();
-    }
+    $field_groups = array();
 
-    if ( empty( $export_field ) ) {
-      WP_CLI::success( "Exporting all fieldgroups \n" );
-    } else {
-      WP_CLI::success( "Exporting fieldgroup \n" );
-    }
-
-    $field_groups = get_posts( array(
+    if ( ! empty( $all ) ) {
+      $field_groups = get_posts( array(
         'numberposts' =>  -1,
         'post_type'   =>  'acf-field-group',
         'sort_column' => 'menu_order',
         'order'       => 'ASC',
-        'include'     => $export_field,
       ) );
+    } else if ( isset( $group ) ) {
+      $field_groups[] = get_page_by_title($group, OBJECT, 'acf-field-group');
+    } else {
+      $field_group = $this->select_acf_field();
 
+      $field_groups = get_posts( array(
+        'numberposts' =>  -1,
+        'post_type'   =>  'acf-field-group',
+        'sort_column' => 'menu_order',
+        'order'       => 'ASC',
+        'include'     => $field_group,
+      ) );
+    }
+
+    // [LEGACY] start
     if ( $field_groups ) {
 
-      if ( isset( $assoc_args['export-path'] ) && isset($this->paths[ $assoc_args['export-path'] ] ) ) {
-        $export_path = $this->paths[ $assoc_args['export-path'] ];
-      } else {
+      if ( empty( $export_path ) ) {
         $export_path = $this->select_export_path();
       }
 
-
       $acf_fld_grp = new acf_field();
 
-      if ( ! is_dir( $export_path ) && !mkdir( $export_path, 0755, false ) ) {
+      if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
         WP_CLI::line( 'fieldgroup directory exists or cant be created!' );
       }
 
@@ -138,7 +160,7 @@ class ACF5_Command extends WP_CLI_Command {
       echo ' ';
     }
     if ( is_multisite() ) restore_current_blog();
-
+    // [LEGACY] end
   }
 
   function clean( $args = array() ) {
