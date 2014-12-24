@@ -2,7 +2,6 @@
 
 use WP_CLI;
 use WP_CLI_Command;
-use acf_field;
 
 /**
  * Implement ACF command
