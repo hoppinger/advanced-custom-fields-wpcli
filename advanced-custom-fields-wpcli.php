@@ -10,18 +10,23 @@ License: MIT
 https://github.com/hoppinger/advanced-custom-fields-wpcli/blob/master/LICENCE.txt
 */
 
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-  //Since version 5 uses json instead of xml, we have a new ACF command for it.
-  if ( substr( get_option( 'acf_version' ), 0, 1 ) == 5 ) {
-    // Include and register the class as the 'example' command handler
-    include 'ACF5_Command.php';
-    WP_CLI::add_command( 'acf', 'ACF5_Command' );
-  } else {
-    // Include and register the class as the 'example' command handler
-    include 'ACFCommand.php';
-    WP_CLI::add_command( 'acf', 'ACFCommand' );
-  }
-}
+load_textdomain( 'acf-wpcli', __DIR__ . '/languages/' . WPLANG . '.mo' );
+
+define( 'ACF_WPCLI_ROOT', __DIR__ );
+define( 'ACF_WPCLI_URL', plugin_dir_url( __FILE__ ) );
+
+require 'vendor/autoload.php';
+
+// instantiate loader and register namespaces
+$loader = new \Aura\Autoload\Loader;
+$loader->register();
+$loader->addPrefix( 'ACFWPCLI', __DIR__ . '/src/' );
+
+// instantiate this plugin
+$plugin = new \ACFWPCLI\Plugin;
+
+
+// [LEGACY] below this line
 
 /*
  * add the php field_groups to our wordpress installation on runtime
