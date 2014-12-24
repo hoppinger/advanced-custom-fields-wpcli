@@ -1,4 +1,6 @@
-<?php namespace ACFWPCLI;
+<?php
+
+namespace ACFWPCLI;
 
 use WP_CLI;
 

@@ -1,8 +1,11 @@
-<?php namespace ACFWPCLI\Commands;
+<?php
+
+namespace ACFWPCLI\Commands;
 
 use WP_CLI;
 use WP_CLI_Command;
 use ACFWPCLI\Fieldgroup;
+
 /**
  * Implement ACF command
  *
