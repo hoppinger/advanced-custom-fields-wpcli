@@ -189,7 +189,7 @@ class ACF5_Command extends WP_CLI_Command {
     } else {
 
       if ( isset( $group ) ) {
-        $choice = $this->get_path_by_groupname($group);
+        $choice = $this->get_path_by_groupname( $group );
       } else {
         $choice = $this->select_import_fieldgroup();
       }
@@ -303,7 +303,7 @@ class ACF5_Command extends WP_CLI_Command {
       }
     }
 
-    return $this->choice( $choices, 'Choose a fieldgroup to import');
+    return $this->choice( $choices, 'Choose a fieldgroup to import' );
   }
 
   private function choice( $choices, $question = false ) {
@@ -340,7 +340,7 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   public function get_path_by_groupname( $groupname ) {
-    $groupname = sanitize_title($groupname);
+    $groupname = sanitize_title( $groupname );
 
     foreach ( $this->paths as $path ) {
       if ( ! file_exists( $path ) ) continue;
@@ -365,205 +365,187 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   private function import_field_group( $file ) {
-    //Start acf 5 import
     // read file
     $json = file_get_contents( $file );
-
 
     // decode json
     $json = json_decode( $json, true );
 
     // if importing an auto-json, wrap field group in array
     if ( isset( $json['key'] ) ) {
-
       $json = array( $json );
-
     }
 
     // vars
-    $ref      = array();
-    $order    = array();
+    $ref    = array();
+    $order  = array();
 
-    foreach ( $json as $field_group ) :
-
+    foreach ( $json as $field_group ) {
       // remove fields
       $fields = acf_extract_var( $field_group, 'fields' );
 
-    // format fields
-    $fields = acf_prepare_fields_for_import( $fields );
+      // format fields
+      $fields = acf_prepare_fields_for_import( $fields );
 
-    // save field group
-    $field_group = acf_update_field_group( $field_group );
+      // save field group
+      $field_group = acf_update_field_group( $field_group );
 
+      // add to ref
+      $ref[ $field_group['key'] ] = $field_group['ID'];
 
-    // add to ref
-    $ref[ $field_group['key'] ] = $field_group['ID'];
+      // add to order
+      $order[ $field_group['ID'] ] = 0;
 
+      // add fields
+      foreach ( $fields as $field ) {
+        // add parent
+        if ( empty( $field['parent'] ) ) {
+          $field['parent'] = $field_group['ID'];
+        } elseif ( isset( $ref[ $field['parent'] ] ) ) {
+          $field['parent'] = $ref[ $field['parent'] ];
+        }
 
-    // add to order
-    $order[ $field_group['ID'] ] = 0;
+        // add field menu_order
+        if ( !isset( $order[ $field['parent'] ] ) ) {
+          $order[ $field['parent'] ] = 0;
+        }
 
+        $field['menu_order'] = $order[ $field['parent'] ];
+        $order[ $field['parent'] ]++;
 
-    // add fields
-    foreach ( $fields as $field ) :
+        // save field
+        $field = acf_update_field( $field );
 
-      // add parent
-      if ( empty( $field['parent'] ) ) {
+        // add to ref
+        $ref[ $field['key'] ] = $field['ID'];
+      }
 
-        $field['parent'] = $field_group['ID'];
-
-      } elseif ( isset( $ref[ $field['parent'] ] ) ) {
-
-      $field['parent'] = $ref[ $field['parent'] ];
-
+      WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
     }
-
-    // add field menu_order
-    if ( !isset( $order[ $field['parent'] ] ) ) {
-
-      $order[ $field['parent'] ] = 0;
-
-    }
-
-    $field['menu_order'] = $order[ $field['parent'] ];
-    $order[ $field['parent'] ]++;
-
-
-    // save field
-    $field = acf_update_field( $field );
-
-
-    // add to ref
-    $ref[ $field['key'] ] = $field['ID'];
-
-    endforeach;
-
-    WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
-    endforeach;
   }
 
-  private function import_multisite($args, $assoc_args ) {
+  private function import_multisite( $args, $assoc_args ) {
     $choice           = $this->select_blog();
-      switch_to_blog( $choice );
+    switch_to_blog( $choice );
 
-      if ( ! isset( $args[0] ) ) {
+    if ( ! isset( $args[0] ) ) {
 
-        $choices = array();
-        $choices['all'] = 'all';
+      $choices = array();
+      $choices['all'] = 'all';
 
-        foreach ( $this->paths as $path ) {
+      foreach ( $this->paths as $path ) {
 
-          if ( ! file_exists( $path ) ) continue;
+        if ( ! file_exists( $path ) ) continue;
 
-          if ( $dir = opendir( $path ) ) {
-            while ( false !== ( $folder = readdir( $dir ) ) ) {
-              if ( $folder != '.' && $folder != '..' ) {
-                $key = trailingslashit( $path . $folder );
-                $choices[ $key ] = $folder;
-              }
+        if ( $dir = opendir( $path ) ) {
+          while ( false !== ( $folder = readdir( $dir ) ) ) {
+            if ( $folder != '.' && $folder != '..' ) {
+              $key = trailingslashit( $path . $folder );
+              $choices[ $key ] = $folder;
             }
           }
         }
+      }
 
-        while ( true ) {
-          $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
-          \cli\line();
+      while ( true ) {
+        $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
+        \cli\line();
 
-          break;
+        break;
+      }
+    }
+
+    $patterns = array();
+    if ( $choice == 'all' ) {
+      foreach ( $this->paths as $key => $value )
+        $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
+    } else {
+      $patterns[] = $choice . 'data.json';
+    }
+
+    foreach ( $patterns as $pattern ) {
+      $i = 0;
+      //echo $pattern."\n";
+      foreach ( glob( $pattern ) as $file ) {
+        //Start acf 5 import
+        // read file
+        $json = file_get_contents( $file );
+
+
+        // decode json
+        $json = json_decode( $json, true );
+
+        // if importing an auto-json, wrap field group in array
+        if ( isset( $json['key'] ) ) {
+          $json = array( $json );
         }
-      }
 
-      $patterns = array();
-      if ( $choice == 'all' ) {
-        foreach ( $this->paths as $key => $value )
-          $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
-      } else {
-        $patterns[] = $choice . 'data.json';
-      }
+        // vars
+        $ref      = array();
+        $order    = array();
 
-      foreach ( $patterns as $pattern ) {
-        $i = 0;
-        //echo $pattern."\n";
-        foreach ( glob( $pattern ) as $file ) {
-          //Start acf 5 import
-          // read file
-          $json = file_get_contents( $file );
+        foreach ( $json as $field_group ) :
+
+          // remove fields
+          $fields = acf_extract_var( $field_group, 'fields' );
 
 
-          // decode json
-          $json = json_decode( $json, true );
-
-          // if importing an auto-json, wrap field group in array
-          if ( isset( $json['key'] ) ) {
-            $json = array( $json );
-          }
-
-          // vars
-          $ref      = array();
-          $order    = array();
-
-          foreach ( $json as $field_group ) :
-
-            // remove fields
-            $fields = acf_extract_var( $field_group, 'fields' );
+        // format fields
+        $fields = acf_prepare_fields_for_import( $fields );
 
 
-          // format fields
-          $fields = acf_prepare_fields_for_import( $fields );
+        // save field group
+        $field_group = acf_update_field_group( $field_group );
 
 
-          // save field group
-          $field_group = acf_update_field_group( $field_group );
+        // add to ref
+        $ref[ $field_group['key'] ] = $field_group['ID'];
 
 
-          // add to ref
-          $ref[ $field_group['key'] ] = $field_group['ID'];
+        // add to order
+        $order[ $field_group['ID'] ] = 0;
 
 
-          // add to order
-          $order[ $field_group['ID'] ] = 0;
+        // add fields
+        foreach ( $fields as $field ) :
 
+          // add parent
+          if ( empty( $field['parent'] ) ) {
 
-          // add fields
-          foreach ( $fields as $field ) :
+            $field['parent'] = $field_group['ID'];
 
-            // add parent
-            if ( empty( $field['parent'] ) ) {
+          } elseif ( isset( $ref[ $field['parent'] ] ) ) {
 
-              $field['parent'] = $field_group['ID'];
-
-            } elseif ( isset( $ref[ $field['parent'] ] ) ) {
-
-            $field['parent'] = $ref[ $field['parent'] ];
-
-          }
-
-          // add field menu_order
-          if ( !isset( $order[ $field['parent'] ] ) ) {
-
-            $order[ $field['parent'] ] = 0;
-
-          }
-
-          $field['menu_order'] = $order[ $field['parent'] ];
-          $order[ $field['parent'] ]++;
-
-
-          // save field
-          $field = acf_update_field( $field );
-
-
-          // add to ref
-          $ref[ $field['key'] ] = $field['ID'];
-
-          endforeach;
-
-          WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
-          endforeach;
+          $field['parent'] = $ref[ $field['parent'] ];
 
         }
-        $i++;
-        if ( $i===1 ) break;
+
+        // add field menu_order
+        if ( !isset( $order[ $field['parent'] ] ) ) {
+
+          $order[ $field['parent'] ] = 0;
+
+        }
+
+        $field['menu_order'] = $order[ $field['parent'] ];
+        $order[ $field['parent'] ]++;
+
+
+        // save field
+        $field = acf_update_field( $field );
+
+
+        // add to ref
+        $ref[ $field['key'] ] = $field['ID'];
+
+        endforeach;
+
+        WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
+        endforeach;
+
       }
+      $i++;
+      if ( $i===1 ) break;
+    }
   }
 }
