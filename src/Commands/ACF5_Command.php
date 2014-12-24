@@ -103,32 +103,26 @@ class ACF5_Command extends WP_CLI_Command {
     }
 
     foreach ( $field_groups as $group ) {
-      $title            = get_the_title( $group->ID );
-      $sanitized_title  = sanitize_title( $title );
-      $subpath          = $export_path . $sanitized_title;
-      $field_group_array = array();
-
+      $title       = get_the_title( $group->ID );
+      $subpath     = $export_path . sanitize_title( $title );
       $field_group = acf_get_field_group( $group->ID ) ;
 
       // validate field group
       if ( empty( $field_group ) ) {
-
         continue;
-
       }
 
       // load fields
       $fields = acf_get_fields( $field_group );
 
-
       // prepare fields
       $fields = acf_prepare_fields_for_export( $fields );
 
+      // extract field group ID
+      acf_extract_var( $field_group, 'ID' );
 
       // add to field group
       $field_group['fields'] = $fields;
-
-      $json = acf_json_encode( $field_group );
 
       // each field_group gets it's own folder by field_group name
       if ( ! is_dir( $subpath ) && ! mkdir( $subpath, 0755, false ) ) {
@@ -136,7 +130,7 @@ class ACF5_Command extends WP_CLI_Command {
       }
 
       $this->write_data_php_file( $title, $subpath, $field_group );
-      $this->write_data_json_file( $title, $subpath, $json );
+      $this->write_data_json_file( $title, $subpath, $field_group );
 
     }
 
@@ -521,7 +515,8 @@ class ACF5_Command extends WP_CLI_Command {
     WP_CLI::success( 'Fieldgroup "' . $title . '" data.php exported' );
   }
 
-private function write_data_json_file( $title, $subpath, $json ) {
+private function write_data_json_file( $title, $subpath, $field_group ) {
+    $json   = acf_json_encode( $field_group );
     $fp     = fopen( $subpath . '/' ."data.json", "w" );
     fwrite( $fp, $json );
     fclose( $fp );
