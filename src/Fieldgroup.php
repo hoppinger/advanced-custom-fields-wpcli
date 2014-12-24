@@ -38,26 +38,7 @@ class Fieldgroup {
 
       // add fields
       foreach ( $fields as $field ) {
-        // add parent
-        if ( empty( $field['parent'] ) ) {
-          $field['parent'] = $field_group['ID'];
-        } elseif ( isset( $ref[ $field['parent'] ] ) ) {
-          $field['parent'] = $ref[ $field['parent'] ];
-        }
-
-        // add field menu_order
-        if ( !isset( $order[ $field['parent'] ] ) ) {
-          $order[ $field['parent'] ] = 0;
-        }
-
-        $field['menu_order'] = $order[ $field['parent'] ];
-        $order[ $field['parent'] ]++;
-
-        // save field
-        $field = acf_update_field( $field );
-
-        // add to ref
-        $ref[ $field['key'] ] = $field['ID'];
+        Field::import( $field, $field_group );
       }
 
       WP_CLI::success( 'imported the data.json for field_group ' . $field_group['title'] .'" into the dabatase!' );
