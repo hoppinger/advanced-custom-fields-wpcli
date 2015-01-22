@@ -13,7 +13,7 @@ class ACF5_Command extends WP_CLI_Command {
   function __construct() {
     $this->paths = array(
       'active_theme'        => get_template_directory() . '/field-groups/',
-      'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
+      // 'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
       'child_themes_shared' => ABSPATH . 'field-groups/shared-childs/',
     );
 
@@ -221,7 +221,7 @@ class ACF5_Command extends WP_CLI_Command {
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
- if ( ! isset( $args[0] ) ) {
+      if ( ! isset( $args[0] ) ) {
 
         $choices = array();
         $choices['all'] = 'all';
@@ -238,7 +238,8 @@ class ACF5_Command extends WP_CLI_Command {
               }
             }
           }
-        }
+          
+        } // Foreach
 
         while ( true ) {
           $choice = \cli\menu( $choices, null, __( 'Choose a fieldgroup to import', 'acf-wpcli' ) );
@@ -246,6 +247,8 @@ class ACF5_Command extends WP_CLI_Command {
 
           break;
         }
+      } elseif ( isset( $args[0] ) && $args[0] == 'all' ) {
+        $choice = 'all';
       }
 
       $patterns = array();
@@ -346,6 +349,8 @@ class ACF5_Command extends WP_CLI_Command {
 
     } else {
 
+      $choice = false; // Initialize $choice
+
       if ( ! isset( $args[0] ) ) {
 
         $choices = array();
@@ -371,6 +376,8 @@ class ACF5_Command extends WP_CLI_Command {
 
           break;
         }
+      } elseif ( isset( $args[0] ) && $args[0] == 'all' ) {
+        $choice = 'all';
       }
 
       $patterns = array();
