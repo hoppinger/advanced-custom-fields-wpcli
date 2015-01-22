@@ -21,7 +21,7 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   /**
-   * Example subcommand
+   * Provides a list of field groups in the current 
    *
    * @param array   $args
    */
@@ -62,7 +62,21 @@ class ACF5_Command extends WP_CLI_Command {
 
   }
 
-  function export( $args, $assoc_args ) {
+  /**
+   * Export fieldgroups.
+   * 
+   * ## OPTIONS
+   * 
+   * [--all]
+   * : Skip select a fieldgroup prompt
+   * 
+   * [--export-path]
+   * : Skip selecting an export path prompt, just provide the slug
+   * 
+   * ## EXAMPLES
+   * 
+   */
+  function export( $args = array(), $assoc_args ) {
 
     // if empty it will show export all fields
     $export_field = '';
@@ -72,8 +86,8 @@ class ACF5_Command extends WP_CLI_Command {
       switch_to_blog( $choice );
     }
 
-    //if export all is used skip the question popup
-    if ( empty( $args ) || ( $args[0] != 'all' ) ) {
+    // if export all is used skip the question popup
+    if ( $args[0] !== 'all' && empty( $args ) && false === isset( $assoc_args['all'] ) ){
       $export_field = $this->select_acf_field();
     }
 
@@ -182,9 +196,11 @@ class ACF5_Command extends WP_CLI_Command {
       echo ' ';
     }
     if ( is_multisite() ) restore_current_blog();
-
   }
 
+  /**
+   * Cleans up the database from all found ACF post types and their coupled post_meta values.
+   */
   function clean( $args = array() ) {
     if ( is_multisite() ) {
       $blog_list = wp_get_sites();
@@ -214,14 +230,19 @@ class ACF5_Command extends WP_CLI_Command {
     WP_CLI::success( 'cleaned up everything ACF related in the database' );
   }
 
-
-  function import( $args, $assoc_args ) {
+  /**
+   * Import field groups.
+   * 
+   * ## Options
+   * 
+   */
+  function import( $args = array(), $assoc_args ) {
     if ( is_multisite() ) {
 
       $choice           = $this->select_blog();
       switch_to_blog( $choice );
 
- if ( ! isset( $args[0] ) ) {
+      if ( ! isset( $args[0] ) ) {
 
         $choices = array();
         $choices['all'] = 'all';
