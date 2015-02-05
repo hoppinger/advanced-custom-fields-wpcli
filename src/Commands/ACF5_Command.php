@@ -247,8 +247,8 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_blog() {
-    $sites = wp_get_sites();
-
+    $sites   = wp_get_sites();
+    $choices = array();
     foreach ( $sites as $site ) {
       $blog = get_blog_details( $site['blog_id'] );
 
