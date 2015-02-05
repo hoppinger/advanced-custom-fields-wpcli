@@ -346,6 +346,7 @@ class ACF5_Command extends WP_CLI_Command {
 
   private function get_path_by_groupname( $groupname ) {
     $groupname = sanitize_title( $groupname );
+    $choices   = array();
 
     foreach ( $this->paths as $path ) {
       if ( ! file_exists( $path ) ) continue;
