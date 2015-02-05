@@ -34,22 +34,25 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   /**
-   * Export ACF field groups to local files
-   *
-   * ## OPTIONS
-   *
-   * [--group=<group>]
-   * : The fieldgroup to export, can used with "Group Name" or "group-name"
-   *
-   * [--export_path=<path>]
-   * : The fieldgroups directory path to export the fieldgroup into
-   *
-   * [--all]
-   * : Export all the fieldgroups
-   *
-   * @subcommand export
-   *
-   */
+  * Export ACF field groups to local files
+  *
+  * ## OPTIONS
+  *
+  * [--group=<group>]
+  * : The fieldgroup to export, can used with "Group Name" or "group-name"
+  *
+  * [--export_path=<path>]
+  * : The fieldgroups directory path to export the fieldgroup into
+  *
+  * [--all]
+  * : Export all the fieldgroups
+  *
+  * [--url=<siteurl>]
+  * : Pretend request came from given URL. In multisite, this argument is how the target site is specified.
+  *
+  * @subcommand export
+  *
+  */
   public function export( $args, $assoc_args ) {
     extract( $assoc_args );
 
@@ -137,16 +140,19 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   /**
-   * Remove everything ACF from the database
-   *
-   * ## OPTIONS
-   *
-   * [--network]
-   * : Clean the fieldgroups in all the sites in the network
-   *
-   * @subcommand clean
-   *
-   */
+  * Remove everything ACF from the database
+  *
+  * ## OPTIONS
+  *
+  * [--network]
+  * : Clean the fieldgroups in all the sites in the network
+  *
+  * [--url=<siteurl>]
+  * : Pretend request came from given URL. In multisite, this argument is how the target site is specified.
+  *
+  * @subcommand clean
+  *
+  */
   public function clean( $args, $assoc_args ) {
     extract( $assoc_args );
 
@@ -189,19 +195,22 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   /**
-   * Import ACF field groups from local files to database
-   *
-   * ## OPTIONS
-   *
-   * [--group=<group>]
-   * : The fieldgroup to import, can used with "Group Name" or "group-name"
-   *
-   * [--all]
-   * : Import all the fieldgroups
-   *
-   * @subcommand import
-   *
-   */
+  * Import ACF field groups from local files to database
+  *
+  * ## OPTIONS
+  *
+  * [--group=<group>]
+  * : The fieldgroup to import, can used with "Group Name" or "group-name"
+  *
+  * [--all]
+  * : Import all the fieldgroups
+  *
+  * [--url=<siteurl>]
+  * : Pretend request came from given URL. In multisite, this argument is how the target site is specified.
+  *
+  * @subcommand import
+  *
+  */
   public function import( $args, $assoc_args ) {
     extract( $assoc_args );
     $wpcli_config = WP_CLI::get_config();
@@ -335,7 +344,7 @@ class ACF5_Command extends WP_CLI_Command {
     WP_CLI::success( 'Fieldgroup "' . $title . '" data.json exported' );
   }
 
-  public function get_path_by_groupname( $groupname ) {
+  private function get_path_by_groupname( $groupname ) {
     $groupname = sanitize_title( $groupname );
 
     foreach ( $this->paths as $path ) {
