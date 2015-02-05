@@ -74,6 +74,7 @@ If you would like to disable this behaviour you can remove the `acf_wpcli_regist
 	Example:
 ```php
   add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
+
 	public function add_plugin_path( $paths ) {
     $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
     return $paths;
