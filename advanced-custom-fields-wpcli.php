@@ -13,12 +13,28 @@ https://github.com/hoppinger/advanced-custom-fields-wpcli/blob/master/LICENCE.tx
 define( 'ACF_WPCLI_ROOT', __DIR__ );
 define( 'ACF_WPCLI_URL', plugin_dir_url( __FILE__ ) );
 
-require 'vendor/autoload.php';
+/**
+ * Require the autoloader if this plugin is being used without composer
+ *
+ * @since 2.0.0
+ */
+if ( ! class_exists( 'Aura\Autoload\Loader' ) ) {
+  require 'lib/aura/autoload/Loader.php';
+}
 
-// instantiate loader and register namespaces
+/**
+ * Make instance of Autoloader
+ * Set the namespace
+ *
+ * @since 2.0.0
+ */
 $loader = new \Aura\Autoload\Loader;
 $loader->register();
 $loader->addPrefix( 'ACFWPCLI', __DIR__ . '/src/' );
 
-// instantiate this plugin
+/**
+ * Make instance of plugin
+ *
+ * @since 2.0.0
+ */
 new \ACFWPCLI\Plugin;
