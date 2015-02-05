@@ -279,6 +279,9 @@ class ACF5_Command extends WP_CLI_Command {
     return $this->choice( $choices, __( 'Choose a fieldgroup to export', 'acf-wpcli' ) );
   }
 
+  /**
+   * @return string
+   */
   protected function select_export_path() {
     $choices  = array();
 
@@ -326,6 +329,9 @@ class ACF5_Command extends WP_CLI_Command {
     return $choice;
   }
 
+  /**
+   * @param string $subpath
+   */
   private function write_data_php_file( $title, $subpath, $field_group ) {
     $fp     = fopen( $subpath . '/' ."data.php", "w" );
     $output = "<?php \n\$group = " . var_export( $field_group , true ) . ';';
@@ -335,6 +341,9 @@ class ACF5_Command extends WP_CLI_Command {
     WP_CLI::success( 'Fieldgroup "' . $title . '" data.php exported' );
   }
 
+  /**
+   * @param string $subpath
+   */
   private function write_data_json_file( $title, $subpath, $field_group ) {
     $json   = acf_json_encode( $field_group );
     $fp     = fopen( $subpath . '/' ."data.json", "w" );
