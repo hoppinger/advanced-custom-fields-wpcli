@@ -155,6 +155,7 @@ class ACF5_Command extends WP_CLI_Command {
   */
   public function clean( $args, $assoc_args ) {
     extract( $assoc_args );
+    $network = ( isset( $assoc_args['network'] ) ) ?  true : false;
 
     if ( $network ) {
       $blog_list = wp_get_sites();
