@@ -371,6 +371,8 @@ class ACF5_Command extends WP_CLI_Command {
 
           break;
         }
+      } else {
+        $choice = $args[0];
       }
 
       $patterns = array();
