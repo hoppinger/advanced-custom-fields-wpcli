@@ -15,10 +15,6 @@ class Plugin {
       if ( substr( get_option( 'acf_version' ), 0, 1 ) == 5 ) {
         // Include and register the class as the 'example' command handler
         WP_CLI::add_command( 'acf', 'ACFWPCLI\Commands\ACF5_Command' );
-      } else {
-        // Include and register the class as the 'example' command handler
-        include 'ACFCommand.php';
-        WP_CLI::add_command( 'acf', 'ACFCommand' );
       }
     }
   }
