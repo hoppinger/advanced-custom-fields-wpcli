@@ -1,6 +1,6 @@
 # WP-CLI for Advanced Custom Fields
 
-This extension for Advanced Custom Fields that makes it possible to manage your `field-groups` through the console of [wp-cli](http://http://wp-cli.org/). The goal of this project is to make life easier for developers who working on Wordpress projects that use Advanced Custom Fields and love the WP-CLI command line tools.
+This extension for Advanced Custom Fields that makes it possible to manage your `field-groups` through the console of [wp-cli](http://wp-cli.org/). The goal of this project is to make life easier for developers who working on Wordpress projects that use Advanced Custom Fields and love the WP-CLI command line tools.
 
 
 ## Reasons to start this project
