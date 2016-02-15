@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "--- Starting continuous integration build"
+
+echo "--- Running PHP CodeSniffer"
+
+./vendor/bin/phpcs --standard=.phpcodesniffer.xml
+
+echo "--- Completed continuous integration"
