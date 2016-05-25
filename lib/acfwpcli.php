@@ -1,10 +1,5 @@
 <?php
 
-require 'acfwpcli/cli.php';
-require 'acfwpcli/field.php';
-require 'acfwpcli/field_group.php';
-require 'acfwpcli/utils.php';
-
 class ACFWPCLI {
   public function __construct() {
     $this->register_cli_command();

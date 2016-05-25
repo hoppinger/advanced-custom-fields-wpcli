@@ -79,7 +79,7 @@ class CLI extends WP_CLI_Command {
       $export_path = $this->menu_choice_export_path();
     }
 
-    $export_path = \ACFWPCLI\Utils::expand_tilde( $export_path );
+    $export_path = \ACFWPCLI\CLIUtils::expand_tilde( $export_path );
 
     if ( ! is_dir( $export_path ) && ! mkdir( $export_path, 0755, false ) ) {
       WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
@@ -143,7 +143,7 @@ class CLI extends WP_CLI_Command {
     extract( $assoc_args );
 
     if ( isset( $json_file ) ) {
-      $choice = \ACFWPCLI\Utils::expand_tilde( $json_file );
+      $choice = \ACFWPCLI\CLIUtils::expand_tilde( $json_file );
     } else {
       $choice = $this->menu_choice_import_field_group();
     }
