@@ -9,6 +9,7 @@ Author URI: http://www.hoppinger.com/
 License: MIT
 https://github.com/hoppinger/advanced-custom-fields-wpcli/blob/master/LICENCE.txt
 */
-require 'vendor/autoload.php';
+
+require 'lib/acfwpcli.php';
 
 $acfwpcli = new ACFWPCLI;

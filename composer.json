@@ -14,9 +14,6 @@
         }
     ],
     "minimum-stability": "stable",
-    "autoload": {
-        "classmap": ["lib/"]
-    },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.5.*",
         "wp-coding-standards/wpcs": "0.8.*"
