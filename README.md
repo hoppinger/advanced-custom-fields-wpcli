@@ -66,8 +66,6 @@ If you would like to disable this behaviour you can remove the `acf_wpcli_regist
   remove_action('plugins_loaded', 'acf_wpcli_register_groups');
 ```
 
-<<<<<<< HEAD
-=======
 ### Filters
 
 * acfwpcli_fieldgroup_paths
@@ -82,8 +80,6 @@ If you would like to disable this behaviour you can remove the `acf_wpcli_regist
     return $paths;
   }
 ````
-
->>>>>>> v2.0
 
 ## TODOs
 
