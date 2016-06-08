@@ -35,7 +35,7 @@ class FieldGroup {
 
   public static function find_by_name( $name ) {
     global $wpdb;
-    $query = "SELECT * FROM wp_posts WHERE post_type='acf-field-group' AND post_excerpt = %s";
+    $query = "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_excerpt = %s";
 
     $results = $wpdb->get_results( $wpdb->prepare( $query, $name ) );
 
