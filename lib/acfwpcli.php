@@ -31,7 +31,7 @@ class ACFWPCLI {
       if ( ! is_dir( $value ) ) {
         continue;
       }
-      $patterns[ $key ] = trailingslashit( $value ) . '*/data.json';
+      $patterns[ $key ] = trailingslashit( $value ) . '*.json';
     }
 
     $added_groups = [];
