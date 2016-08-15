@@ -220,7 +220,9 @@ class ACF5_Command extends WP_CLI_Command {
       WP_CLI::warning( 'You are runnning a multisite. Use the --url=<url> parameter to specify which site you want to target.' );
     }
 
-    if ( isset( $group ) ) {
+    if ( isset( $all ) ) {
+      $choice = 'all';
+    } else if ( isset( $group ) ) {
       $choice = $this->get_path_by_groupname( $group );
     } else {
       $choice = $this->select_import_fieldgroup();
