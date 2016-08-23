@@ -87,7 +87,7 @@ class CLI extends WP_CLI_Command {
 
     foreach ( $field_groups as $post ) {
       $field_group = \ACFWPCLI\FieldGroup::to_array( $post );
-      $file = $export_path . sanitize_title( $post->post_title ) . '.json';
+      $file = trailingslashit( $export_path ) . sanitize_title( $post->post_title ) . '.json';
 
       \ACFWPCLI\FieldGroup::to_json_file( $field_group, $file );
       WP_CLI::success( "Exported field group: {$post->post_title}" );
