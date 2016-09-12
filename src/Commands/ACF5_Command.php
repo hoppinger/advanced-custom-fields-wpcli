@@ -157,8 +157,10 @@ class ACF5_Command extends WP_CLI_Command {
     extract( $assoc_args );
     $network = ( isset( $assoc_args['network'] ) ) ?  true : false;
 
+    $blog_list = array();
     if ( $network ) {
-      $blog_list = wp_get_sites();
+      $get_sites = get_sites();
+      $blog_list[] = array( 'blog_id' =>  $get_sites->blog_id );
     } else {
       $blog_list   = array();
       $blog_list[] = array( 'blog_id' =>  get_current_blog_id() );
@@ -248,12 +250,12 @@ class ACF5_Command extends WP_CLI_Command {
   }
 
   protected function select_blog() {
-    $sites   = wp_get_sites();
+    $sites   = get_sites();
     $choices = array();
     foreach ( $sites as $site ) {
-      $blog = get_blog_details( $site['blog_id'] );
+      $blog = get_blog_details( $site->blog_id );
 
-      $choices[ $site['blog_id'] ] = $blog->blogname . ' - ' . $blog->domain . $blog->path;
+      $choices[ $site->blog_id ] = $blog->blogname . ' - ' . $blog->domain . $blog->path;
     }
 
     return $this->choice( $choices, __( 'Choose a blog', 'acf-wpcli' ) );
