@@ -47,11 +47,12 @@ install_wp() {
 install_acf() {
   read -e -p "ACF Path: " GF_DIR
 
-  cp -rf $GF_DIR $WP_CORE_DIR/wp-content/plugins
+  ln -s $GF_DIR $WP_CORE_DIR/wp-content/plugins
   php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
 }
 
 create_symlink_to_acf_wpcli() {
+  # ToDo: Make path variable
   ln -s /Users/Marcel/Sites/Hoppinger/advanced-custom-fields-wpcli/advanced-custom-fields-wpcli $WP_CORE_DIR/wp-content/plugins
   php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields-wpcli
 }

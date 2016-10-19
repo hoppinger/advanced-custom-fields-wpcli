@@ -8,7 +8,7 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context
+class FeatureContext extends CommandFeature implements Context
 {
     /**
      * Initializes context.
@@ -19,6 +19,7 @@ class FeatureContext implements Context
      */
     public function __construct()
     {
+
     }
 
     /**
@@ -26,15 +27,22 @@ class FeatureContext implements Context
      */
     public function aWpInstall()
     {
-        throw new PendingException();
+        $result = $this->run("core is-installed");
+        $this->testResultCode($result);
+    }
+
+    private function testResultCode($result, $expected = 0) {
+      PHPUnit_Framework_Assert::assertEquals($expected, (int) $result['exitCode'], "Exit code does not match expected");
     }
 
     /**
-     * @When I run :arg1
+     * @When I run the wp-cli command :arg1
      */
-    public function iRun($arg1)
+    public function iRun($command)
     {
-        throw new PendingException();
+      $result = $this->run($command);
+
+      var_dump($result); 
     }
 
     /**
