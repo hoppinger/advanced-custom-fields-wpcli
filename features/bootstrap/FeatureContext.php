@@ -13,6 +13,9 @@ class FeatureContext extends CommandFeature implements Context
   private $importsPath = '';
   private $exportsPath = '';
 
+  private $filename = '';
+
+
   private $importResult = null;
   private $exportResult = null;
 
@@ -47,7 +50,8 @@ class FeatureContext extends CommandFeature implements Context
    */
   public function iRun($file)
   {
-    $path = $this->importsPath.$file;
+    $this->filename = $file;
+    $path = $this->importsPath.$this->filename;
 
     $this->importResult = $this->run( "acf import --json_file='{$path}'" );
   }
@@ -108,5 +112,17 @@ class FeatureContext extends CommandFeature implements Context
     public function theExportResultStringShouldStartWith($expected_start)
     {
       PHPUnit_Framework_Assert::assertStringStartsWith($expected_start, $this->exportResult['output_string']);
+    }
+
+    /**
+     * @Then the exported file should match the original import file
+     */
+    public function theExportedFileShouldMatchTheOriginalImportFile()
+    {
+      $original = json_decode(file_get_contents($this->importsPath.$this->filename), true);
+      $export   = json_decode(file_get_contents($this->exportsPath.$this->filename), true);
+
+
+      PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
     }
 }

@@ -1,25 +1,25 @@
 [
     {
-        "key": "group_58076845ef35a",
-        "title": "mygroup",
+        "key": "group_580096d78bf20",
+        "title": "Text Group",
         "fields": [
             {
-                "key": "field_5807684cea534",
-                "label": "Name",
-                "name": "name",
+                "key": "field_580096e85e146",
+                "label": "text field",
+                "name": "text_field",
                 "type": "text",
-                "instructions": "Please enter your name",
-                "required": 1,
+                "instructions": "This is text field",
+                "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
                     "width": "",
                     "class": "",
                     "id": ""
                 },
-                "default_value": "Marcel",
-                "placeholder": "Your name please",
-                "prepend": "pre",
-                "append": "app",
+                "default_value": "default value",
+                "placeholder": "placeholder",
+                "prepend": "prepend",
+                "append": "append",
                 "maxlength": 40
             }
         ],
@@ -39,6 +39,6 @@
         "instruction_placement": "label",
         "hide_on_screen": "",
         "active": 1,
-        "description": "Something to enter your name"
+        "description": "Group_Description"
     }
 ]
