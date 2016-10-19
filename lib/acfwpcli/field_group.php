@@ -12,10 +12,15 @@ class FieldGroup {
   public static function import( $file ) {
     $field_group = self::from_json_file( $file );
 
+    $title = $field_group[0]["title"];
+
     $fields = acf_extract_var( $field_group, 'fields' );
     $fields = acf_prepare_fields_for_import( $fields );
 
+    $field_group['title'] = $title;
     $field_group = acf_update_field_group( $field_group );
+
+
 
     foreach ( $fields as $field ) {
       Field::import( $field, $field_group );

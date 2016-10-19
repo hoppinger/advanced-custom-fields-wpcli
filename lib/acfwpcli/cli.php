@@ -159,7 +159,6 @@ class CLI extends WP_CLI_Command {
     foreach ( $patterns as $pattern ) {
       foreach ( glob( $pattern ) as $file ) {
         $field_group = \ACFWPCLI\FieldGroup::import( $file );
-
         WP_CLI::success( "Imported field group: {$field_group['title']}" );
       }
     }

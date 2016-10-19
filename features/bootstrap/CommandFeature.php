@@ -2,8 +2,10 @@
 
 class CommandFeature {
   protected function run($command) {
-    exec( "php /private/tmp/wordpress/wp-cli.phar --path=/private/tmp/wordpress {$command}", $output, $exitCode );
+    $cmd = "php /private/tmp/wordpress/wp-cli.phar --path=/private/tmp/wordpress {$command}";
 
-    return ['exitCode' => $exitCode, 'output' => $output];
+    $output_string = exec( $cmd, $output, $exitCode );
+
+    return ['exitCode' => $exitCode, 'output' => $output, 'output_string' => $output_string];
   }
 }
