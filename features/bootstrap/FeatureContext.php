@@ -86,8 +86,6 @@ class FeatureContext extends CommandFeature implements Context
   public function iRunTheWpCliCommandToExportCustomField($customField)
   {
     $this->exportResult = $this->run("acf export --field_group='{$customField}' --export_path='{$this->exportsPath}'");
-
-    var_dump($this->exportResult);
   }
 
   /**
@@ -121,7 +119,6 @@ class FeatureContext extends CommandFeature implements Context
     {
       $original = json_decode(file_get_contents($this->importsPath.$this->filename), true);
       $export   = json_decode(file_get_contents($this->exportsPath.$this->filename), true);
-
 
       PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
     }
