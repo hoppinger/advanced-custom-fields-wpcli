@@ -111,7 +111,7 @@ class CLI extends WP_CLI_Command {
     $field_groups = \ACFWPCLI\FieldGroup::all();
     $fields       = \ACFWPCLI\Field::all();
 
-    if ( empty( $field_groups ) && empty( $fields ) ) {
+    if ( empty( $field_groups[0] ) && empty( $fields ) ) {
       WP_CLI::warning( 'No field groups or fields found to clean up.' );
     }
 

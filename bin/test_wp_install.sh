@@ -11,8 +11,10 @@ DB_PASS=$3
 DB_HOST=${4-localhost}
 WP_VERSION=${5-latest}
 
-read -e -p "Where do you want to install wordpress? " WP_CORE_DIR
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+#read -e -p "Where do you want to install wordpress? " WP_CORE_DIR
+WP_CORE_DIR=$MY_DIR/wordpress/
 # ToDo: Make variable
 # WP_CORE_DIR=/private/tmp/wordpress/
 
@@ -55,7 +57,9 @@ install_acf() {
 
 create_symlink_to_acf_wpcli() {
   # ToDo: Make path variable
-  read -e -p "ACF WP-CLI Path: " ACF_WPCLI_DIR
+  # read -e -p "ACF WP-CLI Path: " ACF_WPCLI_DIR
+
+  ACF_WPCLI_DIR="$(dirname "$MY_DIR")"
 
   ln -s $ACF_WPCLI_DIR $WP_CORE_DIR/wp-content/plugins
   php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields-wpcli

@@ -15,9 +15,10 @@ class FeatureContext extends CommandFeature implements Context
 
   private $filename = '';
 
-
   private $importResult = null;
   private $exportResult = null;
+
+  private $cleanResult = null;
 
   /**
    * Initializes context.
@@ -101,30 +102,68 @@ class FeatureContext extends CommandFeature implements Context
     $this->testExitCode($this->exportResult, $expected_code);
   }
 
-    /**
-     * @Then the export result should not be empty
-     */
-    public function theExportResultShouldNotBeEmpty()
-    {
-        PHPUnit_Framework_Assert::assertNotEmpty($this->exportResult['output']);
-    }
+  /**
+   * @Then the export result should not be empty
+   */
+  public function theExportResultShouldNotBeEmpty()
+  {
+      PHPUnit_Framework_Assert::assertNotEmpty($this->exportResult['output']);
+  }
 
-    /**
-     * @Then the export result string should start with :arg1
-     */
-    public function theExportResultStringShouldStartWith($expected_start)
-    {
-      PHPUnit_Framework_Assert::assertStringStartsWith($expected_start, $this->exportResult['output_string']);
-    }
+  /**
+   * @Then the export result string should start with :arg1
+   */
+  public function theExportResultStringShouldStartWith($expected_start)
+  {
+    PHPUnit_Framework_Assert::assertStringStartsWith($expected_start, $this->exportResult['output_string']);
+  }
 
-    /**
-     * @Then the exported file should match the original import file
-     */
-    public function theExportedFileShouldMatchTheOriginalImportFile()
-    {
-      $original = json_decode(file_get_contents($this->importsPath.$this->filename), true);
-      $export   = json_decode(file_get_contents($this->exportsPath.$this->filename), true);
+  /**
+   * @Then the exported file should match the original import file
+   */
+  public function theExportedFileShouldMatchTheOriginalImportFile()
+  {
+    $original = json_decode(file_get_contents($this->importsPath.$this->filename), true);
+    $export   = json_decode(file_get_contents($this->exportsPath.$this->filename), true);
 
-      PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
+    PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
+  }
+
+  /**
+   * @Given a database with custom fields
+   */
+  public function aDatabaseWithCustomFields()
+  {
+    $imports = ['file', 'text', 'radio'];
+
+    foreach($imports as $import) {
+      $path = $this->importsPath.$import.'-group.json';
+      $this->run( "acf import --json_file='{$path}'" );
     }
+  }
+
+  /**
+   * @When I run the wp-cli command clean
+   */
+  public function iRunTheWpCliCommandClean()
+  {
+    $this->cleanResult = $this->run('acf clean');
+  }
+
+  /**
+   * @Then I expect the result code to be :arg1
+   */
+  public function iExpectTheResultCodeToBe($expected_code)
+  {
+    $this->testExitCode($this->cleanResult, $expected_code);
+  }
+
+  /**
+   * @Then I expect the database to no longer contain ACF records
+   */
+  public function iExpectTheDatabaseToNoLongerContainAcfRecords()
+  {
+    $newResult = $this->run('acf clean');
+    var_dump($newResult);
+  }
 }
