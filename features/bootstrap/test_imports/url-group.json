@@ -1,0 +1,48 @@
+[
+    {
+        "key": "group_58086f20470e7",
+        "title": "url-group",
+        "fields": [
+            {
+                "key": "field_58086f23145d3",
+                "label": "URL Field",
+                "name": "url_field",
+                "type": "url",
+                "instructions": "Please enter an URL!",
+                "required": 1,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "",
+                            "operator": "=="
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "",
+                    "class": "testclass",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]
