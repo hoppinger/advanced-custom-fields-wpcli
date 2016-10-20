@@ -28,6 +28,8 @@ class FeatureContext extends CommandFeature implements Context
    */
   public function __construct()
   {
+    parent::__construct();
+
     $this->importsPath = dirname(__FILE__).'/test_imports/';
     $this->exportsPath = dirname(__FILE__).'/test_exports/';
   }
