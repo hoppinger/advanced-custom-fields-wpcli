@@ -71,9 +71,6 @@ class FeatureContext extends CommandFeature implements Context
    */
   public function theImportResultShouldNotBeEmpty()
   {
-    if (empty($this->importResult['output'])) {
-      var_dump($this->importResult);
-    }
     PHPUnit_Framework_Assert::assertNotEmpty($this->importResult['output']);
   }
 
