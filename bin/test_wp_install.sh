@@ -14,7 +14,7 @@ WP_VERSION=${5-latest}
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #read -e -p "Where do you want to install wordpress? " WP_CORE_DIR
-WP_CORE_DIR=$MY_DIR/wordpress/
+WP_CORE_DIR="$(dirname "$MY_DIR")"/wordpress/
 # ToDo: Make variable
 # WP_CORE_DIR=/private/tmp/wordpress/
 
