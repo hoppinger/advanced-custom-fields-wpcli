@@ -11,8 +11,10 @@ DB_PASS=$3
 DB_HOST=${4-localhost}
 WP_VERSION=${5-latest}
 
+read -e -p "Where do you want to install wordpress? " WP_CORE_DIR
+
 # ToDo: Make variable
-WP_CORE_DIR=/private/tmp/wordpress/
+# WP_CORE_DIR=/private/tmp/wordpress/
 
 create_folder() {
   rm -rf $WP_CORE_DIR
@@ -45,15 +47,17 @@ install_wp() {
 }
 
 install_acf() {
-  read -e -p "ACF Path: " GF_DIR
+  read -e -p "ACF Path: " ACF_DIR
 
-  ln -s $GF_DIR $WP_CORE_DIR/wp-content/plugins
+  ln -s $ACF_DIR $WP_CORE_DIR/wp-content/plugins
   php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
 }
 
 create_symlink_to_acf_wpcli() {
   # ToDo: Make path variable
-  ln -s /Users/Marcel/Sites/Hoppinger/advanced-custom-fields-wpcli/advanced-custom-fields-wpcli $WP_CORE_DIR/wp-content/plugins
+  read -e -p "ACF WP-CLI Path: " ACF_WPCLI_DIR
+
+  ln -s $ACF_WPCLI_DIR $WP_CORE_DIR/wp-content/plugins
   php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields-wpcli
 }
 
