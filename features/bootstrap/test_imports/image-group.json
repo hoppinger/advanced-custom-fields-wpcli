@@ -1,0 +1,49 @@
+[
+    {
+        "key": "group_58087fab87a03",
+        "title": "image-group",
+        "fields": [
+            {
+                "key": "field_58087fae5e0b4",
+                "label": "image field",
+                "name": "image_field",
+                "type": "image",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "thumbnail",
+                "library": "all",
+                "min_width": 7357,
+                "min_height": 7357,
+                "min_size": 7357,
+                "max_width": 7357,
+                "max_height": 7357,
+                "max_size": 7357,
+                "mime_types": "jpg,png"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

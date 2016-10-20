@@ -1,0 +1,41 @@
+[
+    {
+        "key": "group_58087efe7cd49",
+        "title": "embed-group",
+        "fields": [
+            {
+                "key": "field_58087f0400d85",
+                "label": "oEmbed",
+                "name": "oembed",
+                "type": "oembed",
+                "instructions": "Embed something",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "12",
+                    "class": "",
+                    "id": ""
+                },
+                "width": "",
+                "height": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]
