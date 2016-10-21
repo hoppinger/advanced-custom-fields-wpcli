@@ -1,0 +1,46 @@
+[
+    {
+        "key": "group_5809de3f753a2",
+        "title": "tab-group",
+        "fields": [
+            {
+                "key": "field_5809de411024a",
+                "label": "Tab",
+                "name": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "left",
+                "endpoint": 1
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "2"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "seamless",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "the_content",
+            "comments",
+            "revisions",
+            "featured_image"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

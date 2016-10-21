@@ -1,0 +1,51 @@
+[
+    {
+        "key": "group_5809da4109c46",
+        "title": "taxonomy-group",
+        "fields": [
+            {
+                "key": "field_5809da4b7d710",
+                "label": "Taxonomy",
+                "name": "taxonomy",
+                "type": "taxonomy",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": "563"
+                },
+                "taxonomy": "category",
+                "field_type": "checkbox",
+                "allow_null": 0,
+                "add_term": 0,
+                "save_terms": 0,
+                "load_terms": 0,
+                "return_format": "id",
+                "multiple": 0
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 741,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "comments",
+            "revisions",
+            "slug"
+        ],
+        "active": 1,
+        "description": "Description"
+    }
+]

@@ -1,0 +1,46 @@
+[
+    {
+        "key": "group_5809dbd3c7d85",
+        "title": "date_picker-group",
+        "fields": [
+            {
+                "key": "field_5809dbd6472a8",
+                "label": "Date Picker",
+                "name": "date_picker",
+                "type": "date_picker",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "m\/d\/Y",
+                "return_format": "F j, Y",
+                "first_day": 2
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "seamless",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "the_content",
+            "excerpt",
+            "custom_fields"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

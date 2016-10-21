@@ -1,0 +1,54 @@
+[
+    {
+        "key": "group_5809dcda157c8",
+        "title": "date_time_picker-group",
+        "fields": [
+            {
+                "key": "field_5809dcdc01b9c",
+                "label": "Date Time Picker",
+                "name": "date_time_picker",
+                "type": "date_time_picker",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "60",
+                    "class": "date_time_picker",
+                    "id": ""
+                },
+                "display_format": "Y-m-d H:i:s",
+                "return_format": "F j, Y g:i a",
+                "first_day": 3
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "excerpt",
+            "custom_fields",
+            "discussion",
+            "comments",
+            "revisions",
+            "author",
+            "page_attributes",
+            "featured_image",
+            "categories",
+            "tags",
+            "send-trackbacks"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

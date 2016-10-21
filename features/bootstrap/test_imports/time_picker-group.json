@@ -1,0 +1,52 @@
+[
+    {
+        "key": "group_5809dd372d942",
+        "title": "time_picker-group",
+        "fields": [
+            {
+                "key": "field_5809dd39e7f23",
+                "label": "Time Picker",
+                "name": "time_picker",
+                "type": "time_picker",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "",
+                            "operator": "!="
+                        }
+                    ]
+                ],
+                "wrapper": {
+                    "width": "74",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "H:i:s",
+                "return_format": "H:i:s"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "user_form",
+                    "operator": "==",
+                    "value": "all"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "excerpt",
+            "discussion",
+            "comments"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]
