@@ -94,11 +94,10 @@ class FeatureContext extends CommandFeature implements Context
     }
 
     /**
-     * @Then the database should not contain any acf fields
+     * @Then the result should be empty
      */
-    public function theDatabaseShouldNotContainAnyAcfFields()
+    public function theResultShouldBeEmpty()
     {
-      $result = $this->run('acf clean');
-      var_dump($result);
+        PHPUnit_Framework_Assert::assertEmpty($this->result['output']);
     }
 }
