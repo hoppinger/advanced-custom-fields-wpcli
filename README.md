@@ -1,10 +1,10 @@
-Advanced Custom Fields WP-CLI
+#Advanced Custom Fields WP-CLI
 
-Manage your ACF field groups on the command line with wp-cli. Import and export your field groups to add them to git or any other vcs.
+Manage your ACF field groups on the command line with wp-cli. Import,export and clean your field groups to add them to git or any other vcs.
 
 #Requirements
     A WordPress installation
-    Advanced Custom Fields plugin or ACF5-PRO
+    Advanced Custom Fields plugin or ACF5-PRO plugin
     wp-cli http://wp-cli.org/
 
 #Installation
@@ -14,43 +14,28 @@ Manage your ACF field groups on the command line with wp-cli. Import and export 
 
 #Commands:
 
-Import
-  * Import ACF field groups from local files to database
-  *
-  * ## OPTIONS
-  *
-  * [--json_file=<json_file>]
-  * : The path to the json file.
-  *
-  * [--all]
-  * : Import all the fieldgroups
-  *
+**Import**
+  Import ACF field groups from local files to database
+
+  *## OPTIONS*
   * @subcommand import
-  *
-Export
-  * Export ACF field groups to local files
-  *
-  * ## OPTIONS
-  *
-  * [--group=<group>]
-  * : The field group to export, can be used with "My Field Group" or "my-field-group".
-  *
-  * [--export_path=<path>]
-  * : The field groups directory path to export towards.
-  *
-  * [--all]
-  * : Export all the fieldgroups.
-  *
+  * [--json_file=<json_file>]   : The path to the json file.
+  * [--all]                     : Import all the fieldgroups
+
+
+**Export**
+  Export ACF field groups to local files
+
+  *## OPTIONS*
   * @subcommand export
   * @synopsis [--field_group=<field_group>] [--export_path=<export_path>] [--all]
+  * [--group=<group>]           : The field group to export, can be used with "My Field Group" or "my-field-group".
+  * [--export_path=<path>]      : The field groups directory path to export towards.
+  * [--all]                     : Export all the fieldgroups.
 
-Clean
-  * Remove everything ACF from the database
-  *
-  * ## OPTIONS
-  *
-  * [--network]
-  * : Clean the fieldgroups in all the sites in the network
-  *
+**Clean**
+  Remove everything ACF from the database
+
+  *## OPTIONS*
   * @subcommand clean
-  *
+  * [--network]                 : Clean the fieldgroups in all the sites in the network
