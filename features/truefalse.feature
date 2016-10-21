@@ -2,13 +2,15 @@ Feature: Import and Export TRUE/FALSE Groups
 
   Scenario: Importing and exporting a field group with a true/false field
     Given a WP install
-    When I run the wp-cli command to import the file "truefalse-group.json"
-    Then the import result code should be 0
-    And the import result should not be empty
-    And the import result string should start with "Success:"
+    Then the exit code should be 0
 
-    When I run the wp-cli command to export custom field "truefalse-group"
-    Then the export result code should be 0
-    And the export result should not be empty
-    And the export result string should start with "Success:"
-    And the exported file should match the original import file
+    When I run the command "acf import --json_file='features/bootstrap/test_imports/truefalse-group.json'"
+    Then the exit code should be 0
+    And the result should not be empty
+    And the result string should start with "Success:"
+
+    When I run the command "acf export --field_group='truefalse-group' --export_path='features/bootstrap/test_exports/'"
+    Then the exit code should be 0
+    And the result should not be empty
+    And the result string should start with "Success:"
+    And the imported and exported "truefalse-group.json" files should match

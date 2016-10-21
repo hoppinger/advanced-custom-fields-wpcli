@@ -17,4 +17,12 @@ class CommandFeature {
 
     return ['exitCode' => $exitCode, 'output' => $output, 'output_string' => $output_string];
   }
+
+  protected function run_no_wp() {
+    $cmd = "echo $(pwd)";
+
+    $output_string = exec( $cmd, $output, $exitCode );
+
+    var_dump(['exitCode' => $exitCode, 'output' => $output, 'output_string' => $output_string]);
+  }
 }
