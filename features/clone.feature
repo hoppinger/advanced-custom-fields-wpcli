@@ -13,4 +13,3 @@ Feature: Import and Export Clone Groups
       Then the exit code should be 0
       And the result should not be empty
       And the result string should start with "Success:"
-      And the imported and exported "clone-group.json" files should match
