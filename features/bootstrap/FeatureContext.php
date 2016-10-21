@@ -80,4 +80,25 @@ class FeatureContext extends CommandFeature implements Context
 
       PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
     }
+
+    /**
+     * @Then acf fields in the database
+     */
+    public function acfFieldsInTheDatabase()
+    {
+        $fieldsToAdd = ['text', 'gallery', 'select'];
+
+        foreach($fieldsToAdd as $field) {
+            $this->run("acf import --json_file='{$this->importsPath}{$field}-group.json'");
+        }
+    }
+
+    /**
+     * @Then the database should not contain any acf fields
+     */
+    public function theDatabaseShouldNotContainAnyAcfFields()
+    {
+      $result = $this->run('acf clean');
+      var_dump($result);
+    }
 }
