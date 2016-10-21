@@ -9,8 +9,6 @@ class CommandFeature {
   }
 
   protected function run($command) {
-    //$cmd = "php /private/tmp/wordpress/wp-cli.phar --path=/private/tmp/wordpress {$command}";
-
     $cmd = "php {$this->config['wp-cli_path']} --path={$this->config['wordpress_path']} {$command}";
 
     $output_string = exec( $cmd, $output, $exitCode );

@@ -35,7 +35,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function aWpInstall()
     {
-        $this->result = $this->run("core is-installed");
+      $this->result = $this->run("core is-installed");
     }
 
     /**
@@ -43,7 +43,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function iRunTheCommand($command)
     {
-        $this->result = $this->run($command);
+      $this->result = $this->run($command);
     }
 
     /**
@@ -51,7 +51,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theExitCodeShouldBe($expectedExitCode)
     {
-        PHPUnit_Framework_Assert::assertEquals($expectedExitCode, (int) $this->result['exitCode'], "Exit code does not match expected");
+      PHPUnit_Framework_Assert::assertEquals($expectedExitCode, (int) $this->result['exitCode'], "Exit code does not match expected");
     }
 
     /**
@@ -59,15 +59,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theResultShouldNotBeEmpty()
     {
-        PHPUnit_Framework_Assert::assertNotEmpty($this->result['output']);
-    }
-
-    /**
-     * @Then the exported file should match the original import file
-     */
-    public function theExportedFileShouldMatchTheOriginalImportFile()
-    {
-        throw new PendingException();
+      PHPUnit_Framework_Assert::assertNotEmpty($this->result['output']);
     }
 
     /**
@@ -75,7 +67,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theResultStringShouldStartWith($expectedStart)
     {
-        PHPUnit_Framework_Assert::assertStringStartsWith($expectedStart, $this->result['output_string']);
+      PHPUnit_Framework_Assert::assertStringStartsWith($expectedStart, $this->result['output_string']);
     }
 
     /**
