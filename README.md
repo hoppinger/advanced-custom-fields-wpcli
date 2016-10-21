@@ -14,25 +14,19 @@ Manage your ACF field groups on the command line with wp-cli. Import,export and 
 
 ##Commands:
 
-**Import**
-
-  Import ACF field groups from local files to database
+**Import** : Import ACF field groups from local files to database
 
   * [--json_file=<json_file>]   : The path to the json file.
   * [--all]                     : Import all the fieldgroups
 
 
-**Export**
-
-  Export ACF field groups to local files
+**Export** : Export ACF field groups to local files
 
   * [--group=<group>]           : The field group to export, can be used with "My Field Group" or "my-field-group".
   * [--export_path=<path>]      : The field groups directory path to export towards.
   * [--all]                     : Export all the fieldgroups.
 
 
-**Clean**
-
-  Remove everything ACF from the database
+**Clean** : Remove everything ACF from the database
 
   * [--network]                 : Clean the fieldgroups in all the sites in the network
