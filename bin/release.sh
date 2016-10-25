@@ -13,11 +13,11 @@ read -p "PRESS [ENTER] TO RELEASE VERSION THIS VERSION "${VERSION}
 
 # VARS - THESE SHOULD BE CHANGED!
 ROOT_PATH=""
-PRODUCT_NAME="versionthis"
+PRODUCT_NAME=${PRODUCT_NAME}
 PRODUCT_NAME_GIT=${PRODUCT_NAME}"-git"
 PRODUCT_NAME_SVN=${PRODUCT_NAME}"-svn"
-SVN_REPO="http://plugins.svn.wordpress.org/versionthis/"
-GIT_REPO="git@github.com:sebastiaandegeus/versionthis.git"
+SVN_REPO=""
+GIT_REPO=""
 
 # CHECKOUT SVN DIR IF NOT EXISTS
 if [[ ! -d $PRODUCT_NAME_SVN ]];
@@ -95,11 +95,6 @@ rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
 # REMOVE THE GIT DIR
 echo "Removing SVN dir"
 rm -Rf $ROOT_PATH$PRODUCT_NAME_SVN
-
-# CREATE THE GITHUB RELEASE
-echo "Creating GITHUB release"
-#API_JSON=$(printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "Release of version %s","draft": false,"prerelease": false}' $VERSION $VERSION $VERSION)
-#curl --data "$API_JSON" https://api.github.com/repos/sebastiaandegeus/${PRODUCT_NAME}/releases?access_token=${GITHUB_ACCESS_TOKEN}
 
 # DONE, BYE
 echo "VERSION THIS RELEASER DONE"
