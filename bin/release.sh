@@ -12,7 +12,7 @@ echo "-------------------------------------------"
 read -p "PRESS [ENTER] TO RELEASE VERSION THIS VERSION "${VERSION}
 
 # VARS - THESE SHOULD BE CHANGED!
-ROOT_PATH="/Users/sebas/projects/wp-release/"
+ROOT_PATH=""
 PRODUCT_NAME="versionthis"
 PRODUCT_NAME_GIT=${PRODUCT_NAME}"-git"
 PRODUCT_NAME_SVN=${PRODUCT_NAME}"-svn"
