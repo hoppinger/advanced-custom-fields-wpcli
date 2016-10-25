@@ -45,18 +45,12 @@ git submodule foreach git checkout master && git pull
 # REMOVE UNWANTED FILES & FOLDERS
 echo "Removing unwanted files"
 rm -Rf .git
-#rm -Rf tests
-#rm -f .gitattributes
 rm -f .gitignore
-#rm -f .gitmodules
-#rm -f .travis.yml
-#rm -f Gruntfile.js
-#rm -f package.json
-#rm -f .jscrsrc
-#rm -f .jshintrc
-#rm -f composer.json
-#rm -f phpunit.xml
-#rm -Rf admin/license-manager/.git
+rm -f .travis.yml
+rm -f package.json
+rm -f composer.json
+rm -f phpunit.xml
+rm -rf features
 
 # MOVE INTO SVN DIR
 cd $ROOT_PATH$PRODUCT_NAME_SVN
