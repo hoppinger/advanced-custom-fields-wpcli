@@ -49,7 +49,9 @@ rm -f .gitignore
 rm -f .travis.yml
 rm -f package.json
 rm -f composer.json
+rm -f composer.lock
 rm -f phpunit.xml
+rm -f .phpcodesniffer.xml
 rm -rf features
 
 # MOVE INTO SVN DIR
