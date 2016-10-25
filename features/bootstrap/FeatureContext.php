@@ -1,5 +1,8 @@
 <?php
 
+require 'wordpress/wp-load.php';
+//include('advanced-custom-fields-wpcli.php');
+
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
@@ -99,5 +102,42 @@ class FeatureContext extends CommandFeature implements Context
     public function theResultShouldBeEmpty()
     {
         PHPUnit_Framework_Assert::assertEmpty($this->result['output']);
+    }
+
+    /**
+     * @Given a :arg1 feature
+     */
+    public function aFeature($feature)
+    {
+        $this->run('acf clean');
+        $this->run("acf import --json_file='{$this->importsPath}{$feature}-group.json'");
+    }
+
+    /**
+     * @When I remove the fields from :arg1
+     */
+    public function iRemoveTheFieldsFrom($file)
+    {
+        $jsonString = file_get_contents($this->exportsPath.$file);
+        $arr = json_decode($jsonString, true);
+
+        $arr[0]['fields'] = [];
+
+        $fp = fopen($this->exportsPath.$file, 'w');
+        fwrite($fp, json_encode($arr));
+        fclose($fp);
+    }
+
+    /**
+     * @Then the :arg1 should not have been added to the local groups
+     */
+    public function theShouldNotHaveBeenAddedToTheLocalGroups($group)
+    {
+      $acfwpcli = new ACFWPCLI();
+      $acfwpcli->add_runtime_fieldgroups();
+
+      $added_groups = $acfwpcli->get_added_groups();
+
+      PHPUnit_Framework_Assert::assertNotContains($group, $added_groups);
     }
 }
