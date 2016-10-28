@@ -3,10 +3,7 @@
 require 'wordpress/wp-load.php';
 //include('advanced-custom-fields-wpcli.php');
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 
 /**
  * Defines application features from the specific context.
@@ -27,10 +24,10 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function __construct()
     {
-      parent::__construct();
+        parent::__construct();
 
-      $this->importsPath = dirname(__FILE__).'/test_imports/';
-      $this->exportsPath = dirname(__FILE__).'/test_exports/';
+        $this->importsPath = dirname(__FILE__).'/test_imports/';
+        $this->exportsPath = dirname(__FILE__).'/test_exports/';
     }
 
     /**
@@ -38,7 +35,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function aWpInstall()
     {
-      $this->result = $this->run("core is-installed");
+        $this->result = $this->run('core is-installed');
     }
 
     /**
@@ -46,7 +43,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function iRunTheCommand($command)
     {
-      $this->result = $this->run($command);
+        $this->result = $this->run($command);
     }
 
     /**
@@ -54,7 +51,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theExitCodeShouldBe($expectedExitCode)
     {
-      PHPUnit_Framework_Assert::assertEquals($expectedExitCode, (int) $this->result['exitCode'], "Exit code does not match expected");
+        PHPUnit_Framework_Assert::assertEquals($expectedExitCode, (int) $this->result['exitCode'], 'Exit code does not match expected');
     }
 
     /**
@@ -62,7 +59,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theResultShouldNotBeEmpty()
     {
-      PHPUnit_Framework_Assert::assertNotEmpty($this->result['output']);
+        PHPUnit_Framework_Assert::assertNotEmpty($this->result['output']);
     }
 
     /**
@@ -70,7 +67,7 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theResultStringShouldStartWith($expectedStart)
     {
-      PHPUnit_Framework_Assert::assertStringStartsWith($expectedStart, $this->result['output_string']);
+        PHPUnit_Framework_Assert::assertStringStartsWith($expectedStart, $this->result['output_string']);
     }
 
     /**
@@ -78,10 +75,10 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theImportedAndExportedFilesShouldMatch($arg1)
     {
-      $original = json_decode(file_get_contents($this->importsPath.$arg1), true);
-      $export   = json_decode(file_get_contents($this->exportsPath.$arg1), true);
+        $original = json_decode(file_get_contents($this->importsPath.$arg1), true);
+        $export = json_decode(file_get_contents($this->exportsPath.$arg1), true);
 
-      PHPUnit_Framework_Assert::assertTrue(($original === $export), "Original and export do not match" );
+        PHPUnit_Framework_Assert::assertTrue(($original === $export), 'Original and export do not match');
     }
 
     /**
@@ -91,7 +88,7 @@ class FeatureContext extends CommandFeature implements Context
     {
         $fieldsToAdd = ['text', 'gallery', 'select'];
 
-        foreach($fieldsToAdd as $field) {
+        foreach ($fieldsToAdd as $field) {
             $this->run("acf import --json_file='{$this->importsPath}{$field}-group.json'");
         }
     }
@@ -133,11 +130,11 @@ class FeatureContext extends CommandFeature implements Context
      */
     public function theShouldNotHaveBeenAddedToTheLocalGroups($group)
     {
-      $acfwpcli = new ACFWPCLI();
-      $acfwpcli->add_runtime_fieldgroups();
+        $acfwpcli = new ACFWPCLI();
+        $acfwpcli->add_runtime_fieldgroups();
 
-      $added_groups = $acfwpcli->get_added_groups();
+        $added_groups = $acfwpcli->get_added_groups();
 
-      PHPUnit_Framework_Assert::assertNotContains($group, $added_groups);
+        PHPUnit_Framework_Assert::assertNotContains($group, $added_groups);
     }
 }
