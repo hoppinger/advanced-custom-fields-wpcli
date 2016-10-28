@@ -3,6 +3,7 @@
 require 'wordpress/wp-load.php';
 //include('advanced-custom-fields-wpcli.php');
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 
 /**
@@ -136,5 +137,13 @@ class FeatureContext extends CommandFeature implements Context
         $added_groups = $acfwpcli->get_added_groups();
 
         PHPUnit_Framework_Assert::assertNotContains($group, $added_groups);
+    }
+
+    /**
+     * @When I run the command :arg1 and answer :arg2
+     */
+    public function iRunTheCommandAndAnswer($command, $answer)
+    {
+        $this->result = $this->run($command, $answer);
     }
 }

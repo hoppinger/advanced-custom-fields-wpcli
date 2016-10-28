@@ -9,9 +9,16 @@ class CommandFeature
         $this->config = include 'config/config.php';
     }
 
-    protected function run($command)
+    protected function run($command, $answer = null)
     {
-        $cmd = "php {$this->config['wp-cli_path']} --path={$this->config['wordpress_path']} {$command}";
+        $answerCommand = "";
+
+        if ($answer && is_string($answer))
+        {
+          $answerCommand = "echo '{$answer}' | ";
+        }
+
+        $cmd = "{$answerCommand}php {$this->config['wp-cli_path']} --path={$this->config['wordpress_path']} {$command}";
 
         $output_string = exec($cmd, $output, $exitCode);
 

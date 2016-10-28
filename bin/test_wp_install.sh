@@ -65,9 +65,14 @@ create_symlink_to_acf_wpcli() {
   php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields-wpcli
 }
 
+create_symlink_to_mu_plugins() {
+  ln -s $ACF_WPCLI_DIR/features/bootstrap/mu-plugins $WP_CORE_DIR/wp-content
+}
+
 create_folder
 install_wpcli
 drop_database
 install_wp
 install_acf
 create_symlink_to_acf_wpcli
+create_symlink_to_mu_plugins

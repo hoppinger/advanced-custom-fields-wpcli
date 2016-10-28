@@ -68,6 +68,7 @@ class CLI extends WP_CLI_Command {
       $field_groups = \ACFWPCLI\FieldGroup::all();
     } else {
       $choice = $this->menu_choice_export_field_group();
+
       if ( $choice == 'all' ) {
         $field_groups = \ACFWPCLI\FieldGroup::all();
       } else {
