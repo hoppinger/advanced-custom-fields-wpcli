@@ -13,10 +13,7 @@ WP_VERSION=${5-latest}
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#read -e -p "Where do you want to install wordpress? " WP_CORE_DIR
 WP_CORE_DIR="$(dirname "$MY_DIR")"/wordpress/
-# ToDo: Make variable
-# WP_CORE_DIR=/private/tmp/wordpress/
 
 create_folder() {
   rm -rf $WP_CORE_DIR
@@ -49,10 +46,18 @@ install_wp() {
 }
 
 install_acf() {
-  read -e -p "ACF Path: " ACF_DIR
+  read -p "Do you want to use ACF5-PRO? (y/n) " -n 1 -r
+  echo    # (optional) move to a new line
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    read -e -p "ACF5-PRO Path: " ACF_DIR
 
-  ln -s $ACF_DIR $WP_CORE_DIR/wp-content/plugins
-  php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
+    ln -s $ACF_DIR $WP_CORE_DIR/wp-content/plugins
+    php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
+  else
+    php $WP_CORE_DIR/wp-cli.phar plugin install advanced-custom-fields
+    php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields
+  fi
 }
 
 create_symlink_to_acf_wpcli() {
