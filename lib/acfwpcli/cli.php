@@ -68,6 +68,7 @@ class CLI extends WP_CLI_Command {
       $field_groups = \ACFWPCLI\FieldGroup::all();
     } else {
       $choice = $this->menu_choice_export_field_group();
+
       if ( $choice == 'all' ) {
         $field_groups = \ACFWPCLI\FieldGroup::all();
       } else {
@@ -89,7 +90,7 @@ class CLI extends WP_CLI_Command {
       $field_group = \ACFWPCLI\FieldGroup::to_array( $post );
       $file = $export_path . sanitize_title( $post->post_title ) . '.json';
 
-      \ACFWPCLI\FieldGroup::to_json_file( $field_group, $file );
+      \ACFWPCLI\FieldGroup::to_json_file( [$field_group], $file );
       WP_CLI::success( "Exported field group: {$post->post_title}" );
     }
   }
@@ -111,7 +112,7 @@ class CLI extends WP_CLI_Command {
     $field_groups = \ACFWPCLI\FieldGroup::all();
     $fields       = \ACFWPCLI\Field::all();
 
-    if ( empty( $field_groups ) && empty( $fields ) ) {
+    if ( empty( $field_groups[0] ) && empty( $fields ) ) {
       WP_CLI::warning( 'No field groups or fields found to clean up.' );
     }
 
@@ -159,7 +160,6 @@ class CLI extends WP_CLI_Command {
     foreach ( $patterns as $pattern ) {
       foreach ( glob( $pattern ) as $file ) {
         $field_group = \ACFWPCLI\FieldGroup::import( $file );
-
         WP_CLI::success( "Imported field group: {$field_group['title']}" );
       }
     }

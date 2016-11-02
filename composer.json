@@ -16,6 +16,8 @@
     "minimum-stability": "stable",
     "require-dev": {
         "squizlabs/php_codesniffer": "2.5.*",
-        "wp-coding-standards/wpcs": "0.8.*"
+        "wp-coding-standards/wpcs": "0.8.*",
+        "behat/behat": "^3.2",
+        "phpunit/phpunit": "^5.6"
     }
 }

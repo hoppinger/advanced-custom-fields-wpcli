@@ -1,0 +1,59 @@
+[
+    {
+        "key": "group_5809d9a594893",
+        "title": "relation-group",
+        "fields": [
+            {
+                "key": "field_5809d9b189c8d",
+                "label": "Relationship",
+                "name": "relationship",
+                "type": "relationship",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "80",
+                    "class": "",
+                    "id": "12"
+                },
+                "post_type": [
+                    "attachment"
+                ],
+                "taxonomy": [
+                    "category:geen-categorie"
+                ],
+                "filters": [
+                    "search",
+                    "taxonomy"
+                ],
+                "elements": [
+                    "featured_image"
+                ],
+                "min": 12,
+                "max": 15,
+                "return_format": "object"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "!=",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 23,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "slug",
+            "author",
+            "format"
+        ],
+        "active": 1,
+        "description": "Description"
+    }
+]

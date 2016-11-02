@@ -1,0 +1,81 @@
+[
+    {
+        "key": "group_580a02751cb25",
+        "title": "multiple-group",
+        "fields": [
+            {
+                "key": "field_580a0288abd47",
+                "label": "field1",
+                "name": "field1",
+                "type": "text",
+                "instructions": "Text field",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Default",
+                "placeholder": "Placeholder",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_580a02a8abd48",
+                "label": "field2",
+                "name": "field2",
+                "type": "post_object",
+                "instructions": "Post field",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [],
+                "taxonomy": [],
+                "allow_null": 0,
+                "multiple": 0,
+                "return_format": "object",
+                "ui": 1
+            },
+            {
+                "key": "field_580a02cbabd49",
+                "label": "field3",
+                "name": "field3",
+                "type": "date_picker",
+                "instructions": "Date Picker field",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "display_format": "d\/m\/Y",
+                "return_format": "d\/m\/Y",
+                "first_day": 1
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

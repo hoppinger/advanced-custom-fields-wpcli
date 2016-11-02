@@ -1,0 +1,47 @@
+[
+    {
+        "key": "group_5809dfc4899e7",
+        "title": "user-group",
+        "fields": [
+            {
+                "key": "field_5809dfcc41df2",
+                "label": "User",
+                "name": "user",
+                "type": "user",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "110",
+                    "class": "",
+                    "id": ""
+                },
+                "role": "",
+                "allow_null": 1,
+                "multiple": 1
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "discussion",
+            "comments",
+            "author",
+            "format"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

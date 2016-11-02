@@ -1,0 +1,51 @@
+[
+    {
+        "key": "group_5809de88a64b5",
+        "title": "repeater-group",
+        "fields": [
+            {
+                "key": "field_5809de8bd9a00",
+                "label": "Repeater - Other field",
+                "name": "repeater",
+                "type": "repeater",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "90",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 10,
+                "max": 100,
+                "layout": "block",
+                "button_label": "New",
+                "sub_fields": [
+
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page",
+                    "operator": "==",
+                    "value": "2"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": [
+            "slug",
+            "format",
+            "page_attributes"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

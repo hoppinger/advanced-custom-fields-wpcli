@@ -1,0 +1,46 @@
+[
+    {
+        "key": "group_5809ddc997bc4",
+        "title": "message-group",
+        "fields": [
+            {
+                "key": "field_5809ddcefd252",
+                "label": "Message",
+                "name": "",
+                "type": "message",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "72",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "This is a message",
+                "new_lines": "wpautop",
+                "esc_html": 1
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "discussion",
+            "slug",
+            "format"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

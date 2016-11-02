@@ -1,0 +1,43 @@
+[
+    {
+        "key": "group_58086d02485d9",
+        "title": "email-group",
+        "fields": [
+            {
+                "key": "field_58086d1a43774",
+                "label": "Mail",
+                "name": "mail",
+                "type": "email",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "20",
+                    "class": "testclass",
+                    "id": "mailfield"
+                },
+                "default_value": "",
+                "placeholder": "E-mail",
+                "prepend": "Prepend",
+                "append": "Append"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "user_role",
+                    "operator": "==",
+                    "value": "all"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "side",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "field",
+        "hide_on_screen": "",
+        "active": 0,
+        "description": ""
+    }
+]

@@ -1,0 +1,45 @@
+[
+    {
+        "key": "group_5809dd8152f74",
+        "title": "color_picker-group",
+        "fields": [
+            {
+                "key": "field_5809dd8393f7f",
+                "label": "Color Picker",
+                "name": "color_picker",
+                "type": "color_picker",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "80",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "#FFFFFF"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "acf_after_title",
+        "style": "seamless",
+        "label_placement": "top",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "discussion",
+            "author",
+            "featured_image",
+            "categories"
+        ],
+        "active": 1,
+        "description": ""
+    }
+]

@@ -1,0 +1,48 @@
+[
+    {
+        "key": "group_5809e03b1b047",
+        "title": "clone-group",
+        "fields": [
+            {
+                "key": "field_5809e045595cf",
+                "label": "Clone",
+                "name": "clone",
+                "type": "clone",
+                "instructions": "Instructions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "30",
+                    "class": "",
+                    "id": ""
+                },
+                "clone": "",
+                "display": "group",
+                "layout": "block",
+                "prefix_label": 0,
+                "prefix_name": 1
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "current_user_role",
+                    "operator": "==",
+                    "value": "administrator"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "field",
+        "hide_on_screen": [
+            "excerpt",
+            "author",
+            "page_attributes"
+        ],
+        "active": 1,
+        "description": "Description"
+    }
+]
