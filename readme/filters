@@ -1,0 +1,14 @@
+## Filters
+
+* acfwpcli_fieldgroup_paths
+  By default ACF-CLI will search 2 paths for field-groups. The active_theme and active_child_theme.
+  The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
+  Example:
+```php
+  add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
+
+  public function add_plugin_path( $paths ) {
+    $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
+    return $paths;
+  }
+````

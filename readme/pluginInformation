@@ -1,0 +1,9 @@
+=== Advanced Custom Fields WP-CLI ===
+Contributors: sebastiaandegeus
+Tags: WP-CLI, Advanced, Custom Fields, acf
+Requires at least: 4.5
+Stable tag: 3.0
+Tested up to: 4.6.1
+License: MIT
+
+Manage Advanced Custom Fields through WP-CLI
