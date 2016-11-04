@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 2.0 =
+= 3.0 =
 * Removed uniqid feature (no longer needed).
 * Bugfix: database fieldgroups are now prefered over exported fieldgroups.
 * Cleaned up legacy xml import/export libraries.
@@ -11,3 +11,5 @@
 * Removed dependency of wp-importer.
 * Added support for composer installs.
 * Dropped XML support, hello Json.
+* Bugfix: Import no longer created duplicates
+* Add unit testing with behat and PHPUnit
