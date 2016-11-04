@@ -46,18 +46,10 @@ install_wp() {
 }
 
 install_acf() {
-  read -p "Do you want to use ACF5-PRO? (y/n) " -n 1 -r
-  echo    # (optional) move to a new line
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    read -e -p "ACF5-PRO Path: " ACF_DIR
+  read -e -p "ACF5-PRO Path: " ACF_DIR
 
-    ln -s $ACF_DIR $WP_CORE_DIR/wp-content/plugins
-    php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
-  else
-    php $WP_CORE_DIR/wp-cli.phar plugin install advanced-custom-fields
-    php $WP_CORE_DIR/wp-cli.phar plugin activate advanced-custom-fields
-  fi
+  ln -s $ACF_DIR $WP_CORE_DIR/wp-content/plugins
+  php $WP_CORE_DIR/wp-cli.phar plugin activate acf5-pro
 }
 
 create_symlink_to_acf_wpcli() {
