@@ -9,29 +9,29 @@ License: MIT
 Manage Advanced Custom Fields through WP-CLI
 == Description ==
 
-#WP-CLI for Advanced Custom Fields
+= WP-CLI for Advanced Custom Fields =
 
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
 The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
 Fields can now easily be imported, exported and shared over SVN, GIT or comparable systems.
 
-**Reasons to start this project**
+= Reasons to start this project =
 
 * Advanced custom fields did not interface with WP-CLI
 * Sharing field-groups through XML or PHP code caused problems with differences between development, test, staging and production enviroments when shared with XML.
 * No direct SVN or GIT support without manually putting the exported PHP or XML into a versioned directory.
 * Naming convention for XML files was always the same, resulting in renaming hassle.
 * Only using the generated field-groups on runtime through PHP code in functions.php disables the editing mode (which is an awesome UI that we require). So importing should be possible.
-## Installation
+== Installation ==
 
-### Requirements
+= Requirements =
 
 * Advanced Custom Fields 5 Pro plugin
 * `wp-cli` http://wp-cli.org/
 
-### How to install
+= How to install =
 
-Install WP-CLI as described on their website http://wp-cli.org/
+Install WP-CLI as described on [their website](http://wp-cli.org/ "WP-CLI")
 
 Clone this repo to your plugins directory
 ```
@@ -53,14 +53,14 @@ If you would like to disable this behaviour you can remove the `acf_wpcli_regist
 ```
 remove_action('plugins_loaded', 'acf_wpcli_register_groups');
 ```
-## Filters
+== Filters ==
 
-### acfwpcli_fieldgroup_paths
+= acfwpcli_fieldgroup_paths =
 
 The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
 You should always add at least one path to this filter.
 
-Example:
+**Example:**
 
 ```
 add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
@@ -74,12 +74,14 @@ public function add_plugin_path( $paths ) {
 
 This project adds the `acf` command to `wp-cli` with the following subcommands:
 
+= Help =
 ```
 wp acf
 ```
 Prints the help overview and can be used as a default test to see if the plugin is working.
-
 ```
+
+= Export =
 wp acf export
 ```
 Export a field-group to a json file in the directory set by a filter. You want to export all field-groups all at once you can use:
@@ -87,11 +89,13 @@ Export a field-group to a json file in the directory set by a filter. You want t
 wp acf export --all
 ```
 
+= Import =
 ```
 wp acf import
 ```
 Import all or specific fields from a option menu,
 
+= Clean =
 ```
 wp acf clean
 ```
