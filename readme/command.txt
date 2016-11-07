@@ -1,4 +1,4 @@
-## Commands
+== Commands ==
 
 This project adds the `acf` command to `wp-cli` with the following subcommands:
 

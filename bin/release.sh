@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # THE GITHUB ACCESS TOKEN, GENERATE ONE AT: https://github.com/settings/applications (Personal access tokens)
-GITHUB_ACCESS_TOKEN=""
+# GITHUB_ACCESS_TOKEN=""
 
 # ASK INFO
 echo "-------------------------------------------"
@@ -54,22 +54,11 @@ rm -f phpunit.xml
 rm -f .phpcodesniffer.xml
 rm -rf features
 
-# Sync readme files
-cat readme/pluginInformation >> readme.txt
-cat readme/description >> readme.txt
-cat readme/installation >> readme.txt
-cat readme/changelog >> readme.txt
-cat readme/upgradeNotice >> readme.txt
-# sed -i 's/```php|```/ /g' readme.txt
+#CREATE NEW README
+php -f bin/generate_readme.php
 
-cat readme/description >> README.md
-cat readme/installation >> README.md
-sed -i "/\b\(Installation|Description\)\b/d" README.md
-sed -i 's/**/## /g' README.md
-sed -i 's/**/ /g' README.md
-sed -i 's/`  /```/g' README.md
-cat readme/command >> README.md
-cat readme/filters >> README.md
+#COPY README TO TRUNK
+cp readme.txt $ROOT_PATH$PRODUCT_NAME_SVN/readme.txt
 
 # MOVE INTO SVN DIR
 cd $ROOT_PATH$PRODUCT_NAME_SVN
