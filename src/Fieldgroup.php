@@ -40,7 +40,7 @@ class Fieldgroup {
 
       // add fields
       foreach ( $fields as $field ) {
-        Field::import( $field, $field_group );
+        Field::import( $field, $field_group, $order );
       }
 
       WP_CLI::success( 'imported the data.json for field_group "' . $field_group['title'] .'" into the dabatase!' );

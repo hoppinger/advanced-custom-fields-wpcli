@@ -4,10 +4,8 @@ namespace ACFWPCLI;
 
 class Field {
 
-  public static function import( $field, $field_group ) {
-    $order = array();
-
-     // add parent
+  public static function import( $field, $field_group, &$order ) {
+    // add parent
     if ( empty( $field['parent'] ) ) {
       $field['parent'] = $field_group['ID'];
     } elseif ( isset( $ref[ $field['parent'] ] ) ) {
