@@ -36,12 +36,6 @@ git clone $GIT_REPO $PRODUCT_NAME_GIT
 # MOVE INTO GIT DIR
 cd $ROOT_PATH$PRODUCT_NAME_GIT
 
-# INIT&UPDATE&PULL SUBMODULE(S)
-echo "Do the submodule dance"
-git submodule init
-git submodule update
-git submodule foreach git checkout master && git pull
-
 # REMOVE UNWANTED FILES & FOLDERS
 echo "Removing unwanted files"
 rm -Rf .git
