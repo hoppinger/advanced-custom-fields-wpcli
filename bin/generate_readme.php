@@ -2,15 +2,22 @@
 require_once('vendor/wpreadme2markdown/wpreadme2markdown/src/Converter.php');
 
 $wp_readme_parts = array('pluginInformation', 'description', 'installation', 'filters', 'command', 'upgradeNotice');
-$github_readme_parts = array('changelog', 'description', 'installation', 'filters', 'command', 'unitTest', 'upgradeNotice');
+
+$github_readme_parts = array(
+  'description',
+  'installation',
+  'command',
+  'filters',
+  'unitTest',
+  'upgradeNotice',
+  'changelog'
+);
 
 $wordpress_readme = combine_parts($wp_readme_parts);
 $github_readme = txt_to_md(combine_parts($github_readme_parts));
 
 create_readme("readme.txt", $wordpress_readme);
 create_readme("readme.md", $github_readme);
-
-var_dump($github_readme);
 
 function combine_parts($parts) {
   $output = '';
