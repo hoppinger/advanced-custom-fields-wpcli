@@ -1,13 +1,163 @@
-# WP-CLI for Advanced Custom Fields
+## Changelog 
 
-Manage your ACF field groups on the command line with wp-cli. Import,export and clean your field groups to add them to git or any other vcs.
 
-## Requirements
-    A WordPress installation
-    Advanced Custom Fields plugin or ACF5-PRO plugin
-    wp-cli http://wp-cli.org/
+### 3.0 
+* Bugfix: Import no longer created duplicates
+* Add unit testing with behat and PHPUnit
 
-## Installation
-    1) Git clone https://github.com/hoppinger/advanced-custom-fields-wpcli.git into wp-content/plugins folder
-    2) Go to WordPress and activate the plugin
-    3) Use wp acf command or wp help acf to use the functions
+
+### 2.0 
+* Removed uniqid feature (no longer needed).
+* Bugfix: database fieldgroups are now prefered over exported fieldgroups.
+* Cleaned up legacy xml import/export libraries.
+* Add namespaces.
+* Cleaned up all alternative notation uses.
+* Multisite now correctly makes use of the global --url parameter.
+* Added more comments and versioning.
+* Removed dependency of wp-importer.
+* Added support for composer installs.
+* Dropped XML support, hello Json.
+
+## Description 
+
+
+### WP-CLI for Advanced Custom Fields 
+
+WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
+The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
+Fields can now easily be imported, exported and shared over SVN, GIT or comparable systems.
+
+
+### Reasons to start this project 
+
+* Advanced custom fields did not interface with WP-CLI
+* Sharing field-groups through XML or PHP code caused problems with differences between development, test, staging and production enviroments when shared with XML.
+* No direct SVN or GIT support without manually putting the exported PHP or XML into a versioned directory.
+* Naming convention for XML files was always the same, resulting in renaming hassle.
+* Only using the generated field-groups on runtime through PHP code in functions.php disables the editing mode (which is an awesome UI that we require). So importing should be possible.
+
+## Installation 
+
+
+### Requirements 
+
+* Advanced Custom Fields 5 Pro plugin
+* `wp-cli` http://wp-cli.org/
+
+
+### How to install 
+
+Install WP-CLI as described on [their website](http://wp-cli.org/ "WP-CLI")
+
+Clone this repo to your plugins directory
+```
+git clone https://github.com/hoppinger/advanced-custom-fields-wpcli.git
+```
+* Activate this plugin in the plugin menu or using:
+```
+wp plugin activate advanced-custom-fields-wpcli
+```
+
+Go the wordpress directory in your terminal and try out to:
+```
+wp acf
+```
+To see if everything is working correctly.
+
+When the plugin is enabled, any exported field groups found on the filesystem in your registered paths will be added to Wordpress at runtime.
+If you would like to disable this behaviour you can remove the `acf_wpcli_register_groups` action:
+```
+remove_action('plugins_loaded', 'acf_wpcli_register_groups');
+```
+
+## Filters 
+
+
+### acfwpcli_fieldgroup_paths 
+
+The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
+You should always add at least one path to this filter.
+
+**Example:**
+
+```
+add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
+
+public function add_plugin_path( $paths ) {
+  $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
+  return $paths;
+}
+````
+
+## Commands 
+
+This project adds the `acf` command to `wp-cli` with the following subcommands:
+
+
+### Help 
+```
+wp acf
+```
+Prints the help overview and can be used as a default test to see if the plugin is working.
+```
+
+
+### Export 
+wp acf export
+```
+Export a field-group to a json file in the directory set by a filter. You want to export all field-groups all at once you can use:
+```
+wp acf export --all
+```
+
+
+### Import 
+```
+wp acf import
+```
+Import all or specific fields from a option menu,
+
+
+### Clean 
+```
+wp acf clean
+```
+Delete all Advanced Custom Fields Records from the database.
+Do this after you have edited fields-groups from the UI and exported the changes.
+**Warning: This can not be undone, please use carefully**
+
+## Unit testing 
+
+To test changes to the plugin you can use unit testing. Start by making sure all the necessary dependencies are installed, if not run:
+```
+composer install
+```
+
+You will need a new Wordpress installation to make sure the tests run
+independent from your Wordpress installation and database. To create a wordpress installation for testing run the following command:
+```
+bash bin/test_wp_install.sh wordpress_test db_username db_password localhost latest
+```
+
+Where 'wordpress_test' is the name for the database used to run the tests. Make sure this database doesn't exist or can be deleted. When the database
+already exists the script will ask you if the database can be deleted. 'Latest' can be changed if you want to test with a specific version of Wordpress, 3.6.2 for example.
+
+After you installed you can start running tests using the follow command:
+```
+vendor/bin/behat
+```
+
+This will run all test. These tests include an import and export of all types of fields, cleaning, multiple fields in one field-group and tests for
+the menu options. If you want to run one specific test you can do this by running:
+```
+vendor/bin/behat features/testname.feature
+```
+
+If you need a different test you can create your own by added it to the features in the features folder.
+
+## Upgrade Notice 
+
+
+### 3.0 
+* Make sure you import all your custom fields before updating.
+* Make sure you are you using ACF5, ACF4 is not supported. 

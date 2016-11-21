@@ -1,0 +1,28 @@
+== Unit testing ==
+
+To test changes to the plugin you can use unit testing. Start by making sure all the necessary dependencies are installed, if not run:
+```
+composer install
+```
+
+You will need a new Wordpress installation to make sure the tests run
+independent from your Wordpress installation and database. To create a wordpress installation for testing run the following command:
+```
+bash bin/test_wp_install.sh wordpress_test db_username db_password localhost latest
+```
+
+Where 'wordpress_test' is the name for the database used to run the tests. Make sure this database doesn't exist or can be deleted. When the database
+already exists the script will ask you if the database can be deleted. 'Latest' can be changed if you want to test with a specific version of Wordpress, 3.6.2 for example.
+
+After you installed you can start running tests using the follow command:
+```
+vendor/bin/behat
+```
+
+This will run all test. These tests include an import and export of all types of fields, cleaning, multiple fields in one field-group and tests for
+the menu options. If you want to run one specific test you can do this by running:
+```
+vendor/bin/behat features/testname.feature
+```
+
+If you need a different test you can create your own by added it to the features in the features folder.

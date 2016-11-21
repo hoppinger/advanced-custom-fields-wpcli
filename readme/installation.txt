@@ -1,0 +1,31 @@
+== Installation ==
+
+= Requirements =
+
+* Advanced Custom Fields 5 Pro plugin
+* `wp-cli` http://wp-cli.org/
+
+= How to install =
+
+Install WP-CLI as described on [their website](http://wp-cli.org/ "WP-CLI")
+
+Clone this repo to your plugins directory
+```
+git clone https://github.com/hoppinger/advanced-custom-fields-wpcli.git
+```
+* Activate this plugin in the plugin menu or using:
+```
+wp plugin activate advanced-custom-fields-wpcli
+```
+
+Go the wordpress directory in your terminal and try out to:
+```
+wp acf
+```
+To see if everything is working correctly.
+
+When the plugin is enabled, any exported field groups found on the filesystem in your registered paths will be added to Wordpress at runtime.
+If you would like to disable this behaviour you can remove the `acf_wpcli_register_groups` action:
+```
+remove_action('plugins_loaded', 'acf_wpcli_register_groups');
+```

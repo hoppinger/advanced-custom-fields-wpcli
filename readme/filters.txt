@@ -1,0 +1,17 @@
+== Filters ==
+
+= acfwpcli_fieldgroup_paths =
+
+The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
+You should always add at least one path to this filter.
+
+**Example:**
+
+```
+add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
+
+public function add_plugin_path( $paths ) {
+  $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
+  return $paths;
+}
+````

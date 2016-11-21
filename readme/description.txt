@@ -1,11 +1,10 @@
-== Description ==
+= WP-CLI for Advanced Custom Fields =
 
-**WP-CLI for Advanced Custom Fields**
+WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
+The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
+Fields can now easily be imported, exported and shared over SVN, GIT or comparable systems.
 
-This extension for Advanced Custom Fields that makes it possible to manage your field-groups through the console of [wp-cli](http://wp-cli.org/). The goal of this project is to make life easier for developers who working on Wordpress projects that use Advanced Custom Fields and love the WP-CLI command line tools.
-
-
-**Reasons to start this project**
+= Reasons to start this project =
 
 * Advanced custom fields did not interface with WP-CLI
 * Sharing field-groups through XML or PHP code caused problems with differences between development, test, staging and production enviroments when shared with XML.

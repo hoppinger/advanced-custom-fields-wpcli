@@ -1,0 +1,5 @@
+== Upgrade Notice ==
+
+= 3.0 =
+* Make sure you import all your custom fields before updating.
+* Make sure you are you using ACF5, ACF4 is not supported. 
