@@ -17,11 +17,11 @@ SVN_REPO=""
 GIT_REPO=""
 
 # CHECKOUT SVN DIR IF NOT EXISTS
-if [[ ! -d $PRODUCT_NAME_SVN ]];
-then
-  echo "No SVN directory found, will do a checkout"
-  svn checkout $SVN_REPO $PRODUCT_NAME_SVN
-fi
+# if [[ ! -d $PRODUCT_NAME_SVN ]];
+# then
+#   echo "No SVN directory found, will do a checkout"
+#   svn checkout $SVN_REPO $PRODUCT_NAME_SVN
+# fi
 
 # DELETE OLD GIT DIR
 rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
@@ -85,7 +85,7 @@ svn commit -m "$COMMIT_MESSAGE"
 echo "Removing GIT dir"
 rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
 
-# REMOVE THE GIT DIR
+# REMOVE THE SVN DIR
 echo "Removing SVN dir"
 rm -Rf $ROOT_PATH$PRODUCT_NAME_SVN
 
