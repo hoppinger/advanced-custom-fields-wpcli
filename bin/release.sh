@@ -5,7 +5,7 @@
 
 # ASK INFO
 echo "-------------------------------------------"
-echo "      VERSION THIS        RELEASER         "
+echo "        ACF WP-CLI        RELEASER         "
 echo "-------------------------------------------"
 read -p "VERSION: " VERSION
 echo "-------------------------------------------"
@@ -13,7 +13,7 @@ read -p "PRESS [ENTER] TO RELEASE VERSION THIS VERSION "${VERSION}
 
 # VARS - THESE SHOULD BE CHANGED!
 ROOT_PATH=""
-PRODUCT_NAME=${PRODUCT_NAME}
+PRODUCT_NAME=""
 PRODUCT_NAME_GIT=${PRODUCT_NAME}"-git"
 PRODUCT_NAME_SVN=${PRODUCT_NAME}"-svn"
 SVN_REPO=""
