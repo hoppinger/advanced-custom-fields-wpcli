@@ -18,9 +18,6 @@
 * Added support for composer installs.
 * Dropped XML support, hello Json.
 
-## Description 
-
-
 ### WP-CLI for Advanced Custom Fields 
 
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
