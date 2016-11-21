@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# THE GITHUB ACCESS TOKEN, GENERATE ONE AT: https://github.com/settings/applications (Personal access tokens)
-# GITHUB_ACCESS_TOKEN=""
-
 # ASK INFO
 echo "-------------------------------------------"
 echo "        ACF WP-CLI        RELEASER         "
