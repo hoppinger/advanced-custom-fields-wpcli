@@ -10,22 +10,20 @@ class FieldGroup {
   const EXTENSION = '.json';
 
   public static function import( $file ) {
-    $field_group = self::from_json_file( $file )[0];
-    //$title = $field_group[0]["title"];
+    $field_groups = self::from_json_file( $file );
 
-    $fields = acf_extract_var( $field_group, 'fields' );
-    $fields = acf_prepare_fields_for_import( $fields );
+    foreach ( $field_groups as $field_group ) {
+      $fields = acf_extract_var( $field_group, 'fields' );
+      $fields = acf_prepare_fields_for_import( $fields );
 
-    //$field_group['title'] = $title;
-    $field_group = acf_update_field_group( $field_group );
+      $field_group = acf_update_field_group( $field_group );
 
-
-
-    foreach ( $fields as $field ) {
-      Field::import( $field, $field_group );
+      foreach ( $fields as $field ) {
+        Field::import( $field, $field_group );
+      }
     }
 
-    return $field_group;
+    return $field_groups;
   }
 
   public static function all() {
