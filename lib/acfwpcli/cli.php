@@ -40,7 +40,7 @@ class CLI extends WP_CLI_Command {
   *
   * ## OPTIONS
   *
-  * [--group=<group>]
+  * [--field_group=<field_group>]
   * : The field group to export, can be used with "My Field Group" or "my-field-group".
   *
   * [--export_path=<path>]
@@ -98,13 +98,7 @@ class CLI extends WP_CLI_Command {
   /**
   * Remove everything ACF from the database
   *
-  * ## OPTIONS
-  *
-  * [--network]
-  * : Clean the fieldgroups in all the sites in the network
-  *
   * @subcommand clean
-  *
   */
   function clean( $args, $assoc_args ) {
     extract( $assoc_args );
@@ -138,7 +132,7 @@ class CLI extends WP_CLI_Command {
   * : Import all the fieldgroups
   *
   * @subcommand import
-  *
+  * @synopsis [--json_file=<json_file>] [--export_path=<export_path>] [--all]
   */
   function import( $args, $assoc_args ) {
     extract( $assoc_args );
