@@ -145,6 +145,8 @@ class CLI extends WP_CLI_Command {
 
     if ( isset( $json_file ) ) {
       $choice = \ACFWPCLI\CLIUtils::expand_tilde( $json_file );
+    } else if (isset($all) && $all) {
+      $choice = 'all';
     } else {
       $choice = $this->menu_choice_import_field_group();
     }
