@@ -5,11 +5,3 @@
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
 The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
 Fields can now easily be imported, exported and shared over SVN, GIT or comparable systems.
-
-= Reasons to start this project =
-
-* Advanced custom fields did not interface with WP-CLI
-* Sharing field-groups through XML or PHP code caused problems with differences between development, test, staging and production enviroments when shared with XML.
-* No direct SVN or GIT support without manually putting the exported PHP or XML into a versioned directory.
-* Naming convention for XML files was always the same, resulting in renaming hassle.
-* Only using the generated field-groups on runtime through PHP code in functions.php disables the editing mode (which is an awesome UI that we require). So importing should be possible.

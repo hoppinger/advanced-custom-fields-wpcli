@@ -10,9 +10,13 @@ Prints the help overview and can be used as a default test to see if the plugin 
 ```
 
 = Export =
+
+Export a field-group to a json file in the directory set by a filter.
+```
 wp acf export
 ```
-Export a field-group to a json file in the directory set by a filter. You want to export all field-groups all at once you can use:
+
+You want to export all field-groups all at once you can use:
 ```
 wp acf export --all
 ```
