@@ -1,0 +1,44 @@
+[
+    {
+        "key": "group_580096d78bf20",
+        "title": "text-group",
+        "fields": [
+            {
+                "key": "field_580096e85e146",
+                "label": "text field",
+                "name": "text_field",
+                "type": "text",
+                "instructions": "This is text field",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "default value",
+                "placeholder": "placeholder",
+                "prepend": "prepend",
+                "append": "append",
+                "maxlength": 40
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": "Group_Description"
+    }
+]

@@ -1,1 +1,4 @@
 /vendor/
+/features/bootstrap/test_exports/
+/wordpress/
+readme.txt

@@ -1,0 +1,44 @@
+[
+    {
+        "key": "group_58086ae9b2967",
+        "title": "textarea-group",
+        "fields": [
+            {
+                "key": "field_58086b000c252",
+                "label": "textarea field",
+                "name": "textarea_field",
+                "type": "textarea",
+                "instructions": "This is a text area",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "This is the default value",
+                "placeholder": "placeholder text",
+                "maxlength": 40,
+                "rows": 12,
+                "new_lines": "wpautop"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page_template",
+                    "operator": "==",
+                    "value": "default"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

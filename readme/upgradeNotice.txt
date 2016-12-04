@@ -1,0 +1,9 @@
+== Upgrade Notice ==
+
+= 3.0 =
+* Make sure you import all your custom fields before updating.
+* Make sure you are you using ACF5, ACF4 is not supported.
+* Update the plugin
+* Add the filter to your project (See Filters)
+* Export you fields
+* Remove unnecessary files like your old import directory, php files and json files.

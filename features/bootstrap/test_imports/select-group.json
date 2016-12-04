@@ -1,0 +1,51 @@
+[
+    {
+        "key": "group_580882cc44ee9",
+        "title": "select-group",
+        "fields": [
+            {
+                "key": "field_580882d107dc1",
+                "label": "select field",
+                "name": "select_field",
+                "type": "select",
+                "instructions": "select something",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "red": "Creative",
+                    "blue": "Creative",
+                    "green": "Not Creative"
+                },
+                "default_value": [],
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 1,
+                "ajax": 1,
+                "return_format": "array",
+                "placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

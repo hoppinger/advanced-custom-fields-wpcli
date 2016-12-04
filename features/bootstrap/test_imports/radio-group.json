@@ -1,0 +1,50 @@
+[
+    {
+        "key": "group_580885b97dcec",
+        "title": "radio-group",
+        "fields": [
+            {
+                "key": "field_580885bc63bb4",
+                "label": "radio field",
+                "name": "radio_field",
+                "type": "radio",
+                "instructions": "PICK ONE !@#@$%%$\u02c6&%\u02c6&%%@#!$#$\u02c6%$&\u02c6&*#$%@#$%:\"",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "red: red": "red: red",
+                    "blue": "blue",
+                    "green": "Green"
+                },
+                "allow_null": 1,
+                "other_choice": 1,
+                "save_other_choice": 1,
+                "default_value": "",
+                "layout": "horizontal",
+                "return_format": "value"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

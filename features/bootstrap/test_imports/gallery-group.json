@@ -1,0 +1,50 @@
+[
+    {
+        "key": "group_5808818431982",
+        "title": "gallery-group",
+        "fields": [
+            {
+                "key": "field_5808818897068",
+                "label": "gallery field",
+                "name": "gallery_field",
+                "type": "gallery",
+                "instructions": "Add images to this field!",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": "gallery"
+                },
+                "min": 2,
+                "max": 10,
+                "insert": "append",
+                "library": "all",
+                "min_width": 7357,
+                "min_height": 7357,
+                "min_size": 7357,
+                "max_width": 9000,
+                "max_height": 9000,
+                "max_size": 9000,
+                "mime_types": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]
