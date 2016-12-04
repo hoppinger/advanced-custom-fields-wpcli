@@ -1,27 +1,7 @@
-## Changelog 
+# WP-CLI for Advanced Custom Fields 
 
 
-### 3.0 
-* Bugfix: Import no longer created duplicates
-* Add unit testing with behat and PHPUnit
-
-
-### 2.0 
-* Removed uniqid feature (no longer needed).
-* Bugfix: database fieldgroups are now prefered over exported fieldgroups.
-* Cleaned up legacy xml import/export libraries.
-* Add namespaces.
-* Cleaned up all alternative notation uses.
-* Multisite now correctly makes use of the global --url parameter.
-* Added more comments and versioning.
-* Removed dependency of wp-importer.
-* Added support for composer installs.
-* Dropped XML support, hello Json.
-
-## Description 
-
-
-### WP-CLI for Advanced Custom Fields 
+### Description 
 
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
 The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
@@ -70,25 +50,6 @@ If you would like to disable this behaviour you can remove the `acf_wpcli_regist
 remove_action('plugins_loaded', 'acf_wpcli_register_groups');
 ```
 
-## Filters 
-
-
-### acfwpcli_fieldgroup_paths 
-
-The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
-You should always add at least one path to this filter.
-
-**Example:**
-
-```
-add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
-
-public function add_plugin_path( $paths ) {
-  $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
-  return $paths;
-}
-````
-
 ## Commands 
 
 This project adds the `acf` command to `wp-cli` with the following subcommands:
@@ -126,6 +87,25 @@ Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
 
+## Filters 
+
+
+### acfwpcli_fieldgroup_paths 
+
+The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
+You should always add at least one path to this filter.
+
+**Example:**
+
+```
+add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
+
+public function add_plugin_path( $paths ) {
+  $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
+  return $paths;
+}
+````
+
 ## Unit testing 
 
 To test changes to the plugin you can use unit testing. Start by making sure all the necessary dependencies are installed, if not run:
@@ -160,4 +140,28 @@ If you need a different test you can create your own by added it to the features
 
 ### 3.0 
 * Make sure you import all your custom fields before updating.
-* Make sure you are you using ACF5, ACF4 is not supported. 
+* Make sure you are you using ACF5, ACF4 is not supported.
+* Update the plugin
+* Add the filter to your project (See Filters)
+* Export you fields
+* Remove unnecessary files like your old import directory, php files and json files.
+
+## Changelog 
+
+
+### 3.0 
+* Bugfix: Import no longer created duplicates
+* Add unit testing with behat and PHPUnit
+
+
+### 2.0 
+* Removed uniqid feature (no longer needed).
+* Bugfix: database fieldgroups are now prefered over exported fieldgroups.
+* Cleaned up legacy xml import/export libraries.
+* Add namespaces.
+* Cleaned up all alternative notation uses.
+* Multisite now correctly makes use of the global --url parameter.
+* Added more comments and versioning.
+* Removed dependency of wp-importer.
+* Added support for composer installs.
+* Dropped XML support, hello Json.

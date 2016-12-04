@@ -7,9 +7,9 @@ Tested up to: 4.6.1
 License: MIT
 
 Manage Advanced Custom Fields through WP-CLI
-== Description ==
+=== WP-CLI for Advanced Custom Fields ===
 
-= WP-CLI for Advanced Custom Fields =
+= Description =
 
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
 The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
@@ -106,4 +106,8 @@ Do this after you have edited fields-groups from the UI and exported the changes
 
 = 3.0 =
 * Make sure you import all your custom fields before updating.
-* Make sure you are you using ACF5, ACF4 is not supported. 
+* Make sure you are you using ACF5, ACF4 is not supported.
+* Update the plugin
+* Add the filter to your project (See Filters)
+* Export you fields
+* Remove unnecessary files like your old import directory, php files and json files.
