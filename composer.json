@@ -11,6 +11,10 @@
         {
             "name": "Robert Vermeulen",
             "email": "robert@hoppinger.com"
+        },
+        {
+            "name": "Marcel Dillen",
+            "email": "marceldillen@hoppinger.com"
         }
     ],
     "minimum-stability": "stable",
