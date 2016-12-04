@@ -78,7 +78,7 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
 wp acf
 ```
 Prints the help overview and can be used as a default test to see if the plugin is working.
-```
+
 
 = Export =
 
