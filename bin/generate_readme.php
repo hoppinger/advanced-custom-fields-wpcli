@@ -1,7 +1,15 @@
 <?php
 require_once('vendor/wpreadme2markdown/wpreadme2markdown/src/Converter.php');
 
-$wp_readme_parts = array('pluginInformation', 'description', 'installation', 'filters', 'command', 'upgradeNotice');
+$wp_readme_parts = array(
+  'pluginInformation',
+  'description',
+  'installation',
+  'filters',
+  'command',
+  'upgradeNotice',
+  'changelog'
+);
 
 $github_readme_parts = array(
   'description',
@@ -35,4 +43,5 @@ function txt_to_md($readme) {
 
 function create_readme($filename, $content) {
   file_put_contents ( $filename , $content );
+  echo "{$filename} created! \n";
 }
