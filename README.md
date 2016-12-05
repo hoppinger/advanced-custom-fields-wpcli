@@ -60,10 +60,11 @@ This project adds the `acf` command to `wp-cli` with the following subcommands:
 wp acf
 ```
 Prints the help overview and can be used as a default test to see if the plugin is working.
-```
+
 
 
 ### Export 
+```
 wp acf export
 ```
 Export a field-group to a json file in the directory set by a filter. You want to export all field-groups all at once you can use:
@@ -104,7 +105,7 @@ public function add_plugin_path( $paths ) {
   $paths['my_plugin'] = MY_PLUGIN_ROOT . '/lib/field-groups/';
   return $paths;
 }
-````
+```
 
 ## Unit testing 
 

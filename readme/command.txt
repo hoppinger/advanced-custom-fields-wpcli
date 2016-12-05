@@ -3,30 +3,31 @@
 This project adds the `acf` command to `wp-cli` with the following subcommands:
 
 = Help =
-```
+<pre><code>
 wp acf
-```
+</code></pre>
 Prints the help overview and can be used as a default test to see if the plugin is working.
-```
+
 
 = Export =
+<pre><code>
 wp acf export
-```
+</code></pre>
 Export a field-group to a json file in the directory set by a filter. You want to export all field-groups all at once you can use:
-```
+<pre><code>
 wp acf export --all
-```
+</code></pre>
 
 = Import =
-```
+<pre><code>
 wp acf import
-```
+</code></pre>
 Import all or specific fields from a option menu,
 
 = Clean =
-```
+<pre><code>
 wp acf clean
-```
+</code></pre>
 Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
