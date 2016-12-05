@@ -41,14 +41,16 @@ class ACFWPCLI {
     foreach ( $patterns as $pattern ) {
       // register the field groups specific for this subsite
       foreach ( glob( $pattern ) as $file ) {
-        $group = ACFWPCLI\FieldGroup::from_json_file( $file );
+        $groups = ACFWPCLI\FieldGroup::from_json_file( $file );
 
-        // Don't register group when the group is already in the DB
-        if ( ! in_array( $group['title'] , $db_field_group_titles ) ) {
-          acf_add_local_field_group( $group );
+        foreach ( $groups as $group ) {
+          // Don't register group when the group is already in the DB
+          if ( ! in_array( $group['title'] , $db_field_group_titles ) ) {
+            acf_add_local_field_group( $group );
+          }
+
+          $added_groups[] = $group['title'];
         }
-
-        $added_groups[] = $group['title'];
       }
     }
 

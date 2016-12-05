@@ -13,7 +13,7 @@ Clone this repo to your plugins directory
 <pre><code>
 git clone https://github.com/hoppinger/advanced-custom-fields-wpcli.git
 </code></pre>
-* Activate this plugin in the plugin menu or using:
+* Activate this plugin in the plugin menu or by using:
 <pre><code>
 wp plugin activate advanced-custom-fields-wpcli
 </code></pre>

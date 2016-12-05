@@ -5,8 +5,8 @@
 The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
 You should always add at least one path to this filter.
 
-**Example:**
 
+**Example:**
 <pre><code>
 add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
 

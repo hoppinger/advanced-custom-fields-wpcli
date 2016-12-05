@@ -1,11 +1,8 @@
 #!/bin/sh
 
-# THE GITHUB ACCESS TOKEN, GENERATE ONE AT: https://github.com/settings/applications (Personal access tokens)
-# GITHUB_ACCESS_TOKEN=""
-
 # ASK INFO
 echo "-------------------------------------------"
-echo "      VERSION THIS        RELEASER         "
+echo "        ACF WP-CLI        RELEASER         "
 echo "-------------------------------------------"
 read -p "VERSION: " VERSION
 echo "-------------------------------------------"
@@ -13,7 +10,7 @@ read -p "PRESS [ENTER] TO RELEASE VERSION THIS VERSION "${VERSION}
 
 # VARS - THESE SHOULD BE CHANGED!
 ROOT_PATH=""
-PRODUCT_NAME=${PRODUCT_NAME}
+PRODUCT_NAME=""
 PRODUCT_NAME_GIT=${PRODUCT_NAME}"-git"
 PRODUCT_NAME_SVN=${PRODUCT_NAME}"-svn"
 SVN_REPO=""
@@ -35,12 +32,6 @@ git clone $GIT_REPO $PRODUCT_NAME_GIT
 
 # MOVE INTO GIT DIR
 cd $ROOT_PATH$PRODUCT_NAME_GIT
-
-# INIT&UPDATE&PULL SUBMODULE(S)
-echo "Do the submodule dance"
-git submodule init
-git submodule update
-git submodule foreach git checkout master && git pull
 
 # REMOVE UNWANTED FILES & FOLDERS
 echo "Removing unwanted files"
@@ -94,7 +85,7 @@ svn commit -m "$COMMIT_MESSAGE"
 echo "Removing GIT dir"
 rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
 
-# REMOVE THE GIT DIR
+# REMOVE THE SVN DIR
 echo "Removing SVN dir"
 rm -Rf $ROOT_PATH$PRODUCT_NAME_SVN
 
