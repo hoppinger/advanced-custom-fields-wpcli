@@ -3,7 +3,7 @@
 = Requirements =
 
 * Advanced Custom Fields 5 Pro plugin
-* `wp-cli` http://wp-cli.org/
+* wp-cli http://wp-cli.org/
 
 = How to install =
 

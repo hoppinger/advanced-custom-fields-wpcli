@@ -22,7 +22,7 @@ Fields can now easily be imported, exported and shared over SVN, GIT or comparab
 ### Requirements 
 
 * Advanced Custom Fields 5 Pro plugin
-* `wp-cli` http://wp-cli.org/
+* wp-cli http://wp-cli.org/
 
 
 ### How to install 
