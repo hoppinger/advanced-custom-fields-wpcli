@@ -20,7 +20,7 @@ Fields can now easily be imported, exported and shared over SVN, GIT or comparab
 
 Install WP-CLI as described on [http://wp-cli.org/](http://wp-cli.org/ "WP-CLI")
 
-Using composer:
+Using composer: (doesn't work for now until we have released the plugin on wordpress.org/plugins)
 ```
 composer require wpackagist-plugin/advanced-custom-fields-wpcli
 ```
