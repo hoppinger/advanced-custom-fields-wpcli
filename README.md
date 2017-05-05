@@ -63,27 +63,35 @@ Prints the help overview and can be used as a default test to see if the plugin 
 
 
 
-### Export 
+### Export
 
-Export a field-group to a json file in the directory set by a filter.
+Export a field-group to a json file in the directory set by a [filter](#filters).
+
 ```
 wp acf export
 ```
 
+For testing purposes, etc. you can also define a export directory without applying the filter by using the `--export_path` parameter.
+
+```
+wp acf export --export_path=acf-exports/
+```
+
 You want to export all field-groups all at once you can use:
+
 ```
 wp acf export --all
 ```
 
+### Import
 
-### Import 
 ```
 wp acf import
 ```
 Import all or specific fields from a option menu,
 
 
-### Clean 
+### Clean
 ```
 wp acf clean
 ```
@@ -91,13 +99,13 @@ Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
 
-## Filters 
+## Filters
 
 
-### acfwpcli_fieldgroup_paths 
+### acfwpcli_fieldgroup_paths
 
 The acfwpcli_fieldgroup_paths gives you the ability to add more paths where ACF-CLI should load/export from/to.
-You should always add at least one path to this filter.
+You should **always add at least one path** to this filter.
 
 ```
 add_filter( 'acfwpcli_fieldgroup_paths', 'add_plugin_path' );
@@ -108,7 +116,7 @@ public function add_plugin_path( $paths ) {
 }
 ````
 
-## Unit testing 
+## Unit testing
 
 To test changes to the plugin you can use unit testing. Start by making sure all the necessary dependencies are installed, if not run:
 ```
@@ -144,7 +152,7 @@ If you need a different test you can create your own by added it to the features
 * Make sure you import all your custom fields before updating.
 * Make sure you are you using ACF5, ACF4 is not supported.
 * Update the plugin
-* Add the filter to your project (See Filters)
+* Add the filter to your project (see [Filters](#filters))
 * Export you fields
 * Remove unnecessary files like your old import directory, php files and json files.
 
