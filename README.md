@@ -71,7 +71,7 @@ Export a field-group to a json file in the directory set by a [filter](#filters)
 wp acf export
 ```
 
-For testing purposes, etc. you can also define a export directory without applying the filter by using the `--export_path` parameter.
+For testing purposes, etc. you can also define a export directory explicitly without applying the filter by using the `--export_path` parameter.
 
 ```
 wp acf export --export_path=acf-exports/
