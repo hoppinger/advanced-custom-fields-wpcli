@@ -27,6 +27,8 @@ class FieldGroup {
   }
 
   public static function all() {
+    acf_disable_filters();
+    
     return get_posts([
         'numberposts' => -1,
         'post_type'   => 'acf-field-group',
