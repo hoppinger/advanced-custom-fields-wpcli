@@ -11,6 +11,7 @@ class FieldGroup {
 
   public static function import( $file ) {
     $field_groups = self::from_json_file( $file );
+    $order  = array();
 
     foreach ( $field_groups as $field_group ) {
       $fields = acf_extract_var( $field_group, 'fields' );
@@ -18,8 +19,11 @@ class FieldGroup {
 
       $field_group = acf_update_field_group( $field_group );
 
+      // add to order
+      $order[ $field_group['ID'] ] = 0;
+
       foreach ( $fields as $field ) {
-        Field::import( $field, $field_group );
+        Field::import( $field, $field_group, $order );
       }
     }
 
