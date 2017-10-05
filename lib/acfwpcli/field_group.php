@@ -90,6 +90,9 @@ class FieldGroup {
     // add to field group
     $field_group['fields'] = $fields;
 
+    //remove _valid setting
+    unset($field_group['_valid']);
+
     return $field_group;
   }
 }
