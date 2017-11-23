@@ -16,6 +16,12 @@ class FieldGroup {
       $fields = acf_extract_var( $field_group, 'fields' );
       $fields = acf_prepare_fields_for_import( $fields );
 
+      $db_field_group = self::find_by_key($field_group['key']);
+
+      if ($db_field_group) {
+        $field_group['ID'] = $db_field_group->ID;
+      }
+
       $field_group = acf_update_field_group( $field_group );
 
       foreach ( $fields as $field ) {
@@ -40,6 +46,15 @@ class FieldGroup {
     $query = "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_excerpt = %s";
 
     $results = $wpdb->get_results( $wpdb->prepare( $query, $name ) );
+
+    return $results;
+  }
+
+  public static function find_by_key( $key ) {
+    global $wpdb;
+    $query = "SELECT * FROM {$wpdb->posts} WHERE post_type='acf-field-group' AND post_name = %s";
+
+    $results = $wpdb->get_row( $wpdb->prepare( $query, $key ) );
 
     return $results;
   }
@@ -84,8 +99,7 @@ class FieldGroup {
     // prepare fields
     $fields = acf_prepare_fields_for_export( $fields );
 
-    // extract field group ID
-    acf_extract_var( $field_group, 'ID' );
+    $field_group['ID'] = false;
 
     // add to field group
     $field_group['fields'] = $fields;
