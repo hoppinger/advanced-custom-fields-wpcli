@@ -11,7 +11,7 @@ class ACFWPCLI {
 
   public function actions() {
     if ( ! defined( 'WP_CLI' ) ) {
-      add_action( 'plugins_loaded', array( $this, 'add_runtime_fieldgroups' ) );
+      add_action( 'acf/init', array( $this, 'add_runtime_fieldgroups' ) );
     }
   }
 
