@@ -11,7 +11,7 @@ class ACFWPCLI {
 
   public function actions() {
     if ( ! defined( 'WP_CLI' ) ) {
-      add_action( 'plugins_loaded', array( $this, 'add_runtime_fieldgroups' ) );
+      add_action( 'after_setup_theme', array( $this, 'add_runtime_fieldgroups' ) );
     }
   }
 
@@ -26,7 +26,10 @@ class ACFWPCLI {
       $db_field_group_titles[] = $db_group->post_title;
     }
 
-    $paths    = [];
+    $paths    = [
+      'active_theme'        => get_template_directory() . '/field-groups/',
+      'active_child_theme'  => get_stylesheet_directory() . '/field-groups/',
+    ];
     $paths    = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );
     $patterns = [];
 
