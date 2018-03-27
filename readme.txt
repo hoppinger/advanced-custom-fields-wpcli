@@ -2,11 +2,12 @@
 Contributors: sebastiaandegeus, marceldillen
 Tags: WP-CLI, Advanced, Custom Fields, acf
 Requires at least: 4.5
-Stable tag: 3.0
-Tested up to: 4.6.1
+Stable tag: 3.0.1
+Tested up to: 4.9.4
 License: MIT
 
 Manage Advanced Custom Fields through WP-CLI
+
 === WP-CLI for Advanced Custom Fields ===
 
 = Description =
@@ -14,6 +15,7 @@ Manage Advanced Custom Fields through WP-CLI
 WP-CLI for Advanced Custom Fields helps you manage your field-groups through WP-CLI.
 The reason we started this project is to make life easier for developers working on Wordpress projects using the Advanced Custom Fields Pro plugin.
 Fields can now easily be imported, exported and shared over SVN, GIT or comparable systems.
+
 == Installation ==
 
 = Requirements =
@@ -105,6 +107,13 @@ wp acf clean
 Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
+
+= DB update =
+```
+wp acf update_db
+```
+Runs the ACF database update procedure (Required for major updates).
+
 == Upgrade Notice ==
 
 = 3.0 =
