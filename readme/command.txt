@@ -34,3 +34,9 @@ wp acf clean
 Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
+
+= DB update =
+```
+wp acf update_db
+```
+Runs the ACF database update procedure (Required for major updates).

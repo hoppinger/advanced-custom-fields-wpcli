@@ -99,6 +99,12 @@ Delete all Advanced Custom Fields Records from the database.
 Do this after you have edited fields-groups from the UI and exported the changes.
 **Warning: This can not be undone, please use carefully**
 
+### DB update
+```
+wp acf update_db
+```
+Runs the ACF database update procedure (Required for major updates).
+
 ## Filters
 
 
@@ -158,6 +164,8 @@ If you need a different test you can create your own by added it to the features
 
 ## Changelog 
 
+### 3.0.1
+* Add a new command for run the ACF database update procedure
 
 ### 3.0 
 * Bugfix: Import no longer created duplicates

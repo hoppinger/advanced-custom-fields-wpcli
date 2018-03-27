@@ -32,7 +32,7 @@ class CLI extends WP_CLI_Command {
 
   static function help() {
     WP_CLI::line( 'Welcome to Advanced Custom Fields WPCLI' );
-    WP_CLI::line( 'possible subcommands: status, export, import, clean' );
+    WP_CLI::line( 'possible subcommands: status, export, import, clean, update_db' );
   }
 
   /**
@@ -119,6 +119,38 @@ class CLI extends WP_CLI_Command {
       WP_CLI::success( "Removed field group: {$field_group->post_title}" );
     }
   }
+
+	/**
+	 * Runs the ACF database update procedure.
+	 *
+	 * @subcommand update_db
+	 */
+	function update_db( $args, $assoc_args ) {
+		acf_include('includes/admin/install.php');
+
+		if ( !function_exists('acf_get_db_updates') ) {
+			WP_CLI::error( "Your version of ACF seems too old." );
+		}
+
+		$updates = acf_get_db_updates();
+		$message = '';
+
+		// bail early if no updates
+		if( empty($updates) ) {
+			WP_CLI::warning( 'No updates available.' );
+			return;
+		}
+
+		// install updates
+		foreach( $updates as $version => $callback ) {
+			$message .= acf()->admin->install->run_update( $callback );
+		}
+
+		// updates complete
+		acf_update_db_version();
+
+		WP_CLI::success( "The ACF database has been updated, here is the detail: " . $message );
+	}
 
   /**
   * Import ACF field groups from local files to database
