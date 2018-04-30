@@ -40,7 +40,7 @@ class CLI extends WP_CLI_Command {
   *
   * ## OPTIONS
   *
-  * [--field_group=<field_group>]
+  * [<field_group>...]
   * : The field group to export, can be used with "My Field Group" or "my-field-group".
   *
   * [--export_path=<path>]
@@ -50,10 +50,11 @@ class CLI extends WP_CLI_Command {
   * : Export all the fieldgroups.
   *
   * @subcommand export
-  * @synopsis [--field_group=<field_group>] [--export_path=<export_path>] [--all]
+  * @synopsis [--export_path=<export_path>] [--all] [<field_group>]
   */
   function export( $args, $assoc_args ) {
     extract( $assoc_args );
+    $field_group = $args[0];
 
     $field_groups = [];
 
@@ -88,7 +89,7 @@ class CLI extends WP_CLI_Command {
 
     foreach ( $field_groups as $post ) {
       $field_group = \ACFWPCLI\FieldGroup::to_array( $post );
-      $file = $export_path . sanitize_title( $post->post_title ) . '.json';
+      $file = $export_path . '/' . sanitize_title( $post->post_title ) . '.json';
 
       \ACFWPCLI\FieldGroup::to_json_file( [$field_group], $file );
       WP_CLI::success( "Exported field group: {$post->post_title}" );
