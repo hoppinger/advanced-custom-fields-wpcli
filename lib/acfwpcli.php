@@ -10,9 +10,7 @@ class ACFWPCLI {
   }
 
   public function actions() {
-    if ( ! defined( 'WP_CLI' ) ) {
-      add_action( 'acf/init', array( $this, 'add_runtime_fieldgroups' ) );
-    }
+    add_action( 'acf/init', array( $this, 'add_runtime_fieldgroups' ) );
   }
 
   public function add_runtime_fieldgroups() {
