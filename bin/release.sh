@@ -1,93 +1,116 @@
 #!/bin/sh
 
+# VARS - THESE SHOULD BE CHANGED!
+ROOT_PATH=""
+
+PRODUCT_NAME_GIT="acf-wp-cli-git"
+PRODUCT_NAME_SVN="acf-wp-cli-svn"
+
+SVN_REPO=""
+GIT_REPO=""
+
 # ASK INFO
 echo "-------------------------------------------"
 echo "        ACF WP-CLI        RELEASER         "
 echo "-------------------------------------------"
 read -p "VERSION: " VERSION
 echo "-------------------------------------------"
-read -p "PRESS [ENTER] TO RELEASE VERSION THIS VERSION "${VERSION}
+read -p "PRESS [ENTER] TO RELEASE ACF WP-CLI VERSION "${VERSION}
 
-# VARS - THESE SHOULD BE CHANGED!
-ROOT_PATH=""
-PRODUCT_NAME=""
-PRODUCT_NAME_GIT=${PRODUCT_NAME}"-git"
-PRODUCT_NAME_SVN=${PRODUCT_NAME}"-svn"
-SVN_REPO=""
-GIT_REPO=""
+create_git_release() {
+  get_last_version_from_git
+  remove_unwanted_files
+}
 
-# CHECKOUT SVN DIR IF NOT EXISTS
-if [[ ! -d $PRODUCT_NAME_SVN ]];
-then
-  echo "No SVN directory found, will do a checkout"
-  svn checkout $SVN_REPO $PRODUCT_NAME_SVN
-fi
+get_last_version_from_git() {
+  echo "Getting latest release from Github"
+  rm -rf $ROOT_PATH/$PRODUCT_NAME_GIT
 
-# DELETE OLD GIT DIR
-rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
+  mkdir $ROOT_PATH/$PRODUCT_NAME_GIT
 
-# CLONE GIT DIR
-echo "Cloning GIT repo"
-git clone $GIT_REPO $PRODUCT_NAME_GIT
+  git clone $GIT_REPO $ROOT_PATH/$PRODUCT_NAME_GIT
+}
 
-# MOVE INTO GIT DIR
-cd $ROOT_PATH$PRODUCT_NAME_GIT
+remove_unwanted_files() {
+  echo "Removing unwanted files"
+  yes | rm -r $ROOT_PATH/$PRODUCT_NAME_GIT/.git
+  yes | rm -r $ROOT_PATH/$PRODUCT_NAME_GIT/features
 
-# REMOVE UNWANTED FILES & FOLDERS
-echo "Removing unwanted files"
-rm -Rf .git
-rm -f .gitignore
-rm -f .travis.yml
-rm -f package.json
-rm -f composer.json
-rm -f composer.lock
-rm -f phpunit.xml
-rm -f .phpcodesniffer.xml
-rm -rf features
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/.gitignore
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/.travis.yml
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/composer.json
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/composer.lock
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/phpunit.xml
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/.phpcodesniffer.xml
+  rm $ROOT_PATH/$PRODUCT_NAME_GIT/README.md
+}
 
-#CREATE NEW README
-php -f bin/generate_readme.php
+create_svn_release() {
+  echo "Starting on SVN"
 
-#COPY README TO TRUNK
-cp readme.txt $ROOT_PATH$PRODUCT_NAME_SVN/readme.txt
+  create_repo
+  update_svn
+  copy_github_release
+  get_readme
+  do_svn_magic
+}
 
-# MOVE INTO SVN DIR
-cd $ROOT_PATH$PRODUCT_NAME_SVN
+update_svn() {
+  svn update $ROOT_PATH/$PRODUCT_NAME_SVN
+}
 
-# UPDATE SVN
-echo "Updating SVN"
-svn update
+create_repo() {
+  if [[ ! -d $ROOT_PATH/$PRODUCT_NAME_SVN ]];
+  then
+    echo "No SVN directory found, will do a checkout"
+    svn checkout $SVN_REPO $ROOT_PATH/$PRODUCT_NAME_SVN
+  fi
 
-# DELETE TRUNK
-echo "Replacing trunk"
-rm -Rf trunk/
+  if [[ -d $ROOT_PATH/$PRODUCT_NAME_SVN/trunk ]];
+  then
+    yes | rm -r $ROOT_PATH/$PRODUCT_NAME_SVN/trunk
+    mkdir $ROOT_PATH/$PRODUCT_NAME_SVN/trunk
+  fi
+}
 
-# COPY GIT DIR TO TRUNK
-cp -R $ROOT_PATH$PRODUCT_NAME_GIT trunk/
+copy_github_release() {
+  echo "Copying git release to SVN"
+  cp -R $ROOT_PATH/$PRODUCT_NAME_GIT $ROOT_PATH/$PRODUCT_NAME_SVN/trunk/
+}
 
-# DO THE ADD ALL NOT KNOWN FILES UNIX COMMAND
-svn add --force * --auto-props --parents --depth infinity -q
+get_readme() {
+  echo "Creating readme"
+  php -f $ROOT_PATH/bin/generate_readme.php
+  cp $ROOT_PATH/readme.txt $ROOT_PATH/$PRODUCT_NAME_SVN/trunk/readme.txt
+}
 
-# DO THE REMOVE ALL DELETED FILES UNIX COMMAND
-svn rm $( svn status | sed -e '/^!/!d' -e 's/^!//' )
+do_svn_magic() {
+  echo "Doing some svn magic!"
+  cd $ROOT_PATH/$PRODUCT_NAME_SVN
+  svn add --force * --auto-props --parents --depth infinity -q
 
-# COPY TRUNK TO TAGS/$VERSION
-svn copy trunk tags/${VERSION}
+  # DO THE REMOVE ALL DELETED FILES UNIX COMMAND
+  svn rm $( svn status | sed -e '/^!/!d' -e 's/^!//' ) $ROOT_PATH/$PRODUCT_NAME_SVN
 
-# DO A SVN STATUS
-svn status
+  # COPY TRUNK TO TAGS/$VERSION
+  svn copy trunk tags/${VERSION} $ROOT_PATH/$PRODUCT_NAME_SVN
 
-# ASK FOR SVN COMMIT MESSAGE
-read -p "SVN COMMIT MESSAGE: " COMMIT_MESSAGE
-svn commit -m "$COMMIT_MESSAGE"
+  # DO A SVN STATUS
+  svn status $ROOT_PATH/$PRODUCT_NAME_SVN
 
-# REMOVE THE GIT DIR
-echo "Removing GIT dir"
-rm -Rf $ROOT_PATH$PRODUCT_NAME_GIT
+  # ASK FOR SVN COMMIT MESSAGE
+  read -p "SVN COMMIT MESSAGE: " COMMIT_MESSAGE
+  svn commit -m "$COMMIT_MESSAGE" $ROOT_PATH/$PRODUCT_NAME_SVN
 
-# REMOVE THE SVN DIR
-echo "Removing SVN dir"
-rm -Rf $ROOT_PATH$PRODUCT_NAME_SVN
+  cd $ROOT_PATH
+}
 
-# DONE, BYE
-echo ${PRODUCT_NAME}" IS RELEASED"
+clean_up() {
+  echo "Cleaning up!"
+  yes | rm -r $ROOT_PATH/$PRODUCT_NAME_GIT
+  yes | rm -r $ROOT_PATH/$PRODUCT_NAME_SVN
+}
+
+create_git_release
+create_svn_release
+clean_up
