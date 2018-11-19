@@ -33,12 +33,12 @@ class FieldGroup {
   }
 
   public static function all() {
-    return get_posts([
+    return get_posts(array(
         'numberposts' => -1,
         'post_type'   => 'acf-field-group',
         'sort_column' => 'menu_order',
         'order'       => 'ASC',
-    ]);
+    ));
   }
 
   public static function find_by_name( $name ) {

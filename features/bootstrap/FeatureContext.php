@@ -11,7 +11,7 @@ use Behat\Behat\Context\Context;
  */
 class FeatureContext extends CommandFeature implements Context
 {
-    private $result = [];
+    private $result = array();
 
     private $importsPath = '';
     private $exportsPath = '';
@@ -119,7 +119,7 @@ class FeatureContext extends CommandFeature implements Context
         $jsonString = file_get_contents($this->exportsPath.$file);
         $arr = json_decode($jsonString, true);
 
-        $arr[0]['fields'] = [];
+        $arr[0]['fields'] = array();
 
         $fp = fopen($this->exportsPath.$file, 'w');
         fwrite($fp, json_encode($arr));
