@@ -17,12 +17,12 @@ use ACFWPCLI\JSON;
  */
 
 class CLI extends WP_CLI_Command {
-  private $paths = [];
+  private $paths = array();
 
   function __construct() {
     $wpcli_config = WP_CLI::get_config();
 
-    $this->paths = [];
+    $this->paths = array();
     $this->paths = apply_filters( 'acfwpcli_fieldgroup_paths', $this->paths );
 
     if ( is_multisite( ) && ! isset( $wpcli_config['url'] ) ) {
@@ -55,7 +55,7 @@ class CLI extends WP_CLI_Command {
   function export( $args, $assoc_args ) {
     extract( $assoc_args );
 
-    $field_groups = [];
+    $field_groups = array();
 
     if ( isset( $field_group ) ) {
       $name = sanitize_title( $field_group );
@@ -145,7 +145,7 @@ class CLI extends WP_CLI_Command {
       $choice = $this->menu_choice_import_field_group();
     }
 
-    $patterns = [];
+    $patterns = array();
     if ( $choice == 'all' ) {
       foreach ( $this->paths as $key => $value ) {
         $patterns[ $key ] = trailingslashit( $value ) . '*.json'; }
@@ -185,7 +185,7 @@ class CLI extends WP_CLI_Command {
       return array_shift( $this->paths );
     }
 
-    $choices  = [];
+    $choices  = array();
 
     foreach ( $this->paths as $key => $value ) {
       $choices[ $value ] = $key . ': ' . $value;
@@ -195,10 +195,10 @@ class CLI extends WP_CLI_Command {
   }
 
   private function menu_choice_import_field_group() {
-    $choices = [];
+    $choices = array();
     $choices['all'] = 'all';
 
-    $patterns = [];
+    $patterns = array();
 
     foreach ( $this->paths as $path ) {
       $patterns[] = trailingslashit( $path ) . '*.json';

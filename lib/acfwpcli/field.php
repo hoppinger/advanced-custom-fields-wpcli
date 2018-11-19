@@ -5,7 +5,7 @@ namespace ACFWPCLI;
 class Field {
 
   public static function import( $field, $field_group ) {
-    $order = [];
+    $order = array();
 
      // add parent
     if ( empty( $field['parent'] ) ) {
@@ -30,12 +30,12 @@ class Field {
   }
 
   public static function all() {
-    return get_posts([
+    return get_posts(array(
         'numberposts' => -1,
         'post_type'   => array( 'acf', 'acf-field' ),
         'sort_column' => 'menu_order',
         'order'       => 'ASC',
-    ]);
+    ));
   }
 
   public static function destroy( $id ) {

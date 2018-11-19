@@ -2,7 +2,7 @@
 
 class ACFWPCLI {
 
-  private $added_groups = [];
+  private $added_groups = array();
 
   public function __construct() {
     $this->register_cli_command();
@@ -21,14 +21,14 @@ class ACFWPCLI {
 
     $db_field_groups = ACFWPCLI\FieldGroup::all();
 
-    $db_field_group_titles = [];
+    $db_field_group_titles = array();
     foreach ( $db_field_groups as $db_group ) {
       $db_field_group_titles[] = $db_group->post_title;
     }
 
-    $paths    = [];
+    $paths    = array();
     $paths    = apply_filters( 'acfwpcli_fieldgroup_paths', $paths );
-    $patterns = [];
+    $patterns = array();
 
     foreach ( $paths as $key => $value ) {
       if ( ! is_dir( $value ) ) {
@@ -37,7 +37,7 @@ class ACFWPCLI {
       $patterns[ $key ] = trailingslashit( $value ) . '*.json';
     }
 
-    $added_groups = [];
+    $added_groups = array();
     foreach ( $patterns as $pattern ) {
       // register the field groups specific for this subsite
       foreach ( glob( $pattern ) as $file ) {

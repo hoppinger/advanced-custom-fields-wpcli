@@ -2,7 +2,7 @@
 
 class CommandFeature
 {
-    protected $config = [];
+    protected $config = array();
 
     public function __construct()
     {
