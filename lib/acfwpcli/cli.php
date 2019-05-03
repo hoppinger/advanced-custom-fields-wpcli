@@ -59,20 +59,19 @@ class CLI extends WP_CLI_Command {
 
     if ( isset( $field_group ) ) {
       $name = sanitize_title( $field_group );
-      $field_groups = \ACFWPCLI\FieldGroup::find_by_name( $name );
-
+      $field_groups = [acf_get_field_group($name)];
       if ( empty( $field_groups ) ) {
         WP_CLI::error( 'No fieldgroups found that match this field group name' );
       }
     } else if ( isset( $all ) ) {
-      $field_groups = \ACFWPCLI\FieldGroup::all();
+      $field_groups = acf_get_field_groups();
     } else {
       $choice = $this->menu_choice_export_field_group();
 
       if ( $choice == 'all' ) {
-        $field_groups = \ACFWPCLI\FieldGroup::all();
+        $field_groups = acf_get_field_groups();
       } else {
-        $field_groups = \ACFWPCLI\FieldGroup::find_by_name( $choice );
+        $field_groups = [acf_get_field_group($choice)];
       }
     }
 
@@ -86,12 +85,15 @@ class CLI extends WP_CLI_Command {
       WP_CLI::error( 'fieldgroup directory exists or cant be created!' );
     }
 
-    foreach ( $field_groups as $post ) {
-      $field_group = \ACFWPCLI\FieldGroup::to_array( $post );
-      $file = $export_path . sanitize_title( $post->post_title ) . '.json';
+    // var_dump($field_groups);exit;
 
-      \ACFWPCLI\FieldGroup::to_json_file( [$field_group], $file );
-      WP_CLI::success( "Exported field group: {$post->post_title}" );
+    foreach ( $field_groups as $field_group ) {
+      $file = $export_path . sanitize_title( $field_group['title'] ) . '.json';
+
+      
+      $field_group = \ACFWPCLI\FieldGroup::to_array( $field_group );
+      \ACFWPCLI\FieldGroup::to_json_file( $field_group, $file );
+      WP_CLI::success( "Exported field group: {$field_group['title']}" );
     }
   }
 
@@ -165,16 +167,16 @@ class CLI extends WP_CLI_Command {
   }
 
   private function menu_choice_export_field_group() {
-    $field_groups = \ACFWPCLI\FieldGroup::all();
+    $field_groups = acf_get_field_groups();
 
     if ( empty( $field_groups ) ) {
       WP_CLI::error( 'No field groups found to export' );
     }
 
-    $choices = [ 'all' => 'all' ];
+    $choices = [ 'all' => 'All' ];
 
     foreach ( $field_groups as $group ) {
-      $choices[ $group->post_excerpt ] = $group->post_title;
+      $choices[ $group['ID'] ] = $group['title'];
     }
 
     return $this->menu_choice( $choices, 'Choose a field group to export' );
@@ -196,7 +198,7 @@ class CLI extends WP_CLI_Command {
 
   private function menu_choice_import_field_group() {
     $choices = [];
-    $choices['all'] = 'all';
+    $choices['all'] = 'All';
 
     $patterns = [];
 

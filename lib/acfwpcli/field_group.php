@@ -85,13 +85,15 @@ class FieldGroup {
       return false;
     }
 
-    $content = acf_json_encode( $field_group );
+    $content = acf_json_encode( [$field_group] );
 
     file_put_contents( $file, $content );
   }
 
-  public static function to_array( $id ) {
-    $field_group = acf_get_field_group( $id );
+  public static function to_array( $field_group ) {
+    if (is_numeric($field_group)) {
+      $field_group = acf_get_field_group( $field_group );
+    }
 
     // load fields
     $fields = acf_get_fields( $field_group );
@@ -100,6 +102,7 @@ class FieldGroup {
     $fields = acf_prepare_fields_for_export( $fields );
 
     $field_group['ID'] = false;
+    // unset($field_group['ID']);
 
     // add to field group
     $field_group['fields'] = $fields;
