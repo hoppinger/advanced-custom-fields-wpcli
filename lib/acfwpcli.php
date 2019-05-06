@@ -19,11 +19,11 @@ class ACFWPCLI {
     global $blog_id;
     global $wpdb;
 
-    $db_field_groups = ACFWPCLI\FieldGroup::all();
-
+    $db_field_groups = acf_get_field_groups();
     $db_field_group_titles = [];
+    
     foreach ( $db_field_groups as $db_group ) {
-      $db_field_group_titles[] = $db_group->post_title;
+      $db_field_group_titles[] = $db_group['title'];
     }
 
     $paths    = [];

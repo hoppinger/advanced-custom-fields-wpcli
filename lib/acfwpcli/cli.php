@@ -105,7 +105,7 @@ class CLI extends WP_CLI_Command {
   function clean( $args, $assoc_args ) {
     extract( $assoc_args );
 
-    $field_groups = \ACFWPCLI\FieldGroup::all();
+    $field_groups = acf_get_field_groups();
     $fields       = \ACFWPCLI\Field::all();
 
     if ( empty( $field_groups[0] ) && empty( $fields ) ) {
@@ -117,8 +117,8 @@ class CLI extends WP_CLI_Command {
     }
 
     foreach ( $field_groups as $field_group ) {
-      \ACFWPCLI\FieldGroup::destroy( $field_group->ID );
-      WP_CLI::success( "Removed field group: {$field_group->post_title}" );
+      \ACFWPCLI\FieldGroup::destroy( $field_group['ID'] );
+      WP_CLI::success( "Removed field group: {$field_group['title']}" );
     }
   }
 

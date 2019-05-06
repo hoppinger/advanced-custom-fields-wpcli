@@ -30,12 +30,16 @@ class Field {
   }
 
   public static function all() {
-    return get_posts([
-        'numberposts' => -1,
-        'post_type'   => array( 'acf', 'acf-field' ),
-        'sort_column' => 'menu_order',
-        'order'       => 'ASC',
-    ]);
+    return get_posts(array(
+			'posts_per_page'			=> -1,
+			'post_type'					=> 'acf-field',
+			'orderby'					=> 'menu_order',
+			'order'						=> 'ASC',
+			'suppress_filters'			=> true, // DO NOT allow WPML to modify the query
+			'post_status'				=> 'publish, trash', // 'any' won't get trashed fields
+			'update_post_meta_cache'	=> false,
+			'update_post_term_cache'	=> false
+    ));
   }
 
   public static function destroy( $id ) {
