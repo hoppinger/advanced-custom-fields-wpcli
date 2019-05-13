@@ -3,7 +3,7 @@
 Plugin Name: Advanced Custom Fields WP-CLI
 Plugin URI: https://github.com/hoppinger/advanced-custom-fields-wpcli
 Description: Manage your ACF field groups in WP-CLI
-Version: 3.0.0
+Version: 4.0.1
 Author: Hoppinger
 Author URI: http://www.hoppinger.com/
 License: MIT

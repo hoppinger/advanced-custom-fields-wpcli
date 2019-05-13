@@ -101,8 +101,7 @@ class FieldGroup {
     // prepare fields
     $fields = acf_prepare_fields_for_export( $fields );
 
-    // $field_group['ID'] = false;
-    // unset($field_group['ID']);
+    $field_group['ID'] = false;
 
     // add to field group
     $field_group['fields'] = $fields;
