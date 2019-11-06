@@ -4,7 +4,7 @@ namespace ACFWPCLI;
 
 class Field {
 
-  public static function import( $field, $field_group ) {
+  public static function import( $field, $field_group, &$order ) {
     $order = [];
 
      // add parent
