@@ -7,7 +7,7 @@ Feature: Import and Export Page Link Groups
         Then the exit code should be 0
         And the result should not be empty
         And the result string should start with "Success:"
-        When I run the command "acf export --field_group='page_link-group' --export_path='features/bootstrap/test_exports/'"
+        When I run the command "acf export --export_path='features/bootstrap/test_exports/' page_link-group"
         Then the exit code should be 0
         And the result should not be empty
         And the result string should start with "Success:"

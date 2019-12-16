@@ -7,7 +7,7 @@ Feature: Import and Export Text Area Groups
         Then the exit code should be 0
         And the result should not be empty
         And the result string should start with "Success:"
-        When I run the command "acf export --field_group='textarea-group' --export_path='features/bootstrap/test_exports/'"
+        When I run the command "acf export --export_path='features/bootstrap/test_exports/' textarea-group"
         Then the exit code should be 0
         And the result should not be empty
         And the result string should start with "Success:"
