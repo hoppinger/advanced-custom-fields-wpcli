@@ -16,7 +16,6 @@ require 'lib/acfwpcli/field_group.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
   require 'lib/acfwpcli/cli.php';
-  require 'lib/acfwpcli/cli_utils.php';
 }
 
 $acfwpcli = new ACFWPCLI;
