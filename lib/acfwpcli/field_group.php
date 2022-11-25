@@ -13,7 +13,10 @@ class FieldGroup {
     $field_groups = self::from_json_file( $file );
 
     foreach ( $field_groups as $field_group ) {
-      $fields = acf_extract_var( $field_group, 'fields' );
+      $fields = acf_extract_var( $field_group, 'fields', [] ); // default value that this function returns should be an empty array
+      if ( !$fields ) { // if the 'fields' property of the group json is false (it should be an empty array if fields aren't set, but the old acf exports them still as false)
+        $fields = []; // set to empty array to make php8 happy
+      }
       $fields = acf_prepare_fields_for_import( $fields );
 
       $db_field_group = self::find_by_key($field_group['key']);
