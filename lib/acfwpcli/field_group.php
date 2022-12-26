@@ -106,6 +106,9 @@ class FieldGroup {
 
     $field_group['ID'] = false;
 
+    //prepare field group
+    $field_group = acf_prepare_field_group_for_export($field_group);
+
     // add to field group
     $field_group['fields'] = $fields;
 
