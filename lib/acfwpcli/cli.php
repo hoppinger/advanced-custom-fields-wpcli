@@ -40,7 +40,7 @@ class CLI extends WP_CLI_Command {
   *
   * ## OPTIONS
   *
-  * [--field_group=<field_group>]
+  * [<field_group>...]
   * : The field group to export, can be used with "My Field Group" or "my-field-group".
   *
   * [--export_path=<path>]
@@ -50,10 +50,11 @@ class CLI extends WP_CLI_Command {
   * : Export all the fieldgroups.
   *
   * @subcommand export
-  * @synopsis [--field_group=<field_group>] [--export_path=<export_path>] [--all]
+  * @synopsis [--export_path=<export_path>] [--all] [<field_group>]
   */
   function export( $args, $assoc_args ) {
     extract( $assoc_args );
+    $field_group = $args[0];
 
     $field_groups = [];
 
