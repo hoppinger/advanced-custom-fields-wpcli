@@ -32,7 +32,7 @@ class Field {
   public static function all() {
     return get_posts(array(
 			'posts_per_page'			=> -1,
-			'post_type'					=> 'acf-field',
+			'post_type'					=> array( 'acf-field', 'acf-post-type', 'acf-taxonomy', 'acf-ui-options-page' ),
 			'orderby'					=> 'menu_order',
 			'order'						=> 'ASC',
 			'suppress_filters'			=> true, // DO NOT allow WPML to modify the query
