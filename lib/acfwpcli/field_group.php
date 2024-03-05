@@ -39,6 +39,7 @@ class FieldGroup {
     return get_posts([
         'numberposts' => -1,
         'post_type'   => 'acf-field-group',
+        'post_status' => 'any',
         'sort_column' => 'menu_order',
         'order'       => 'ASC',
     ]);
